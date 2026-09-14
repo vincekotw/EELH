@@ -1,0 +1,172 @@
+2026-09-14 17:30:21 [INFO] ============================================================
+2026-09-14 17:30:21 [INFO]   SCRAPE HISTÓRICO — standalone
+2026-09-14 17:30:21 [INFO] ============================================================
+2026-09-14 17:30:21 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 17:30:21 [INFO]   Desde:            81270 (exclusivo)
+2026-09-14 17:30:21 [INFO]   Hasta:            81220 (inclusivo)
+2026-09-14 17:30:21 [INFO]   IDs a recorrer:   50
+2026-09-14 17:30:21 [INFO]   Pausa:            0.7s
+2026-09-14 17:30:21 [INFO]   Checkpoint:       scrap_historico_state.json
+2026-09-14 17:30:21 [INFO] ============================================================
+2026-09-14 17:30:21 [ERROR] Error extrayendo 81269: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:22 [ERROR] Error extrayendo 81268: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:22 [ERROR] Error extrayendo 81267: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:23 [ERROR] Error extrayendo 81266: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:24 [ERROR] Error extrayendo 81265: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:25 [ERROR] Error extrayendo 81264: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:25 [ERROR] Error extrayendo 81263: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:26 [ERROR] Error extrayendo 81262: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:27 [ERROR] Error extrayendo 81261: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:27 [ERROR] Error extrayendo 81260: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:28 [ERROR] Error extrayendo 81259: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:29 [ERROR] Error extrayendo 81258: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:29 [ERROR] Error extrayendo 81257: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:30 [ERROR] Error extrayendo 81256: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:31 [ERROR] Error extrayendo 81255: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:32 [ERROR] Error extrayendo 81254: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:32 [ERROR] Error extrayendo 81253: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:33 [ERROR] Error extrayendo 81252: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:34 [ERROR] Error extrayendo 81251: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:34 [ERROR] Error extrayendo 81250: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:35 [ERROR] Error extrayendo 81249: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:36 [ERROR] Error extrayendo 81248: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:36 [ERROR] Error extrayendo 81247: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:37 [ERROR] Error extrayendo 81246: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:38 [ERROR] Error extrayendo 81245: module 'apps.telegram_base.services.scraper' has no attribute 'extraer_y_clasificar'
+2026-09-14 17:30:39 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-14 17:30:39 [INFO] 
+2026-09-14 17:30:39 [INFO] ============================================================
+2026-09-14 17:30:39 [INFO]   RESUMEN DE SESIÓN
+2026-09-14 17:30:39 [INFO] ============================================================
+2026-09-14 17:30:39 [INFO]   Mensajes nuevos:      0
+2026-09-14 17:30:39 [INFO]   IDs sin mensaje:      0
+2026-09-14 17:30:39 [INFO]   Errores:              25
+2026-09-14 17:30:39 [INFO]   Duración:             0.3 min
+2026-09-14 17:30:39 [INFO]   Último guardado:      None
+2026-09-14 17:30:39 [INFO]   Próximo reanudar en:  81244
+2026-09-14 17:30:39 [INFO] ============================================================
+2026-09-14 17:30:39 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-14 17:30:39 [INFO] Se continuará desde el checkpoint automáticamente.
+2026-09-14 17:34:03 [INFO] ============================================================
+2026-09-14 17:34:03 [INFO]   SCRAPE HISTÓRICO — standalone
+2026-09-14 17:34:03 [INFO] ============================================================
+2026-09-14 17:34:03 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 17:34:03 [INFO]   Desde:            81270 (exclusivo)
+2026-09-14 17:34:03 [INFO]   Hasta:            81220 (inclusivo)
+2026-09-14 17:34:03 [INFO]   IDs a recorrer:   50
+2026-09-14 17:34:03 [INFO]   Pausa:            0.7s
+2026-09-14 17:34:03 [INFO]   Checkpoint:       scrap_historico_state.json
+2026-09-14 17:34:03 [INFO] ============================================================
+2026-09-14 17:34:54 [INFO] [   25 ids] nuevos=24    vacios=1    vel=0.49 ids/s ETA=1 min
+2026-09-14 17:35:07 [WARN] ⏸️  Límite de 30 mensajes alcanzado.
+2026-09-14 17:35:07 [INFO] 
+2026-09-14 17:35:07 [INFO] ============================================================
+2026-09-14 17:35:07 [INFO]   RESUMEN DE SESIÓN
+2026-09-14 17:35:07 [INFO] ============================================================
+2026-09-14 17:35:07 [INFO]   Mensajes nuevos:      30
+2026-09-14 17:35:07 [INFO]   IDs sin mensaje:      1
+2026-09-14 17:35:07 [INFO]   Errores:              0
+2026-09-14 17:35:07 [INFO]   Duración:             1.1 min
+2026-09-14 17:35:07 [INFO]   Último guardado:      81239
+2026-09-14 17:35:07 [INFO]   Próximo reanudar en:  81239
+2026-09-14 17:35:07 [INFO] ============================================================
+2026-09-14 17:41:13 [INFO] ============================================================
+2026-09-14 17:41:13 [INFO]   SCRAPE → JSONL
+2026-09-14 17:41:13 [INFO] ============================================================
+2026-09-14 17:41:13 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 17:41:13 [INFO]   Desde:            81270 (exclusivo)
+2026-09-14 17:41:13 [INFO]   Hasta:            81220 (inclusivo)
+2026-09-14 17:41:13 [INFO]   IDs a recorrer:   50
+2026-09-14 17:41:13 [INFO]   Pausa:            0.7s
+2026-09-14 17:41:13 [INFO]   Output:           scrap_historico.jsonl
+2026-09-14 17:41:13 [INFO] ============================================================
+2026-09-14 17:42:06 [INFO] [    25 ids] escritos=24    vacios=1     vel=0.47 ids/s ETA=1 min
+2026-09-14 17:42:18 [WARN] ⏸️  Límite de 30 mensajes alcanzado.
+2026-09-14 17:42:18 [INFO] 
+2026-09-14 17:42:18 [INFO] ============================================================
+2026-09-14 17:42:18 [INFO]   RESUMEN
+2026-09-14 17:42:18 [INFO] ============================================================
+2026-09-14 17:42:18 [INFO]   Mensajes escritos:    30
+2026-09-14 17:42:18 [INFO]   Mensajes totales:     30
+2026-09-14 17:42:18 [INFO]   IDs vacíos:           1
+2026-09-14 17:42:18 [INFO]   Errores:              0
+2026-09-14 17:42:18 [INFO]   Duración:             1.1 min
+2026-09-14 17:42:18 [INFO]   Último guardado:      81239
+2026-09-14 17:42:18 [INFO]   Próximo reanudar en:  81239
+2026-09-14 17:42:18 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-14 17:42:18 [INFO] ============================================================
+2026-09-14 17:44:49 [INFO] 📌 Reanudando desde checkpoint: ID 81239
+2026-09-14 17:44:49 [INFO] ============================================================
+2026-09-14 17:44:49 [INFO]   SCRAPE → JSONL
+2026-09-14 17:44:49 [INFO] ============================================================
+2026-09-14 17:44:49 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 17:44:49 [INFO]   Desde:            81239 (exclusivo)
+2026-09-14 17:44:49 [INFO]   Hasta:            81220 (inclusivo)
+2026-09-14 17:44:49 [INFO]   IDs a recorrer:   19
+2026-09-14 17:44:49 [INFO]   Pausa:            1.0s
+2026-09-14 17:44:49 [INFO]   Output:           scrap_historico.jsonl
+2026-09-14 17:44:49 [INFO] ============================================================
+2026-09-14 17:45:33 [INFO] 
+2026-09-14 17:45:33 [INFO] ============================================================
+2026-09-14 17:45:33 [INFO]   RESUMEN
+2026-09-14 17:45:33 [INFO] ============================================================
+2026-09-14 17:45:33 [INFO]   Mensajes escritos:    18
+2026-09-14 17:45:33 [INFO]   Mensajes totales:     48
+2026-09-14 17:45:33 [INFO]   IDs vacíos:           2
+2026-09-14 17:45:33 [INFO]   Errores:              0
+2026-09-14 17:45:33 [INFO]   Duración:             0.7 min
+2026-09-14 17:45:33 [INFO]   Último guardado:      81221
+2026-09-14 17:45:33 [INFO]   Próximo reanudar en:  81220
+2026-09-14 17:45:33 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-14 17:45:33 [INFO] ============================================================
+2026-09-14 17:52:28 [INFO] 📌 Reanudando desde checkpoint: ID 81220
+2026-09-14 17:52:28 [INFO]    Nuevo hasta: 64220 (recalculado)
+2026-09-14 17:52:28 [INFO] ============================================================
+2026-09-14 17:52:28 [INFO]   SCRAPE → JSONL
+2026-09-14 17:52:28 [INFO] ============================================================
+2026-09-14 17:52:28 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 17:52:28 [INFO]   Desde:            81220 (exclusivo)
+2026-09-14 17:52:28 [INFO]   Hasta:            64220 (inclusivo)
+2026-09-14 17:52:28 [INFO]   IDs a recorrer:   17000
+2026-09-14 17:52:28 [INFO]   Pausa:            1.0s
+2026-09-14 17:52:28 [INFO]   Output:           scrap_historico.jsonl
+2026-09-14 17:52:28 [INFO] ============================================================
+2026-09-14 17:53:29 [INFO] [    25 ids] escritos=23    vacios=4     vel=0.41 ids/s ETA=686 min
+2026-09-14 17:54:39 [INFO] [    50 ids] escritos=47    vacios=5     vel=0.38 ids/s ETA=738 min
+2026-09-14 17:55:46 [INFO] [    75 ids] escritos=68    vacios=9     vel=0.38 ids/s ETA=744 min
+2026-09-14 17:56:51 [INFO] [   100 ids] escritos=92    vacios=10    vel=0.38 ids/s ETA=740 min
+2026-09-14 17:58:07 [INFO] [   125 ids] escritos=117   vacios=10    vel=0.37 ids/s ETA=763 min
+2026-09-14 17:59:25 [INFO] [   150 ids] escritos=140   vacios=12    vel=0.36 ids/s ETA=780 min
+2026-09-14 18:01:21 [INFO] [   175 ids] escritos=162   vacios=15    vel=0.33 ids/s ETA=854 min
+2026-09-14 18:02:30 [INFO] [   200 ids] escritos=184   vacios=18    vel=0.33 ids/s ETA=841 min
+2026-09-14 18:03:50 [INFO] [   225 ids] escritos=208   vacios=19    vel=0.33 ids/s ETA=847 min
+2026-09-14 18:05:15 [INFO] [   250 ids] escritos=232   vacios=20    vel=0.33 ids/s ETA=856 min
+2026-09-14 18:06:31 [INFO] [   275 ids] escritos=255   vacios=22    vel=0.33 ids/s ETA=854 min
+2026-09-14 18:07:55 [INFO] [   300 ids] escritos=280   vacios=22    vel=0.32 ids/s ETA=859 min
+2026-09-14 18:09:10 [INFO] [   325 ids] escritos=303   vacios=24    vel=0.32 ids/s ETA=857 min
+2026-09-14 18:10:27 [INFO] [   350 ids] escritos=326   vacios=26    vel=0.32 ids/s ETA=855 min
+2026-09-14 18:11:48 [INFO] [   375 ids] escritos=351   vacios=26    vel=0.32 ids/s ETA=857 min
+2026-09-14 18:13:05 [INFO] [   400 ids] escritos=375   vacios=27    vel=0.32 ids/s ETA=855 min
+2026-09-14 18:14:29 [INFO] [   425 ids] escritos=400   vacios=27    vel=0.32 ids/s ETA=858 min
+2026-09-14 18:15:50 [INFO] [   450 ids] escritos=422   vacios=30    vel=0.32 ids/s ETA=859 min
+2026-09-14 18:17:12 [INFO] [   475 ids] escritos=447   vacios=30    vel=0.32 ids/s ETA=860 min
+2026-09-14 18:18:23 [INFO] [   500 ids] escritos=470   vacios=32    vel=0.32 ids/s ETA=855 min
+2026-09-14 18:19:39 [INFO] [   525 ids] escritos=495   vacios=32    vel=0.32 ids/s ETA=853 min
+2026-09-14 18:20:53 [INFO] [   550 ids] escritos=519   vacios=33    vel=0.32 ids/s ETA=850 min
+2026-09-14 18:22:13 [INFO] [   575 ids] escritos=543   vacios=34    vel=0.32 ids/s ETA=850 min
+2026-09-14 18:23:33 [INFO] [   600 ids] escritos=566   vacios=36    vel=0.32 ids/s ETA=849 min
+2026-09-14 18:24:45 [INFO] [   625 ids] escritos=587   vacios=40    vel=0.32 ids/s ETA=846 min
+2026-09-14 18:25:52 [INFO] [   650 ids] escritos=609   vacios=43    vel=0.32 ids/s ETA=840 min
+2026-09-14 18:27:02 [INFO] [   675 ids] escritos=633   vacios=44    vel=0.33 ids/s ETA=836 min
+2026-09-14 18:28:11 [INFO] [   700 ids] escritos=657   vacios=45    vel=0.33 ids/s ETA=831 min
+2026-09-14 18:29:15 [INFO] [   725 ids] escritos=682   vacios=45    vel=0.33 ids/s ETA=825 min
+2026-09-14 18:30:17 [INFO] [   750 ids] escritos=706   vacios=46    vel=0.33 ids/s ETA=819 min
+2026-09-14 18:31:18 [INFO] [   775 ids] escritos=729   vacios=48    vel=0.33 ids/s ETA=813 min
+2026-09-14 18:32:22 [INFO] [   800 ids] escritos=753   vacios=49    vel=0.33 ids/s ETA=808 min
+2026-09-14 18:33:24 [INFO] [   825 ids] escritos=778   vacios=49    vel=0.34 ids/s ETA=802 min
+2026-09-14 18:34:27 [INFO] [   850 ids] escritos=802   vacios=50    vel=0.34 ids/s ETA=798 min
+2026-09-14 18:35:25 [INFO] [   875 ids] escritos=826   vacios=51    vel=0.34 ids/s ETA=791 min
+2026-09-14 18:36:29 [INFO] [   900 ids] escritos=847   vacios=55    vel=0.34 ids/s ETA=787 min
+2026-09-14 18:37:31 [INFO] [   925 ids] escritos=870   vacios=57    vel=0.34 ids/s ETA=783 min
+2026-09-14 18:38:31 [INFO] [   950 ids] escritos=894   vacios=58    vel=0.34 ids/s ETA=778 min

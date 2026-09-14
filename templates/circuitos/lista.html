@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de Circuitos{% endblock %}
+{% block nav_lista %}active{% endblock %}
+
+{% block brand_stats %}
+<span class="stats">
+    <strong id="stat-total">{{ total }}</strong> circuitos ·
+    <strong id="stat-afectados">{{ total_afectados }}</strong> afectados
+</span>
+{% endblock %}
+
+{% block content %}
+<main class="container">
+        <!-- ─── Barra de filtros ─────────────────────────────── -->
+        <section class="filtros">
+            <div class="filtro">
+                <label for="f-busqueda">Buscar código o dirección</label>
+                <input type="text" id="f-busqueda" placeholder="Ej: OP408 o Santos Suárez">
+            </div>
+
+            <div class="filtro">
+                <label for="f-estado">Estado</label>
+                <select id="f-estado">
+                    <option value="">Todos</option>
+                    <option value="afectado">Afectados</option>
+                    <option value="en_servicio">En servicio</option>
+                    <option value="desconocido">Desconocido</option>
+                </select>
+            </div>
+
+            <div class="filtro">
+                <label for="f-municipio">Municipio</label>
+                <select id="f-municipio">
+                    <option value="">Todos</option>
+                    {% for m in municipios %}
+                        <option value="{{ m }}">{{ m }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filtro">
+                <label for="f-solo-activos">Ciclo</label>
+                <select id="f-solo-activos">
+                    <option value="">Cualquiera</option>
+                    <option value="afectacion">Afectación activa</option>
+                    <option value="servicio">Servicio activo</option>
+                    <option value="cerrado">Cerrado</option>
+                </select>
+            </div>
+
+            <div class="filtro">
+                <label for="f-min-afect">Mín. afectaciones</label>
+                <input type="number" id="f-min-afect" min="0" value="0" step="1">
+            </div>
+
+            <div class="filtro acciones">
+                <button id="btn-limpiar" class="btn-secundario">Limpiar</button>
+            </div>
+        </section>
+
+        <!-- ─── Tabla ─────────────────────────────────────────── -->
+        <section class="tabla-wrapper">
+            <table id="tabla-circuitos">
+                <thead>
+                    <tr>
+                        <th data-sort="codigo" class="sortable">Código</th>
+                        <th data-sort="estado" class="sortable">Estado</th>
+                        <th data-sort="municipio" class="sortable">Municipio</th>
+                        <th data-sort="total_afectaciones" class="sortable num">Afect.</th>
+                        <th data-sort="total_minutos_afectado" class="sortable num">Horas acum.</th>
+                        <th data-sort="afectacion_duracion_msg_min" class="sortable num">Duración actual</th>
+                        <th data-sort="ultima_mencion" class="sortable">Últ. mención</th>
+                        <th>Último evento</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+
+            <div id="sin-resultados" class="empty" hidden>
+                <p>🔍 No hay circuitos que coincidan con los filtros.</p>
+            </div>
+        </section>
+
+        <!-- ─── Paginación ───────────────────────────────────── -->
+        <section class="paginacion">
+            <button id="btn-prev" class="btn-secundario">← Anterior</button>
+            <span id="page-info">Página 1</span>
+            <button id="btn-next" class="btn-secundario">Siguiente →</button>
+            <select id="page-size">
+                <option value="25">25 / página</option>
+                <option value="50" selected>50 / página</option>
+                <option value="100">100 / página</option>
+                <option value="9999">Todos</option>
+            </select>
+        </section>
+    </main>
+
+    <!-- ─── Modal detalle ────────────────────────────────────── -->
+    <div id="modal" class="modal" hidden>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">×</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'circuitos/css/lista.css' %}">
+{% endblock %}
+
+    
+{% block extra_js %}
+<script>window.CIRCUITOS_DATA = {{ data_json|safe }};</script>
+<script src="{% static 'circuitos/js/lista.js' %}"></script>
+{% endblock %}
+
+ 

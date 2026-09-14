@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inicio — Circuitos EELH{% endblock %}
+
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 1: KPIs principales
+     ═══════════════════════════════════════════════════════════ -->
+<section class="kpis">
+    <div class="kpi kpi-rojo">
+        <div class="kpi-valor">{{ afectados }}</div>
+        <div class="kpi-label">Afectados ahora</div>
+        <div class="kpi-extra">{{ porcentaje_afectados }}% del total</div>
+    </div>
+    <div class="kpi kpi-verde">
+        <div class="kpi-valor">{{ en_servicio }}</div>
+        <div class="kpi-label">En servicio</div>
+        <div class="kpi-extra">de {{ total }} circuitos</div>
+    </div>
+    <div class="kpi kpi-azul">
+        <div class="kpi-valor">{{ eventos_7d }}</div>
+        <div class="kpi-label">Afectaciones (7 días)</div>
+        <div class="kpi-extra">eventos registrados</div>
+    </div>
+    <div class="kpi kpi-naranja">
+        <div class="kpi-valor">{{ total_horas }}h</div>
+        <div class="kpi-label">Horas acumuladas</div>
+        <div class="kpi-extra">{{ total_afectaciones }} ciclos totales</div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 2: Accesos rápidos
+     ═══════════════════════════════════════════════════════════ -->
+<section class="accesos">
+    <a href="{% url 'circuitos:mapa' %}" class="acceso">
+        <div class="acceso-icono">🗺️</div>
+        <div class="acceso-texto">
+            <strong>Mapa interactivo</strong>
+            <span>Visualiza los circuitos sobre La Habana</span>
+        </div>
+    </a>
+    <a href="{% url 'circuitos:lista' %}" class="acceso">
+        <div class="acceso-icono">📋</div>
+        <div class="acceso-texto">
+            <strong>Lista detallada</strong>
+            <span>Filtra por estado, municipio y más</span>
+        </div>
+    </a>
+     {% if user.is_staff %}
+    <a href="/admin/circuitos/circuito/" class="acceso">
+        <div class="acceso-icono">⚙️</div>
+        <div class="acceso-texto">
+            <strong>Administración</strong>
+            <span>Edita coordenadas y metadatos</span>
+        </div>
+    </a>
+    {% endif %}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 3: Afectados actualmente
+     ═══════════════════════════════════════════════════════════ -->
+<section class="panel">
+    <header class="panel-header">
+        <h2>🔴 Afectados con más tiempo sin servicio</h2>
+        <a href="{% url 'circuitos:lista' %}?ciclo=afectacion" class="ver-mas">Ver todos →</a>
+    </header>
+
+    {% if afectados_actuales %}
+        <ul class="lista-simple">
+            {% for c in afectados_actuales %}
+                <li>
+                    <span class="codigo-inline">{{ c.codigo }}</span>
+                    <span class="text-muted">{{ c.direccion|truncatechars:70 }}</span>
+                    <span class="desde">
+                        desde {{ c.afectacion_inicio_msg|date:"d M H:i" }}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="vacio">✅ No hay circuitos afectados actualmente.</p>
+    {% endif %}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 4: Grid con dos paneles
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-dos">
+
+    <!-- Panel izquierdo: Top más castigados -->
+    <section class="panel">
+        <header class="panel-header">
+            <h2>🏆 Top 10 más castigados</h2>
+            <span class="text-muted">por horas acumuladas</span>
+        </header>
+
+        <table class="tabla-mini">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th>Municipio</th>
+                    <th class="num">Ciclos</th>
+                    <th class="num">Horas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in top_circuitos %}
+                    <tr>
+                        <td><span class="codigo-inline">{{ c.codigo }}</span></td>
+                        <td class="text-muted">{{ c.municipio|default:"—"|truncatechars:20 }}</td>
+                        <td class="num">{{ c.total_afectaciones }}</td>
+                        <td class="num"><strong>{{ c.total_minutos_afectado|floatformat:0 }}h</strong></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Panel derecho: Por municipio -->
+    <section class="panel">
+        <header class="panel-header">
+            <h2>📍 Top municipios</h2>
+            <span class="text-muted">por circuitos afectados</span>
+        </header>
+
+        <ul class="lista-municipios">
+            {% for m in por_municipio %}
+                <li>
+                    <div class="mun-nombre">{{ m.municipio }}</div>
+                    <div class="mun-barra">
+                        {% widthratio m.afectados total 100 as pct %}
+                        <div class="mun-barra-fill"
+                             style="width: {% widthratio m.afectados total 100 %}%"></div>
+                    </div>
+                    <div class="mun-stats">
+                        <span class="text-rojo">{{ m.afectados }}</span>
+                        /
+                        <span class="text-muted">{{ m.total }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 5: Últimos eventos
+     ═══════════════════════════════════════════════════════════ -->
+<section class="panel">
+    <header class="panel-header">
+        <h2>🕐 Últimos eventos</h2>
+        <span class="text-muted">los 15 más recientes</span>
+    </header>
+
+    <ul class="timeline">
+        {% for e in ultimos_eventos %}
+            <li class="timeline-item timeline-{{ e.tipo }}">
+                <div class="timeline-hora">
+                    {{ e.fecha_mensaje|date:"d M" }}<br>
+                    <strong>{{ e.fecha_mensaje|date:"H:i" }}</strong>
+                </div>
+                <div class="timeline-contenido">
+                    <div class="timeline-header">
+                        <span class="codigo-inline">{{ e.circuito.codigo }}</span>
+                        <span class="badge {{ e.tipo }}">
+                            {% if e.tipo == 'afectacion' %}⚡ Afectación{% else %}✅ Restablecimiento{% endif %}
+                        </span>
+                    </div>
+                    <div class="timeline-texto">
+                        {{ e.mensaje.texto|truncatechars:180 }}
+                    </div>
+                </div>
+            </li>
+        {% empty %}
+            <li class="vacio">No hay eventos registrados.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ═══════════════════════════════════════════════════════════
+   KPIs
+   ═══════════════════════════════════════════════════════════ */
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.kpi {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+.kpi-rojo    { border-left-color: var(--rojo); }
+.kpi-verde   { border-left-color: var(--verde); }
+.kpi-azul    { border-left-color: var(--primary); }
+.kpi-naranja { border-left-color: var(--naranja); }
+
+.kpi-valor {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 4px;
+}
+.kpi-rojo    .kpi-valor { color: var(--rojo); }
+.kpi-verde   .kpi-valor { color: var(--verde); }
+.kpi-azul    .kpi-valor { color: var(--primary); }
+.kpi-naranja .kpi-valor { color: var(--naranja); }
+
+.kpi-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.kpi-extra {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Accesos rápidos
+   ═══════════════════════════════════════════════════════════ */
+.accesos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.acceso {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.acceso:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.acceso-icono { font-size: 32px; }
+.acceso-texto { display: flex; flex-direction: column; }
+.acceso-texto strong { font-size: 15px; }
+.acceso-texto span { font-size: 12px; color: var(--text-muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   Paneles
+   ═══════════════════════════════════════════════════════════ */
+.panel {
+    background: var(--surface);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+.panel-header h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+}
+.ver-mas {
+    font-size: 12px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+.ver-mas:hover { text-decoration: underline; }
+
+/* ═══════════════════════════════════════════════════════════
+   Lista simple (afectados)
+   ═══════════════════════════════════════════════════════════ */
+.lista-simple {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.lista-simple li {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+.lista-simple li:last-child { border-bottom: none; }
+
+.codigo-inline {
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-weight: 700;
+    font-size: 12px;
+    background: var(--gris-claro);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.desde {
+    font-size: 11px;
+    color: var(--rojo);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Grid dos columnas
+   ═══════════════════════════════════════════════════════════ */
+.grid-dos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+@media (max-width: 900px) {
+    .grid-dos { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Tabla mini (top circuitos)
+   ═══════════════════════════════════════════════════════════ */
+.tabla-mini {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.tabla-mini th {
+    text-align: left;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+}
+.tabla-mini th.num { text-align: right; }
+.tabla-mini td {
+    padding: 8px;
+    border-bottom: 1px solid var(--border);
+}
+.tabla-mini td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+.tabla-mini tbody tr:last-child td { border-bottom: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   Lista municipios con barras
+   ═══════════════════════════════════════════════════════════ */
+.lista-municipios {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.lista-municipios li {
+    display: grid;
+    grid-template-columns: 130px 1fr 60px;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 13px;
+}
+.mun-nombre {
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.mun-barra {
+    height: 8px;
+    background: var(--gris-claro);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.mun-barra-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--naranja), var(--rojo));
+    transition: width 0.4s ease;
+}
+.mun-stats {
+    text-align: right;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Timeline de eventos
+   ═══════════════════════════════════════════════════════════ */
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.timeline-item {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+.timeline-item:last-child { border-bottom: none; }
+
+.timeline-hora {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+    line-height: 1.3;
+}
+.timeline-hora strong {
+    font-size: 14px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+.timeline-contenido { min-width: 0; }
+.timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+.timeline-header .badge.afectacion { background: var(--rojo); color: white; }
+.timeline-header .badge.restablecimiento { background: var(--verde); color: white; }
+
+.timeline-texto {
+    font-size: 12px;
+    color: var(--text-muted);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Estados vacíos
+   ═══════════════════════════════════════════════════════════ */
+.vacio {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px;
+    font-size: 13px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .container { padding: 12px; }
+    .topbar { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .lista-simple li { grid-template-columns: 1fr; gap: 4px; }
+    .lista-municipios li { grid-template-columns: 100px 1fr 50px; }
+}
+</style>
+{% endblock %}

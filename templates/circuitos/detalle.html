@@ -1,0 +1,488 @@
+{% extends "base.html" %}
+{% load static %}
+{% load static duracion_tags %}
+
+{% block title %}{{ circuito.codigo }} — Detalle{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     Cabecera con código, estado y acciones
+     ═══════════════════════════════════════════════════════════ -->
+<section class="detalle-header">
+    <div class="detalle-titulo">
+        <a href="{% url 'circuitos:lista' %}" class="btn-volver">← Volver a la lista</a>
+        <h1>
+            <span class="codigo-grande">{{ circuito.codigo }}</span>
+            <span class="badge {{ circuito.estado }}">{{ circuito.get_estado_display }}</span>
+            {% if circuito.afectacion_activa %}
+                <span class="pulso-rojo">● afectación activa</span>
+            {% elif circuito.servicio_activo %}
+                <span class="pulso-verde">● servicio activo</span>
+            {% endif %}
+        </h1>
+        <p class="direccion-completa">{{ circuito.direccion|default:"Sin dirección registrada" }}</p>
+    </div>
+
+    <div class="detalle-acciones">
+        <a href="{% url 'circuitos:mapa' %}" class="btn-secundario">🗺️ Ver en mapa general</a>
+        {% if user.is_staff %}
+            <a href="/admin/circuitos/circuito/{{ circuito.id }}/change/" class="btn-secundario">⚙️ Editar</a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Grid principal: KPIs izquierda, mapa derecha
+     ═══════════════════════════════════════════════════════════ -->
+<div class="detalle-grid-2">
+
+    <!-- ─── Columna izquierda: KPIs ──────────────────────── -->
+    <section class="col-kpis">
+        <h2>📊 Estadísticas históricas</h2>
+
+        <div class="kpi-list">
+            <div class="kpi-item">
+                <span class="kpi-label">Total afectaciones</span>
+                <span class="kpi-valor">{{ circuito.total_afectaciones }}</span>
+            </div>
+            <div class="kpi-item">
+    <span class="kpi-label">Tiempo total afectado</span>
+    <span class="kpi-valor destacado">
+        {{ circuito.total_minutos_afectado|format_duracion }}
+    </span>
+</div>
+            <div class="kpi-item">
+                <span class="kpi-label">Eventos afectación</span>
+                <span class="kpi-valor">{{ total_afectaciones_eventos }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Eventos restablecimiento</span>
+                <span class="kpi-valor">{{ total_restablecimientos }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Primera mención</span>
+                <span class="kpi-valor fecha">{{ circuito.primera_mencion|date:"d M Y H:i"|default:"—" }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Última mención</span>
+                <span class="kpi-valor fecha">{{ circuito.ultima_mencion|date:"d M Y H:i"|default:"—" }}</span>
+            </div>
+        </div>
+
+        <h2>📍 Ubicación</h2>
+        <div class="kpi-list">
+            <div class="kpi-item">
+                <span class="kpi-label">Municipio</span>
+                <span class="kpi-valor">{{ circuito.municipio|default:"—" }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Subestación</span>
+                <span class="kpi-valor">{{ circuito.subestacion|default:"—" }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Latitud</span>
+                <span class="kpi-valor mono">{{ circuito.latitud|default:"—" }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Longitud</span>
+                <span class="kpi-valor mono">{{ circuito.longitud|default:"—" }}</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">Geometría</span>
+                <span class="kpi-valor">
+                    {% if tiene_geojson %}
+                        ✅ Polígono propio
+                    {% else %}
+                        ⬜ Cuadrado por defecto
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── Columna derecha: mapa mini ───────────────────── -->
+    <section class="col-mapa">
+        <h2>🗺️ Ubicación del cuadrante</h2>
+        {% if mini_mapa_html %}
+            <div class="mini-mapa">
+                {{ mini_mapa_html|safe }}
+            </div>
+        {% else %}
+            <div class="sin-mapa">
+                <p>⚠️ Este circuito no tiene coordenadas registradas.</p>
+            </div>
+        {% endif %}
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Ciclos actuales
+     ═══════════════════════════════════════════════════════════ -->
+<div class="detalle-grid-2">
+
+    <section class="card-ciclo {% if circuito.afectacion_activa %}card-rojo{% else %}card-neutro{% endif %}">
+        <h2>⚡ Último ciclo de afectación</h2>
+        {% if circuito.afectacion_inicio_msg %}
+            <div class="kpi-list">
+                <div class="kpi-item">
+                    <span class="kpi-label">Inicio (mensaje)</span>
+                    <span class="kpi-valor fecha">{{ circuito.afectacion_inicio_msg|date:"d M Y H:i" }}</span>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Inicio (contenido)</span>
+                    <span class="kpi-valor fecha">{{ circuito.afectacion_inicio_contenido|date:"d M Y H:i"|default:"—" }}</span>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Fin (mensaje)</span>
+                    <span class="kpi-valor fecha">{{ circuito.afectacion_fin_msg|date:"d M Y H:i"|default:"— (en curso)" }}</span>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Fin (contenido)</span>
+                    <span class="kpi-valor fecha">{{ circuito.afectacion_fin_contenido|date:"d M Y H:i"|default:"— (en curso)" }}</span>
+                </div>
+                <div class="kpi-item">
+    <span class="kpi-label">Duración (por mensaje)</span>
+    <span class="kpi-valor">{{ circuito.afectacion_duracion_msg_min|format_duracion }}</span>
+</div>
+<div class="kpi-item">
+    <span class="kpi-label">Duración (por contenido)</span>
+    <span class="kpi-valor">{{ circuito.afectacion_duracion_contenido_min|format_duracion }}</span>
+</div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Estado del ciclo</span>
+                    <span class="kpi-valor">
+                        {% if circuito.afectacion_activa %}
+                            <span class="pulso-rojo">Activo</span>
+                        {% else %}
+                            Cerrado
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        {% else %}
+            <p class="vacio">No hay ciclo de afectación registrado.</p>
+        {% endif %}
+    </section>
+
+    <section class="card-ciclo {% if circuito.servicio_activo %}card-verde{% else %}card-neutro{% endif %}">
+        <h2>✅ Último ciclo de servicio</h2>
+        {% if circuito.servicio_inicio_msg %}
+            <div class="kpi-list">
+                <div class="kpi-item">
+                    <span class="kpi-label">Inicio (mensaje)</span>
+                    <span class="kpi-valor fecha">{{ circuito.servicio_inicio_msg|date:"d M Y H:i" }}</span>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Inicio (contenido)</span>
+                    <span class="kpi-valor fecha">{{ circuito.servicio_inicio_contenido|date:"d M Y H:i"|default:"—" }}</span>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Fin (mensaje)</span>
+                    <span class="kpi-valor fecha">{{ circuito.servicio_fin_msg|date:"d M Y H:i"|default:"— (en curso)" }}</span>
+                </div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Fin (contenido)</span>
+                    <span class="kpi-valor fecha">{{ circuito.servicio_fin_contenido|date:"d M Y H:i"|default:"— (en curso)" }}</span>
+                </div>
+                <div class="kpi-item">
+    <span class="kpi-label">Duración (por mensaje)</span>
+    <span class="kpi-valor">{{ circuito.servicio_duracion_msg_min|format_duracion }}</span>
+</div>
+<div class="kpi-item">
+    <span class="kpi-label">Duración (por contenido)</span>
+    <span class="kpi-valor">{{ circuito.servicio_duracion_contenido_min|format_duracion }}</span>
+</div>
+                <div class="kpi-item">
+                    <span class="kpi-label">Estado del ciclo</span>
+                    <span class="kpi-valor">
+                        {% if circuito.servicio_activo %}
+                            <span class="pulso-verde">Activo</span>
+                        {% else %}
+                            Cerrado
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        {% else %}
+            <p class="vacio">No hay ciclo de servicio registrado.</p>
+        {% endif %}
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Timeline de eventos
+     ═══════════════════════════════════════════════════════════ -->
+<section class="card-eventos">
+    <h2>🕐 Historial de eventos ({{ eventos|length }})</h2>
+
+    {% if eventos %}
+        <ul class="timeline-detalle">
+            {% for e in eventos %}
+                <li class="timeline-item-detalle timeline-{{ e.tipo }}">
+                    <div class="timeline-hora-detalle">
+                        {{ e.fecha_mensaje|date:"d M" }}<br>
+                        <strong>{{ e.fecha_mensaje|date:"H:i" }}</strong>
+                    </div>
+                    <div class="timeline-cuerpo">
+                        <div class="timeline-meta">
+                            <span class="badge {{ e.tipo }}">
+                                {% if e.tipo == 'afectacion' %}⚡ Afectación
+                                {% elif e.tipo == 'restablecimiento' %}✅ Restablecimiento
+                                {% else %}ℹ️ Mención{% endif %}
+                            </span>
+                            {% if e.fecha_contenido %}
+                                <span class="text-muted">
+                                    contenido menciona: {{ e.fecha_contenido|date:"H:i" }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="timeline-texto-detalle">{{ e.mensaje.texto }}</div>
+                        {% if e.mensaje.enlace %}
+                            <a href="{{ e.mensaje.enlace }}" target="_blank" rel="noopener" class="link-telegram">
+                                Ver mensaje en Telegram ↗
+                            </a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="vacio">No hay eventos registrados para este circuito.</p>
+    {% endif %}
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+
+.kpi-valor.destacado {
+    font-size: 18px;
+    color: var(--primary);
+    font-weight: 700;
+}
+/* ══════════════════════════════════════════════════════════
+   Header
+   ══════════════════════════════════════════════════════════ */
+.detalle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.detalle-titulo { flex: 1; min-width: 300px; }
+.detalle-titulo h1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+    font-size: 24px;
+}
+.codigo-grande {
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+.btn-volver {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+}
+.btn-volver:hover { color: var(--primary); }
+.direccion-completa {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 8px 0 0 0;
+    line-height: 1.5;
+}
+.detalle-acciones { display: flex; gap: 8px; }
+
+/* ══════════════════════════════════════════════════════════
+   Pulso (indicador vivo)
+   ══════════════════════════════════════════════════════════ */
+.pulso-rojo {
+    color: var(--rojo);
+    font-weight: 600;
+    font-size: 13px;
+    animation: pulso 2s ease-in-out infinite;
+}
+.pulso-verde {
+    color: var(--verde);
+    font-weight: 600;
+    font-size: 13px;
+}
+@keyframes pulso {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Grid 2 columnas
+   ══════════════════════════════════════════════════════════ */
+.detalle-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+@media (max-width: 1000px) {
+    .detalle-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   Paneles
+   ══════════════════════════════════════════════════════════ */
+.col-kpis, .col-mapa, .card-ciclo, .card-eventos {
+    background: var(--surface);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+.col-kpis h2, .col-mapa h2, .card-ciclo h2, .card-eventos h2 {
+    margin: 0 0 14px 0;
+    font-size: 15px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+.col-kpis h2:not(:first-child) {
+    margin-top: 24px;
+}
+
+.card-rojo { border-left: 4px solid var(--rojo); }
+.card-verde { border-left: 4px solid var(--verde); }
+.card-neutro { border-left: 4px solid var(--gris); }
+
+/* ══════════════════════════════════════════════════════════
+   KPI list
+   ══════════════════════════════════════════════════════════ */
+.kpi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.kpi-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.kpi-item:last-child { border-bottom: none; }
+.kpi-label {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.kpi-valor {
+    font-weight: 600;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+.kpi-valor.fecha { font-size: 13px; font-weight: 500; }
+.kpi-valor.mono {
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ══════════════════════════════════════════════════════════
+   Mapa mini
+   ══════════════════════════════════════════════════════════ */
+.mini-mapa {
+    height: 480px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+.mini-mapa > div { height: 100% !important; }
+
+.sin-mapa {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--gris-claro);
+    border-radius: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   Timeline detalle
+   ══════════════════════════════════════════════════════════ */
+.timeline-detalle {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.timeline-item-detalle {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+}
+.timeline-item-detalle:last-child { border-bottom: none; }
+
+.timeline-hora-detalle {
+    text-align: right;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+.timeline-hora-detalle strong {
+    display: block;
+    font-size: 15px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+.timeline-cuerpo { min-width: 0; }
+.timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+.badge.afectacion { background: var(--rojo); color: white; }
+.badge.restablecimiento { background: var(--verde); color: white; }
+.badge.mencion { background: var(--gris); color: white; }
+
+.timeline-texto-detalle {
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    background: var(--gris-claro);
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid var(--border);
+    max-height: 200px;
+    overflow-y: auto;
+}
+.timeline-item-detalle.timeline-afectacion .timeline-texto-detalle {
+    border-left-color: var(--rojo);
+}
+.timeline-item-detalle.timeline-restablecimiento .timeline-texto-detalle {
+    border-left-color: var(--verde);
+}
+
+.link-telegram {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+.link-telegram:hover { text-decoration: underline; }
+
+.vacio {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 20px;
+    font-size: 13px;
+}
+</style>
+{% endblock %}

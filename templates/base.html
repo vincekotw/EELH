@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Circuitos Eléctricos{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'circuitos/css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <h1>⚡ Circuitos EELH</h1>
+        {% block brand_stats %}{% endblock %}
+    </div>
+    <nav class="nav">
+        <a href="{% url 'home' %}"
+           class="btn-link {% block nav_home %}{% endblock %}">
+            🏠 Inicio
+        </a>
+        <a href="{% url 'circuitos:mapa' %}"
+           class="btn-link {% block nav_mapa %}{% endblock %}">
+            🗺️ Mapa
+        </a>
+        <a href="{% url 'circuitos:lista' %}"
+           class="btn-link {% block nav_lista %}{% endblock %}">
+            📋 Lista
+        </a>
+        {% if user.is_staff %}
+        <a href="/admin/" class="btn-link" title="Panel de administración">
+            ⚙️ Admin
+        </a>
+    {% endif %}
+    </nav>
+</header>
+
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

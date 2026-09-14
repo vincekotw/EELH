@@ -1,0 +1,125 @@
+2026-09-11 18:53:46,431 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-11 18:53:46,432 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-11 23:00:00+00:00
+2026-09-11 19:00:00,015 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-11 19:30:41,671 [INFO] apps.telegram_base.scheduler: ✅ Job scrape_telegram completado.
+2026-09-12 08:46:47,937 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 08:46:47,937 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 13:00:00+00:00
+2026-09-12 08:58:41,010 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 08:58:41,011 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 13:00:00+00:00
+2026-09-12 08:59:36,265 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 08:59:36,265 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 13:00:00+00:00
+2026-09-12 09:00:00,006 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 08:56:57,336 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 08:56:57,337 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 13:00:00+00:00
+2026-09-12 09:00:00,006 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 09:05:24,693 [INFO] apps.telegram_base.scheduler: ✅ Job scrape_telegram completado.
+2026-09-12 09:05:55,132 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 09:05:55,132 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 14:00:00+00:00
+2026-09-12 09:26:08,145 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 09:26:08,146 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 14:00:00+00:00
+2026-09-12 09:27:25,057 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 09:27:25,058 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 14:00:00+00:00
+2026-09-12 09:38:46,806 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 09:38:46,807 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 14:00:00+00:00
+2026-09-12 10:00:00,016 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 10:01:13,053 [INFO] apps.telegram_base.scheduler: ✅ Job scrape_telegram completado.
+2026-09-12 10:02:15,345 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 10:02:15,345 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 15:00:00+00:00
+2026-09-12 12:23:52,637 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 12:23:52,638 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 17:00:00+00:00
+2026-09-12 12:27:39,109 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 12:27:39,109 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 17:00:00+00:00
+2026-09-12 13:16:03,375 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 13:19:02,631 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 13:19:03,537 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-12 13:20:52,891 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:20:52,891 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:26:23,747 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:26:23,747 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:36:11,715 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:36:11,715 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:39:01,336 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:39:01,336 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:40:10,727 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:40:10,727 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:40:54,433 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:40:54,433 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:45:03,553 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:45:03,553 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:47:12,039 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:47:12,039 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:48:28,481 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:48:28,481 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:49:00,744 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:49:00,744 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:49:39,214 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:49:39,214 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 13:54:08,290 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 13:54:08,291 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 18:00:00+00:00
+2026-09-12 14:00:00,007 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 14:01:07,579 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 14:01:10,438 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-12 16:16:16,638 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 16:16:16,638 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 21:00:00+00:00
+2026-09-12 16:24:24,773 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 16:24:24,773 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 21:00:00+00:00
+2026-09-12 17:00:00,001 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 17:06:09,860 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 17:06:10,694 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-12 17:06:11,708 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 17:06:11,708 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 22:00:00+00:00
+2026-09-12 17:14:25,104 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 17:14:25,104 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 22:00:00+00:00
+2026-09-12 17:15:00,335 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 17:15:00,335 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 22:00:00+00:00
+2026-09-12 18:00:00,022 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 18:01:02,109 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 18:01:02,981 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-12 20:40:07,253 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=UTC).
+2026-09-12 20:40:07,254 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-13 01:00:00+00:00
+2026-09-12 21:00:00,006 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 21:04:11,747 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 21:04:15,012 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-12 21:36:46,119 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 21:36:46,120 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 22:00:00-04:00
+2026-09-12 22:00:00,007 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 22:00:34,123 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 22:00:35,084 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-12 22:11:16,859 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:11:16,859 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:11:32,667 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:11:32,668 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:33:05,010 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:33:05,011 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:36:08,299 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:36:08,299 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:37:15,041 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:37:15,042 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:43:16,515 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:43:16,515 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:44:57,994 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:44:57,994 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:46:40,958 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:46:40,958 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 22:50:54,009 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-12 22:50:54,009 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-12 23:00:00-04:00
+2026-09-12 23:00:00,015 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-12 23:00:18,520 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-12 23:00:19,519 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-14 13:25:40,839 [INFO] apps.telegram_base.scheduler: 🚀 Scheduler arrancado en segundo plano (TZ=America/Havana).
+2026-09-14 13:25:40,840 [INFO] apps.telegram_base.scheduler: 📅 Job registrado: Scrape Telegram cada hora → próximo: 2026-09-14 14:00:00-04:00
+2026-09-14 14:00:00,011 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-14 14:38:49,355 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-14 14:38:50,292 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-14 15:00:00,012 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-14 15:01:09,849 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-14 15:01:10,899 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-14 16:00:00,004 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-14 16:00:41,179 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-14 16:00:42,118 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-14 17:00:00,002 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-14 17:00:39,299 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-14 17:00:40,234 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.
+2026-09-14 18:00:00,015 [INFO] apps.telegram_base.scheduler: ▶️  Job programado: scrape_telegram
+2026-09-14 18:00:41,728 [INFO] apps.telegram_base.scheduler: ✅ scrape_telegram completado.
+2026-09-14 18:00:42,626 [INFO] apps.telegram_base.scheduler: ✅ Duraciones de ciclos abiertos actualizadas.

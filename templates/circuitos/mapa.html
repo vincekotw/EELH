@@ -1,0 +1,21 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}Mapa de Circuitos{% endblock %}
+{% block nav_mapa %}active{% endblock %}
+
+{% block brand_stats %}
+<span class="stats">{{ total }} circuitos en el mapa</span>
+{% endblock %}
+
+{% block content %}
+<div id="map-container" style="height: calc(100vh - 65px); margin: -20px -24px;">
+    {{ map_html|safe }}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    #map-container > div { height: 100% !important; }
+</style>
+{% endblock %}
