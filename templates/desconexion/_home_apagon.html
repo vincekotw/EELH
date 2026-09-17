@@ -1,0 +1,219 @@
+<!-- ═══════════════════════════════════════════════════════════
+     CABECERA APAGÓN
+     ═══════════════════════════════════════════════════════════ -->
+<section class="apagon-header">
+    <div class="apagon-titulo">
+        <h1>{{ alerta.titulo }}</h1>
+        <p class="apagon-meta">
+            {% if alerta.activo %}<span class="pulso-vivo">●</span>{% endif %}
+            Iniciado hace {{ alerta.iniciado_en|timesince }}
+            <span class="sep">·</span>
+            {{ alerta.iniciado_en|date:"d M Y H:i" }}
+            {% if alerta.finalizado_en %}
+                <span class="sep">·</span>
+                <strong>Fin oficial: hace {{ alerta.finalizado_en|timesince }}</strong>
+            {% endif %}
+        </p>
+        {% if alerta.descripcion %}
+            <p class="apagon-descripcion">{{ alerta.descripcion|truncatewords:40 }}</p>
+        {% endif %}
+    </div>
+    <div class="apagon-stats">
+        <div class="stat">
+            <span class="stat-valor">{{ total_reportes }}</span>
+            <span class="stat-label">Reportes</span>
+        </div>
+        <div class="stat">
+            <span class="stat-valor">{{ circuitos_reportados|length }}</span>
+            <span class="stat-label">Circuitos reportados</span>
+        </div>
+        <div class="stat">
+            <span class="stat-valor">{{ alerta.duracion_min }}</span>
+            <span class="stat-label">Minutos</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     GRID PRINCIPAL
+     ═══════════════════════════════════════════════════════════ -->
+<div class="apagon-grid">
+
+    <!-- ─── Columna izquierda: actualizaciones UNE ──────── -->
+    <section class="panel-updates">
+        <h2>📡 Actualizaciones del SEN</h2>
+        <ul class="timeline-sen">
+            {% for m in mensajes_alerta %}
+                <li class="{% if m.tipo_evento == 'restablecimiento' %}evt-restab{% elif m.tipo_evento == 'afectacion' %}evt-afect{% endif %}">
+                    <time datetime="{{ m.fecha|date:'c' }}">{{ m.fecha|date:"H:i" }}</time>
+                    <div class="texto">{{ m.texto|linebreaksbr }}</div>
+                </li>
+            {% empty %}
+                <li class="vacio">No hay actualizaciones aún.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- ─── Columna derecha: reportes de usuarios ───────── -->
+    <section class="panel-reportes">
+        <h2>🗣️ Reporta el estado de tu circuito</h2>
+
+        <form id="form-reporte" autocomplete="off">
+            {% csrf_token %}
+
+            <label for="in-circuito">Tu circuito *</label>
+            <input type="text" id="in-circuito" name="circuito" required
+                   placeholder="Ej: OP408, L322, A960..."
+                   list="lista-circuitos">
+            <datalist id="lista-circuitos">
+                {% for c in todos_circuitos %}
+                    <option value="{{ c.codigo }}">{{ c.municipio }}</option>
+                {% endfor %}
+            </datalist>
+
+            <label>Estado *</label>
+            <div class="radio-estados">
+                <label><input type="radio" name="estado" value="afectado" required> ❌ Sin servicio</label>
+                <label><input type="radio" name="estado" value="en_servicio"> ✅ Con servicio</label>
+                <label><input type="radio" name="estado" value="intermitente"> ⚡ Intermitente</label>
+            </div>
+
+            <label for="in-comentario">Comentario (opcional)</label>
+            <textarea id="in-comentario" name="comentario" maxlength="300" rows="2"
+                      placeholder="Ej: Servicio volvió hace 10 min en la cuadra 3"></textarea>
+
+            <div id="form-msg" class="form-msg" hidden></div>
+
+            <button type="submit" id="btn-reportar">Enviar reporte</button>
+        </form>
+
+        <h3>Reportes recientes ({{ reportes_recientes|length }})</h3>
+        <ul class="reportes-lista" id="reportes-lista">
+            {% for r in reportes_recientes %}
+                <li class="reporte reporte-{{ r.estado }}">
+                    <div class="reporte-header">
+                        <span class="reporte-circuito">{{ r.circuito.codigo }}</span>
+                        <span class="reporte-hora">{{ r.creado_en|timesince }}</span>
+                    </div>
+                    <span class="reporte-estado">
+                        {% if r.estado == 'afectado' %}❌ Sin servicio
+                        {% elif r.estado == 'en_servicio' %}✅ Con servicio
+                        {% else %}⚡ Intermitente{% endif %}
+                    </span>
+                    {% if r.comentario %}
+                        <p class="reporte-comentario">{{ r.comentario }}</p>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li class="vacio" id="sin-reportes">
+                    Sé el primero en reportar el estado de tu circuito.
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     Circuitos con reporte comunitario reciente
+     ═══════════════════════════════════════════════════════════ -->
+{% if circuitos_reportados %}
+<section class="panel-circ-reportados">
+    <h2>📍 Circuitos con reportes (últimas 2h)</h2>
+    <div class="grid-reportados">
+        {% for c in circuitos_reportados %}
+            <div class="circ-reportado circ-{{ c.estado_comunitario }}">
+                <a href="{% url 'circuitos:detalle' c.codigo %}" class="cr-codigo">{{ c.codigo }}</a>
+                <span class="cr-estado">
+                    {% if c.estado_comunitario == 'afectado' %}❌
+                    {% elif c.estado_comunitario == 'en_servicio' %}✅
+                    {% else %}⚡{% endif %}
+                    {{ c.get_estado_comunitario_display }}
+                </span>
+                <span class="cr-hora">{{ c.estado_comunitario_actualizado_en|timesince }}</span>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<script>
+(function () {
+    const form = document.getElementById('form-reporte');
+    if (!form) return;
+
+    const msg = document.getElementById('form-msg');
+    const btn = document.getElementById('btn-reportar');
+    const lista = document.getElementById('reportes-lista');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        msg.hidden = true;
+
+        const fd = new FormData(form);
+        try {
+            const resp = await fetch("{% url 'circuitos:reportar' %}", {
+                method: 'POST',
+                body: fd,
+                headers: { 'X-CSRFToken': fd.get('csrfmiddlewaretoken') },
+            });
+            const data = await resp.json();
+
+            if (!resp.ok) {
+                mostrarError(data.error || 'Error al enviar');
+                return;
+            }
+
+            msg.textContent = `✅ Reporte enviado para ${data.circuito}`;
+            msg.className = 'form-msg ok';
+            msg.hidden = false;
+
+            insertarReporte(data);
+            form.reset();
+
+            setTimeout(() => { msg.hidden = true; }, 4000);
+        } catch (err) {
+            mostrarError('Error de red, intenta de nuevo');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Enviar reporte';
+        }
+    });
+
+    function mostrarError(texto) {
+        msg.textContent = '❌ ' + texto;
+        msg.className = 'form-msg error';
+        msg.hidden = false;
+    }
+
+    function insertarReporte(data) {
+        const vacio = document.getElementById('sin-reportes');
+        if (vacio) vacio.remove();
+
+        const emoji = { afectado: '❌', en_servicio: '✅', intermitente: '⚡' }[data.estado];
+        const label = {
+            afectado: 'Sin servicio',
+            en_servicio: 'Con servicio',
+            intermitente: 'Intermitente',
+        }[data.estado];
+
+        const li = document.createElement('li');
+        li.className = `reporte reporte-${data.estado}`;
+        li.innerHTML = `
+            <div class="reporte-header">
+                <span class="reporte-circuito">${escapeHTML(data.circuito)}</span>
+                <span class="reporte-hora">ahora</span>
+            </div>
+            <span class="reporte-estado">${emoji} ${label}</span>
+        `;
+        lista.insertBefore(li, lista.firstChild);
+    }
+
+    function escapeHTML(s) {
+        return String(s || '').replace(/[&<>"']/g, c => ({
+            '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+        }[c]));
+    }
+})();
+</script>

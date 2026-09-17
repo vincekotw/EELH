@@ -258,6 +258,15 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
     if not fecha_msg:
         return
 
+        # ── Detección de alertas masivas ─────────────────────────
+    try:
+        from apps.circuitos.services.detectar_apagon import procesar_alerta_masiva
+        procesar_alerta_masiva(mensaje)
+    except Exception:
+        # No bloquear el procesamiento normal por una alerta
+        import logging
+        logging.getLogger(__name__).exception('Error en detector_apagon')
+
     hora_contenido = parsear_hora_contenido(mensaje.texto, fecha_msg)
     circuitos = mensaje.circuitos_mencionados or []
     if not circuitos:

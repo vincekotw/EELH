@@ -59,3 +59,28 @@ class EventoCircuitoAdmin(admin.ModelAdmin):
     search_fields = ('circuito__codigo',)
     date_hierarchy = 'fecha_mensaje'
     readonly_fields = ('creado_en',)
+
+from .models import AlertaMasiva, ReporteUsuario
+
+
+@admin.register(AlertaMasiva)
+class AlertaMasivaAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'tipo', 'iniciado_en', 'finalizado_en',
+                    'activo', 'duracion_min', 'reportes_usuarios')
+    list_filter = ('tipo', 'activo')
+    search_fields = ('titulo', 'descripcion')
+    readonly_fields = ('creado_en', 'actualizado_en', 'duracion_min')
+    date_hierarchy = 'iniciado_en'
+
+
+@admin.register(ReporteUsuario)
+class ReporteUsuarioAdmin(admin.ModelAdmin):
+    list_display = ('circuito', 'estado', 'creado_en', 'ip_hash_short')
+    list_filter = ('estado', 'creado_en')
+    search_fields = ('circuito__codigo', 'comentario')
+    date_hierarchy = 'creado_en'
+    readonly_fields = ('creado_en', 'ip_hash', 'user_agent')
+
+    def ip_hash_short(self, obj):
+        return obj.ip_hash[:8]
+    ip_hash_short.short_description = 'IP'

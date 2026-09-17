@@ -170,3 +170,649 @@
 2026-09-14 18:36:29 [INFO] [   900 ids] escritos=847   vacios=55    vel=0.34 ids/s ETA=787 min
 2026-09-14 18:37:31 [INFO] [   925 ids] escritos=870   vacios=57    vel=0.34 ids/s ETA=783 min
 2026-09-14 18:38:31 [INFO] [   950 ids] escritos=894   vacios=58    vel=0.34 ids/s ETA=778 min
+2026-09-14 18:39:30 [INFO] [   975 ids] escritos=919   vacios=58    vel=0.35 ids/s ETA=773 min
+2026-09-14 18:41:55 [INFO] [  1000 ids] escritos=933   vacios=69    vel=0.34 ids/s ETA=791 min
+2026-09-14 18:42:55 [INFO] [  1025 ids] escritos=957   vacios=70    vel=0.34 ids/s ETA=786 min
+2026-09-14 18:43:54 [INFO] [  1050 ids] escritos=981   vacios=71    vel=0.34 ids/s ETA=781 min
+2026-09-14 18:44:53 [INFO] [  1075 ids] escritos=1005  vacios=72    vel=0.34 ids/s ETA=776 min
+2026-09-14 18:45:54 [INFO] [  1100 ids] escritos=1026  vacios=76    vel=0.34 ids/s ETA=772 min
+2026-09-14 18:46:53 [INFO] [  1125 ids] escritos=1050  vacios=77    vel=0.34 ids/s ETA=768 min
+2026-09-14 18:47:51 [INFO] [  1150 ids] escritos=1074  vacios=78    vel=0.35 ids/s ETA=763 min
+2026-09-14 18:48:47 [INFO] [  1175 ids] escritos=1098  vacios=79    vel=0.35 ids/s ETA=758 min
+2026-09-14 18:49:43 [INFO] [  1200 ids] escritos=1122  vacios=80    vel=0.35 ids/s ETA=754 min
+2026-09-14 18:50:44 [INFO] [  1225 ids] escritos=1147  vacios=80    vel=0.35 ids/s ETA=750 min
+2026-09-14 18:51:42 [INFO] [  1250 ids] escritos=1171  vacios=81    vel=0.35 ids/s ETA=746 min
+2026-09-14 18:52:39 [INFO] [  1275 ids] escritos=1195  vacios=82    vel=0.35 ids/s ETA=742 min
+2026-09-14 18:53:37 [INFO] [  1300 ids] escritos=1219  vacios=83    vel=0.35 ids/s ETA=738 min
+2026-09-14 18:54:33 [INFO] [  1325 ids] escritos=1244  vacios=83    vel=0.36 ids/s ETA=734 min
+2026-09-14 18:55:37 [INFO] [  1350 ids] escritos=1268  vacios=84    vel=0.36 ids/s ETA=732 min
+2026-09-14 18:56:37 [INFO] [  1375 ids] escritos=1293  vacios=84    vel=0.36 ids/s ETA=729 min
+2026-09-14 18:57:35 [INFO] [  1400 ids] escritos=1318  vacios=84    vel=0.36 ids/s ETA=726 min
+2026-09-14 18:58:34 [INFO] [  1425 ids] escritos=1342  vacios=85    vel=0.36 ids/s ETA=722 min
+2026-09-14 18:59:34 [INFO] [  1450 ids] escritos=1365  vacios=87    vel=0.36 ids/s ETA=719 min
+2026-09-14 19:00:40 [INFO] [  1475 ids] escritos=1390  vacios=87    vel=0.36 ids/s ETA=718 min
+2026-09-14 19:01:46 [INFO] [  1500 ids] escritos=1414  vacios=88    vel=0.36 ids/s ETA=716 min
+2026-09-14 19:02:49 [INFO] [  1525 ids] escritos=1439  vacios=88    vel=0.36 ids/s ETA=714 min
+2026-09-14 19:04:17 [INFO] [  1550 ids] escritos=1463  vacios=89    vel=0.36 ids/s ETA=716 min
+2026-09-14 19:05:54 [INFO] [  1575 ids] escritos=1487  vacios=90    vel=0.36 ids/s ETA=719 min
+2026-09-14 19:07:10 [INFO] [  1600 ids] escritos=1512  vacios=90    vel=0.36 ids/s ETA=719 min
+2026-09-14 19:08:28 [INFO] [  1625 ids] escritos=1536  vacios=91    vel=0.36 ids/s ETA=719 min
+2026-09-14 19:09:24 [INFO] [  1650 ids] escritos=1559  vacios=93    vel=0.36 ids/s ETA=716 min
+2026-09-14 19:10:26 [INFO] [  1675 ids] escritos=1582  vacios=95    vel=0.36 ids/s ETA=713 min
+2026-09-14 19:11:30 [INFO] [  1700 ids] escritos=1604  vacios=98    vel=0.36 ids/s ETA=711 min
+2026-09-14 19:12:29 [INFO] [  1725 ids] escritos=1626  vacios=101   vel=0.36 ids/s ETA=708 min
+2026-09-14 19:13:26 [INFO] [  1750 ids] escritos=1649  vacios=103   vel=0.36 ids/s ETA=706 min
+2026-09-14 19:14:23 [INFO] [  1775 ids] escritos=1673  vacios=104   vel=0.36 ids/s ETA=703 min
+2026-09-14 19:15:19 [INFO] [  1800 ids] escritos=1698  vacios=104   vel=0.36 ids/s ETA=700 min
+2026-09-14 19:16:16 [INFO] [  1825 ids] escritos=1723  vacios=104   vel=0.36 ids/s ETA=697 min
+2026-09-14 19:17:14 [INFO] [  1850 ids] escritos=1746  vacios=106   vel=0.36 ids/s ETA=694 min
+2026-09-14 19:18:13 [INFO] [  1875 ids] escritos=1770  vacios=107   vel=0.36 ids/s ETA=692 min
+2026-09-14 19:19:32 [INFO] [  1900 ids] escritos=1795  vacios=107   vel=0.36 ids/s ETA=692 min
+2026-09-14 19:20:37 [INFO] [  1925 ids] escritos=1817  vacios=110   vel=0.36 ids/s ETA=690 min
+2026-09-14 19:20:48 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-14 19:20:48 [INFO] 
+2026-09-14 19:20:48 [INFO] ============================================================
+2026-09-14 19:20:48 [INFO]   RESUMEN
+2026-09-14 19:20:48 [INFO] ============================================================
+2026-09-14 19:20:48 [INFO]   Mensajes escritos:    1820
+2026-09-14 19:20:48 [INFO]   Mensajes totales:     1868
+2026-09-14 19:20:48 [INFO]   IDs vacíos:           111
+2026-09-14 19:20:48 [INFO]   Errores:              0
+2026-09-14 19:20:48 [INFO]   Duración:             88.3 min
+2026-09-14 19:20:48 [INFO]   Último guardado:      79292
+2026-09-14 19:20:48 [INFO]   Próximo reanudar en:  79290
+2026-09-14 19:20:48 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-14 19:20:48 [INFO] ============================================================
+2026-09-14 19:20:48 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-14 19:20:56 [INFO] 📌 Reanudando desde checkpoint: ID 79290
+2026-09-14 19:20:56 [INFO]    Nuevo hasta: 62290 (recalculado)
+2026-09-14 19:20:56 [INFO] ============================================================
+2026-09-14 19:20:56 [INFO]   SCRAPE → JSONL
+2026-09-14 19:20:56 [INFO] ============================================================
+2026-09-14 19:20:56 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 19:20:56 [INFO]   Desde:            79290 (exclusivo)
+2026-09-14 19:20:56 [INFO]   Hasta:            62290 (inclusivo)
+2026-09-14 19:20:56 [INFO]   IDs a recorrer:   17000
+2026-09-14 19:20:56 [INFO]   Pausa:            1.0s
+2026-09-14 19:20:56 [INFO]   Output:           scrap_historico.jsonl
+2026-09-14 19:20:56 [INFO] ============================================================
+2026-09-14 19:22:08 [INFO] [    25 ids] escritos=24    vacios=112   vel=0.34 ids/s ETA=820 min
+2026-09-14 19:23:05 [INFO] [    50 ids] escritos=46    vacios=115   vel=0.39 ids/s ETA=729 min
+2026-09-14 19:24:01 [INFO] [    75 ids] escritos=71    vacios=115   vel=0.40 ids/s ETA=697 min
+2026-09-14 19:25:21 [INFO] [   100 ids] escritos=95    vacios=116   vel=0.38 ids/s ETA=748 min
+2026-09-14 19:26:51 [INFO] [   125 ids] escritos=120   vacios=116   vel=0.35 ids/s ETA=799 min
+2026-09-14 19:27:05 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-14 19:27:06 [INFO] 
+2026-09-14 19:27:06 [INFO] ============================================================
+2026-09-14 19:27:06 [INFO]   RESUMEN
+2026-09-14 19:27:06 [INFO] ============================================================
+2026-09-14 19:27:06 [INFO]   Mensajes escritos:    124
+2026-09-14 19:27:06 [INFO]   Mensajes totales:     1992
+2026-09-14 19:27:06 [INFO]   IDs vacíos:           116
+2026-09-14 19:27:06 [INFO]   Errores:              0
+2026-09-14 19:27:06 [INFO]   Duración:             6.2 min
+2026-09-14 19:27:06 [INFO]   Último guardado:      79161
+2026-09-14 19:27:06 [INFO]   Próximo reanudar en:  79160
+2026-09-14 19:27:06 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-14 19:27:06 [INFO] ============================================================
+2026-09-14 19:27:06 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-14 19:27:16 [INFO] 📌 Reanudando desde checkpoint: ID 79160
+2026-09-14 19:27:16 [INFO]    Nuevo hasta: 62160 (recalculado)
+2026-09-14 19:27:16 [INFO] ============================================================
+2026-09-14 19:27:16 [INFO]   SCRAPE → JSONL
+2026-09-14 19:27:16 [INFO] ============================================================
+2026-09-14 19:27:16 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-14 19:27:16 [INFO]   Desde:            79160 (exclusivo)
+2026-09-14 19:27:16 [INFO]   Hasta:            62160 (inclusivo)
+2026-09-14 19:27:16 [INFO]   IDs a recorrer:   17000
+2026-09-14 19:27:16 [INFO]   Pausa:            0.5s
+2026-09-14 19:27:16 [INFO]   Output:           scrap_historico.jsonl
+2026-09-14 19:27:16 [INFO] ============================================================
+2026-09-14 19:28:15 [INFO] [    25 ids] escritos=22    vacios=119   vel=0.42 ids/s ETA=677 min
+2026-09-14 19:29:15 [INFO] [    50 ids] escritos=44    vacios=122   vel=0.42 ids/s ETA=675 min
+2026-09-14 19:30:00 [INFO] [    75 ids] escritos=68    vacios=123   vel=0.46 ids/s ETA=617 min
+2026-09-14 19:30:43 [INFO] [   100 ids] escritos=91    vacios=125   vel=0.48 ids/s ETA=584 min
+2026-09-14 19:31:29 [INFO] [   125 ids] escritos=115   vacios=126   vel=0.49 ids/s ETA=571 min
+2026-09-14 19:32:14 [INFO] [   150 ids] escritos=138   vacios=128   vel=0.50 ids/s ETA=559 min
+2026-09-14 19:32:59 [INFO] [   175 ids] escritos=163   vacios=128   vel=0.51 ids/s ETA=550 min
+2026-09-14 19:33:44 [INFO] [   200 ids] escritos=187   vacios=129   vel=0.51 ids/s ETA=544 min
+2026-09-14 19:34:28 [INFO] [   225 ids] escritos=211   vacios=130   vel=0.52 ids/s ETA=538 min
+2026-09-14 19:35:11 [INFO] [   250 ids] escritos=236   vacios=130   vel=0.53 ids/s ETA=530 min
+2026-09-14 19:35:53 [INFO] [   275 ids] escritos=261   vacios=130   vel=0.53 ids/s ETA=524 min
+2026-09-14 19:36:36 [INFO] [   300 ids] escritos=286   vacios=130   vel=0.54 ids/s ETA=520 min
+2026-09-14 19:37:20 [INFO] [   325 ids] escritos=311   vacios=130   vel=0.54 ids/s ETA=516 min
+2026-09-14 19:38:04 [INFO] [   350 ids] escritos=333   vacios=133   vel=0.54 ids/s ETA=514 min
+2026-09-14 19:38:49 [INFO] [   375 ids] escritos=357   vacios=134   vel=0.54 ids/s ETA=512 min
+2026-09-14 19:39:33 [INFO] [   400 ids] escritos=381   vacios=135   vel=0.54 ids/s ETA=510 min
+2026-09-14 19:40:18 [INFO] [   425 ids] escritos=405   vacios=136   vel=0.54 ids/s ETA=509 min
+2026-09-14 19:41:01 [INFO] [   450 ids] escritos=428   vacios=138   vel=0.54 ids/s ETA=506 min
+2026-09-14 19:41:45 [INFO] [   475 ids] escritos=453   vacios=138   vel=0.55 ids/s ETA=504 min
+2026-09-14 19:42:31 [INFO] [   500 ids] escritos=476   vacios=140   vel=0.55 ids/s ETA=503 min
+2026-09-14 19:43:13 [INFO] [   525 ids] escritos=499   vacios=142   vel=0.55 ids/s ETA=501 min
+2026-09-14 19:43:57 [INFO] [   550 ids] escritos=522   vacios=144   vel=0.55 ids/s ETA=499 min
+2026-09-14 19:44:41 [INFO] [   575 ids] escritos=547   vacios=144   vel=0.55 ids/s ETA=498 min
+2026-09-14 19:45:27 [INFO] [   600 ids] escritos=572   vacios=144   vel=0.55 ids/s ETA=497 min
+2026-09-14 19:46:12 [INFO] [   625 ids] escritos=596   vacios=145   vel=0.55 ids/s ETA=496 min
+2026-09-14 19:47:46 [INFO] [   650 ids] escritos=617   vacios=149   vel=0.53 ids/s ETA=516 min
+2026-09-14 19:48:48 [INFO] [   675 ids] escritos=640   vacios=151   vel=0.52 ids/s ETA=521 min
+2026-09-14 19:49:55 [INFO] [   700 ids] escritos=660   vacios=156   vel=0.52 ids/s ETA=527 min
+2026-09-14 19:51:11 [INFO] [   725 ids] escritos=685   vacios=156   vel=0.51 ids/s ETA=537 min
+2026-09-14 19:52:42 [INFO] [   750 ids] escritos=709   vacios=157   vel=0.49 ids/s ETA=551 min
+2026-09-14 19:53:44 [INFO] [   775 ids] escritos=732   vacios=159   vel=0.49 ids/s ETA=554 min
+2026-09-14 19:54:38 [INFO] [   800 ids] escritos=757   vacios=159   vel=0.49 ids/s ETA=554 min
+2026-09-14 19:56:00 [INFO] [   825 ids] escritos=776   vacios=165   vel=0.48 ids/s ETA=563 min
+2026-09-14 19:57:14 [INFO] [   850 ids] escritos=801   vacios=165   vel=0.47 ids/s ETA=570 min
+2026-09-14 19:58:00 [INFO] [   875 ids] escritos=826   vacios=165   vel=0.47 ids/s ETA=566 min
+2026-09-14 19:58:46 [INFO] [   900 ids] escritos=850   vacios=166   vel=0.48 ids/s ETA=564 min
+2026-09-14 19:59:34 [INFO] [   925 ids] escritos=874   vacios=167   vel=0.48 ids/s ETA=561 min
+2026-09-14 20:00:21 [INFO] [   950 ids] escritos=897   vacios=169   vel=0.48 ids/s ETA=559 min
+2026-09-14 20:01:32 [INFO] [   975 ids] escritos=919   vacios=172   vel=0.47 ids/s ETA=563 min
+2026-09-14 20:02:33 [INFO] [  1000 ids] escritos=944   vacios=172   vel=0.47 ids/s ETA=565 min
+2026-09-14 20:03:50 [INFO] [  1025 ids] escritos=968   vacios=173   vel=0.47 ids/s ETA=570 min
+2026-09-14 20:05:10 [INFO] [  1050 ids] escritos=993   vacios=173   vel=0.46 ids/s ETA=576 min
+2026-09-14 20:06:07 [INFO] [  1075 ids] escritos=1016  vacios=175   vel=0.46 ids/s ETA=576 min
+2026-09-14 20:06:59 [INFO] [  1100 ids] escritos=1041  vacios=175   vel=0.46 ids/s ETA=574 min
+2026-09-14 20:07:45 [INFO] [  1125 ids] escritos=1064  vacios=177   vel=0.46 ids/s ETA=571 min
+2026-09-14 20:08:30 [INFO] [  1150 ids] escritos=1089  vacios=177   vel=0.46 ids/s ETA=568 min
+2026-09-14 20:09:23 [INFO] [  1175 ids] escritos=1113  vacios=178   vel=0.46 ids/s ETA=567 min
+2026-09-14 20:10:09 [INFO] [  1200 ids] escritos=1138  vacios=178   vel=0.47 ids/s ETA=565 min
+2026-09-14 20:10:59 [INFO] [  1225 ids] escritos=1162  vacios=179   vel=0.47 ids/s ETA=563 min
+2026-09-14 20:12:06 [INFO] [  1250 ids] escritos=1185  vacios=181   vel=0.46 ids/s ETA=565 min
+2026-09-14 20:13:17 [INFO] [  1275 ids] escritos=1210  vacios=181   vel=0.46 ids/s ETA=568 min
+2026-09-14 20:14:31 [INFO] [  1300 ids] escritos=1234  vacios=182   vel=0.46 ids/s ETA=571 min
+2026-09-14 20:15:20 [INFO] [  1325 ids] escritos=1257  vacios=184   vel=0.46 ids/s ETA=569 min
+2026-09-14 20:16:13 [INFO] [  1350 ids] escritos=1282  vacios=184   vel=0.46 ids/s ETA=567 min
+2026-09-14 20:17:09 [INFO] [  1375 ids] escritos=1307  vacios=184   vel=0.46 ids/s ETA=567 min
+2026-09-14 20:18:12 [INFO] [  1400 ids] escritos=1332  vacios=184   vel=0.46 ids/s ETA=568 min
+2026-09-14 20:20:18 [INFO] [  1425 ids] escritos=1357  vacios=184   vel=0.45 ids/s ETA=580 min
+2026-09-14 20:22:17 [INFO] [  1450 ids] escritos=1380  vacios=186   vel=0.44 ids/s ETA=590 min
+2026-09-14 20:24:06 [INFO] [  1475 ids] escritos=1404  vacios=187   vel=0.43 ids/s ETA=598 min
+2026-09-14 20:25:32 [INFO] [  1500 ids] escritos=1428  vacios=188   vel=0.43 ids/s ETA=602 min
+2026-09-14 20:26:51 [INFO] [  1525 ids] escritos=1452  vacios=189   vel=0.43 ids/s ETA=605 min
+2026-09-14 20:28:25 [INFO] [  1550 ids] escritos=1475  vacios=191   vel=0.42 ids/s ETA=610 min
+2026-09-14 20:29:27 [INFO] [  1575 ids] escritos=1495  vacios=196   vel=0.42 ids/s ETA=609 min
+2026-09-14 20:30:16 [INFO] [  1600 ids] escritos=1517  vacios=199   vel=0.42 ids/s ETA=606 min
+2026-09-14 20:31:11 [INFO] [  1625 ids] escritos=1541  vacios=200   vel=0.42 ids/s ETA=605 min
+2026-09-14 20:32:11 [INFO] [  1650 ids] escritos=1563  vacios=203   vel=0.42 ids/s ETA=604 min
+2026-09-14 20:33:10 [INFO] [  1675 ids] escritos=1588  vacios=203   vel=0.42 ids/s ETA=603 min
+2026-09-14 20:34:17 [INFO] [  1700 ids] escritos=1611  vacios=205   vel=0.42 ids/s ETA=603 min
+2026-09-14 20:35:04 [INFO] [  1725 ids] escritos=1632  vacios=209   vel=0.42 ids/s ETA=600 min
+2026-09-14 20:35:51 [INFO] [  1750 ids] escritos=1656  vacios=210   vel=0.43 ids/s ETA=598 min
+2026-09-14 20:36:47 [INFO] [  1775 ids] escritos=1678  vacios=213   vel=0.43 ids/s ETA=596 min
+2026-09-14 20:37:46 [INFO] [  1800 ids] escritos=1701  vacios=215   vel=0.43 ids/s ETA=595 min
+2026-09-14 20:38:32 [INFO] [  1825 ids] escritos=1723  vacios=218   vel=0.43 ids/s ETA=593 min
+2026-09-14 20:39:16 [INFO] [  1850 ids] escritos=1748  vacios=218   vel=0.43 ids/s ETA=590 min
+2026-09-14 20:40:05 [INFO] [  1875 ids] escritos=1771  vacios=220   vel=0.43 ids/s ETA=587 min
+2026-09-14 20:40:48 [INFO] [  1900 ids] escritos=1793  vacios=223   vel=0.43 ids/s ETA=585 min
+2026-09-14 20:41:32 [INFO] [  1925 ids] escritos=1817  vacios=224   vel=0.43 ids/s ETA=582 min
+2026-09-14 20:42:18 [INFO] [  1950 ids] escritos=1841  vacios=225   vel=0.43 ids/s ETA=579 min
+2026-09-14 20:43:01 [INFO] [  1975 ids] escritos=1866  vacios=225   vel=0.43 ids/s ETA=576 min
+2026-09-14 20:43:49 [INFO] [  2000 ids] escritos=1890  vacios=226   vel=0.44 ids/s ETA=574 min
+2026-09-14 20:44:34 [INFO] [  2025 ids] escritos=1914  vacios=227   vel=0.44 ids/s ETA=572 min
+2026-09-14 20:45:19 [INFO] [  2050 ids] escritos=1938  vacios=228   vel=0.44 ids/s ETA=569 min
+2026-09-14 20:46:04 [INFO] [  2075 ids] escritos=1963  vacios=228   vel=0.44 ids/s ETA=567 min
+2026-09-14 20:46:51 [INFO] [  2100 ids] escritos=1988  vacios=228   vel=0.44 ids/s ETA=565 min
+2026-09-14 20:47:44 [INFO] [  2125 ids] escritos=2013  vacios=228   vel=0.44 ids/s ETA=563 min
+2026-09-14 20:48:33 [INFO] [  2150 ids] escritos=2037  vacios=229   vel=0.44 ids/s ETA=561 min
+2026-09-14 20:49:21 [INFO] [  2175 ids] escritos=2061  vacios=230   vel=0.44 ids/s ETA=560 min
+2026-09-14 20:50:09 [INFO] [  2200 ids] escritos=2086  vacios=230   vel=0.44 ids/s ETA=558 min
+2026-09-14 20:51:00 [INFO] [  2225 ids] escritos=2110  vacios=231   vel=0.44 ids/s ETA=556 min
+2026-09-14 20:51:50 [INFO] [  2250 ids] escritos=2135  vacios=231   vel=0.44 ids/s ETA=554 min
+2026-09-14 20:52:41 [INFO] [  2275 ids] escritos=2160  vacios=231   vel=0.44 ids/s ETA=553 min
+2026-09-14 20:53:30 [INFO] [  2300 ids] escritos=2184  vacios=232   vel=0.44 ids/s ETA=551 min
+2026-09-14 20:54:17 [INFO] [  2325 ids] escritos=2209  vacios=232   vel=0.45 ids/s ETA=549 min
+2026-09-14 20:55:05 [INFO] [  2350 ids] escritos=2233  vacios=233   vel=0.45 ids/s ETA=548 min
+2026-09-14 20:55:50 [INFO] [  2375 ids] escritos=2255  vacios=236   vel=0.45 ids/s ETA=545 min
+2026-09-14 20:56:36 [INFO] [  2400 ids] escritos=2279  vacios=237   vel=0.45 ids/s ETA=543 min
+2026-09-14 20:57:21 [INFO] [  2425 ids] escritos=2303  vacios=238   vel=0.45 ids/s ETA=541 min
+2026-09-14 20:58:06 [INFO] [  2450 ids] escritos=2328  vacios=238   vel=0.45 ids/s ETA=539 min
+2026-09-14 20:58:50 [INFO] [  2475 ids] escritos=2353  vacios=238   vel=0.45 ids/s ETA=537 min
+2026-09-14 20:59:39 [INFO] [  2500 ids] escritos=2374  vacios=242   vel=0.45 ids/s ETA=536 min
+2026-09-14 21:00:31 [INFO] [  2525 ids] escritos=2398  vacios=243   vel=0.45 ids/s ETA=535 min
+2026-09-14 21:01:15 [INFO] [  2550 ids] escritos=2422  vacios=244   vel=0.45 ids/s ETA=533 min
+2026-09-14 21:02:01 [INFO] [  2575 ids] escritos=2446  vacios=245   vel=0.45 ids/s ETA=531 min
+2026-09-14 21:02:50 [INFO] [  2600 ids] escritos=2470  vacios=246   vel=0.45 ids/s ETA=529 min
+2026-09-14 21:03:37 [INFO] [  2625 ids] escritos=2495  vacios=246   vel=0.45 ids/s ETA=528 min
+2026-09-14 21:04:24 [INFO] [  2650 ids] escritos=2520  vacios=246   vel=0.45 ids/s ETA=526 min
+2026-09-14 21:05:09 [INFO] [  2675 ids] escritos=2543  vacios=248   vel=0.46 ids/s ETA=524 min
+2026-09-14 21:05:55 [INFO] [  2700 ids] escritos=2566  vacios=250   vel=0.46 ids/s ETA=522 min
+2026-09-14 21:06:41 [INFO] [  2725 ids] escritos=2588  vacios=253   vel=0.46 ids/s ETA=521 min
+2026-09-14 21:07:27 [INFO] [  2750 ids] escritos=2612  vacios=254   vel=0.46 ids/s ETA=519 min
+2026-09-14 21:08:13 [INFO] [  2775 ids] escritos=2636  vacios=255   vel=0.46 ids/s ETA=518 min
+2026-09-14 21:09:01 [INFO] [  2800 ids] escritos=2661  vacios=255   vel=0.46 ids/s ETA=516 min
+2026-09-14 21:09:51 [INFO] [  2825 ids] escritos=2685  vacios=256   vel=0.46 ids/s ETA=515 min
+2026-09-14 21:10:36 [INFO] [  2850 ids] escritos=2708  vacios=258   vel=0.46 ids/s ETA=513 min
+2026-09-14 21:11:21 [INFO] [  2875 ids] escritos=2733  vacios=258   vel=0.46 ids/s ETA=511 min
+2026-09-14 21:12:04 [INFO] [  2900 ids] escritos=2756  vacios=260   vel=0.46 ids/s ETA=510 min
+2026-09-14 21:12:46 [INFO] [  2925 ids] escritos=2779  vacios=262   vel=0.46 ids/s ETA=508 min
+2026-09-14 21:13:34 [INFO] [  2950 ids] escritos=2802  vacios=264   vel=0.46 ids/s ETA=506 min
+2026-09-14 21:14:17 [INFO] [  2975 ids] escritos=2827  vacios=264   vel=0.46 ids/s ETA=505 min
+2026-09-14 21:15:00 [INFO] [  3000 ids] escritos=2850  vacios=266   vel=0.46 ids/s ETA=503 min
+2026-09-14 21:15:44 [INFO] [  3025 ids] escritos=2875  vacios=266   vel=0.46 ids/s ETA=501 min
+2026-09-14 21:16:27 [INFO] [  3050 ids] escritos=2900  vacios=266   vel=0.47 ids/s ETA=499 min
+2026-09-14 21:17:11 [INFO] [  3075 ids] escritos=2925  vacios=266   vel=0.47 ids/s ETA=498 min
+2026-09-14 21:17:56 [INFO] [  3100 ids] escritos=2950  vacios=266   vel=0.47 ids/s ETA=496 min
+2026-09-14 21:18:39 [INFO] [  3125 ids] escritos=2974  vacios=267   vel=0.47 ids/s ETA=495 min
+2026-09-14 21:19:25 [INFO] [  3150 ids] escritos=2998  vacios=268   vel=0.47 ids/s ETA=493 min
+2026-09-14 21:20:10 [INFO] [  3175 ids] escritos=3020  vacios=271   vel=0.47 ids/s ETA=492 min
+2026-09-14 21:20:55 [INFO] [  3200 ids] escritos=3045  vacios=271   vel=0.47 ids/s ETA=490 min
+2026-09-14 21:21:44 [INFO] [  3225 ids] escritos=3070  vacios=271   vel=0.47 ids/s ETA=489 min
+2026-09-14 21:24:06 [INFO] [  3250 ids] escritos=3093  vacios=273   vel=0.46 ids/s ETA=494 min
+2026-09-14 21:24:52 [INFO] [  3275 ids] escritos=3118  vacios=273   vel=0.46 ids/s ETA=493 min
+2026-09-14 21:25:39 [INFO] [  3300 ids] escritos=3142  vacios=274   vel=0.46 ids/s ETA=492 min
+2026-09-14 21:26:28 [INFO] [  3325 ids] escritos=3166  vacios=275   vel=0.46 ids/s ETA=490 min
+2026-09-14 21:27:13 [INFO] [  3350 ids] escritos=3189  vacios=277   vel=0.47 ids/s ETA=489 min
+2026-09-14 21:28:01 [INFO] [  3375 ids] escritos=3214  vacios=277   vel=0.47 ids/s ETA=487 min
+2026-09-14 21:28:56 [INFO] [  3400 ids] escritos=3239  vacios=277   vel=0.47 ids/s ETA=487 min
+2026-09-14 21:29:42 [INFO] [  3425 ids] escritos=3261  vacios=280   vel=0.47 ids/s ETA=485 min
+2026-09-14 21:30:27 [INFO] [  3450 ids] escritos=3285  vacios=281   vel=0.47 ids/s ETA=484 min
+2026-09-14 21:31:12 [INFO] [  3475 ids] escritos=3309  vacios=282   vel=0.47 ids/s ETA=482 min
+2026-09-14 21:32:02 [INFO] [  3500 ids] escritos=3332  vacios=284   vel=0.47 ids/s ETA=481 min
+2026-09-14 21:32:46 [INFO] [  3525 ids] escritos=3357  vacios=284   vel=0.47 ids/s ETA=480 min
+2026-09-14 21:33:36 [INFO] [  3550 ids] escritos=3382  vacios=284   vel=0.47 ids/s ETA=479 min
+2026-09-14 21:34:22 [INFO] [  3575 ids] escritos=3406  vacios=285   vel=0.47 ids/s ETA=477 min
+2026-09-14 21:35:08 [INFO] [  3600 ids] escritos=3430  vacios=286   vel=0.47 ids/s ETA=476 min
+2026-09-14 21:35:52 [INFO] [  3625 ids] escritos=3455  vacios=286   vel=0.47 ids/s ETA=475 min
+2026-09-14 21:36:37 [INFO] [  3650 ids] escritos=3478  vacios=288   vel=0.47 ids/s ETA=473 min
+2026-09-14 21:37:24 [INFO] [  3675 ids] escritos=3501  vacios=290   vel=0.47 ids/s ETA=472 min
+2026-09-14 21:38:10 [INFO] [  3700 ids] escritos=3524  vacios=292   vel=0.47 ids/s ETA=471 min
+2026-09-14 21:38:55 [INFO] [  3725 ids] escritos=3548  vacios=293   vel=0.47 ids/s ETA=469 min
+2026-09-14 21:39:41 [INFO] [  3750 ids] escritos=3573  vacios=293   vel=0.47 ids/s ETA=468 min
+2026-09-14 21:40:27 [INFO] [  3775 ids] escritos=3597  vacios=294   vel=0.47 ids/s ETA=467 min
+2026-09-14 21:41:14 [INFO] [  3800 ids] escritos=3619  vacios=297   vel=0.47 ids/s ETA=465 min
+2026-09-14 21:42:02 [INFO] [  3825 ids] escritos=3642  vacios=299   vel=0.47 ids/s ETA=464 min
+2026-09-14 21:42:46 [INFO] [  3850 ids] escritos=3664  vacios=302   vel=0.47 ids/s ETA=463 min
+2026-09-14 21:43:39 [INFO] [  3875 ids] escritos=3688  vacios=303   vel=0.47 ids/s ETA=462 min
+2026-09-14 21:44:28 [INFO] [  3900 ids] escritos=3712  vacios=304   vel=0.47 ids/s ETA=461 min
+2026-09-14 21:45:14 [INFO] [  3925 ids] escritos=3734  vacios=307   vel=0.47 ids/s ETA=460 min
+2026-09-14 21:46:09 [INFO] [  3950 ids] escritos=3758  vacios=308   vel=0.47 ids/s ETA=459 min
+2026-09-14 21:46:55 [INFO] [  3975 ids] escritos=3783  vacios=308   vel=0.47 ids/s ETA=458 min
+2026-09-14 21:47:43 [INFO] [  4000 ids] escritos=3807  vacios=309   vel=0.47 ids/s ETA=456 min
+2026-09-14 21:48:35 [INFO] [  4025 ids] escritos=3831  vacios=310   vel=0.47 ids/s ETA=456 min
+2026-09-14 21:49:30 [INFO] [  4050 ids] escritos=3854  vacios=312   vel=0.47 ids/s ETA=455 min
+2026-09-14 21:50:18 [INFO] [  4075 ids] escritos=3878  vacios=313   vel=0.47 ids/s ETA=454 min
+2026-09-14 21:51:01 [INFO] [  4100 ids] escritos=3903  vacios=313   vel=0.48 ids/s ETA=452 min
+2026-09-14 21:51:45 [INFO] [  4125 ids] escritos=3928  vacios=313   vel=0.48 ids/s ETA=451 min
+2026-09-14 21:52:31 [INFO] [  4150 ids] escritos=3953  vacios=313   vel=0.48 ids/s ETA=450 min
+2026-09-14 21:53:16 [INFO] [  4175 ids] escritos=3977  vacios=314   vel=0.48 ids/s ETA=449 min
+2026-09-14 21:54:03 [INFO] [  4200 ids] escritos=4002  vacios=314   vel=0.48 ids/s ETA=447 min
+2026-09-14 21:54:46 [INFO] [  4225 ids] escritos=4027  vacios=314   vel=0.48 ids/s ETA=446 min
+2026-09-14 21:55:29 [INFO] [  4250 ids] escritos=4050  vacios=316   vel=0.48 ids/s ETA=445 min
+2026-09-14 21:56:13 [INFO] [  4275 ids] escritos=4074  vacios=317   vel=0.48 ids/s ETA=443 min
+2026-09-14 21:56:57 [INFO] [  4300 ids] escritos=4097  vacios=319   vel=0.48 ids/s ETA=442 min
+2026-09-14 21:57:40 [INFO] [  4325 ids] escritos=4122  vacios=319   vel=0.48 ids/s ETA=441 min
+2026-09-14 21:58:24 [INFO] [  4350 ids] escritos=4147  vacios=319   vel=0.48 ids/s ETA=440 min
+2026-09-14 21:59:09 [INFO] [  4375 ids] escritos=4172  vacios=319   vel=0.48 ids/s ETA=438 min
+2026-09-14 21:59:53 [INFO] [  4400 ids] escritos=4195  vacios=321   vel=0.48 ids/s ETA=437 min
+2026-09-14 22:00:37 [INFO] [  4425 ids] escritos=4216  vacios=325   vel=0.48 ids/s ETA=436 min
+2026-09-14 22:01:20 [INFO] [  4450 ids] escritos=4235  vacios=331   vel=0.48 ids/s ETA=435 min
+2026-09-14 22:02:08 [INFO] [  4475 ids] escritos=4257  vacios=334   vel=0.48 ids/s ETA=433 min
+2026-09-14 22:02:58 [INFO] [  4500 ids] escritos=4276  vacios=340   vel=0.48 ids/s ETA=433 min
+2026-09-14 22:03:52 [INFO] [  4525 ids] escritos=4300  vacios=341   vel=0.48 ids/s ETA=432 min
+2026-09-14 22:04:41 [INFO] [  4550 ids] escritos=4324  vacios=342   vel=0.48 ids/s ETA=431 min
+2026-09-14 22:06:52 [INFO] [  4575 ids] escritos=4347  vacios=344   vel=0.48 ids/s ETA=433 min
+2026-09-14 22:08:14 [INFO] [  4600 ids] escritos=4369  vacios=347   vel=0.48 ids/s ETA=434 min
+2026-09-14 22:09:25 [INFO] [  4625 ids] escritos=4393  vacios=348   vel=0.48 ids/s ETA=434 min
+2026-09-14 22:11:08 [INFO] [  4650 ids] escritos=4417  vacios=349   vel=0.47 ids/s ETA=435 min
+2026-09-14 22:13:18 [INFO] [  4675 ids] escritos=4442  vacios=349   vel=0.47 ids/s ETA=438 min
+2026-09-14 22:15:12 [INFO] [  4700 ids] escritos=4464  vacios=352   vel=0.47 ids/s ETA=440 min
+2026-09-14 22:17:03 [INFO] [  4725 ids] escritos=4489  vacios=352   vel=0.46 ids/s ETA=441 min
+2026-09-14 22:18:30 [INFO] [  4750 ids] escritos=4512  vacios=354   vel=0.46 ids/s ETA=442 min
+2026-09-14 22:20:17 [INFO] [  4775 ids] escritos=4534  vacios=357   vel=0.46 ids/s ETA=443 min
+2026-09-14 22:22:14 [INFO] [  4800 ids] escritos=4558  vacios=358   vel=0.46 ids/s ETA=445 min
+2026-09-14 22:24:01 [INFO] [  4825 ids] escritos=4580  vacios=361   vel=0.45 ids/s ETA=446 min
+2026-09-14 22:25:46 [INFO] [  4850 ids] escritos=4605  vacios=361   vel=0.45 ids/s ETA=447 min
+2026-09-14 22:28:29 [INFO] [  4875 ids] escritos=4624  vacios=367   vel=0.45 ids/s ETA=451 min
+2026-09-14 22:30:22 [INFO] [  4900 ids] escritos=4648  vacios=368   vel=0.45 ids/s ETA=452 min
+2026-09-14 22:32:04 [INFO] [  4925 ids] escritos=4670  vacios=371   vel=0.44 ids/s ETA=453 min
+2026-09-14 22:34:58 [INFO] [  4950 ids] escritos=4691  vacios=375   vel=0.44 ids/s ETA=457 min
+2026-09-14 22:36:46 [INFO] [  4975 ids] escritos=4713  vacios=378   vel=0.44 ids/s ETA=458 min
+2026-09-14 22:38:08 [INFO] [  5000 ids] escritos=4738  vacios=378   vel=0.44 ids/s ETA=458 min
+2026-09-14 22:39:41 [INFO] [  5025 ids] escritos=4762  vacios=379   vel=0.44 ids/s ETA=459 min
+2026-09-14 22:41:16 [INFO] [  5050 ids] escritos=4787  vacios=379   vel=0.43 ids/s ETA=459 min
+2026-09-14 22:43:15 [INFO] [  5075 ids] escritos=4812  vacios=379   vel=0.43 ids/s ETA=461 min
+2026-09-14 22:45:28 [INFO] [  5100 ids] escritos=4836  vacios=380   vel=0.43 ids/s ETA=462 min
+2026-09-14 22:47:03 [INFO] [  5125 ids] escritos=4857  vacios=384   vel=0.43 ids/s ETA=463 min
+2026-09-14 22:48:43 [INFO] [  5150 ids] escritos=4881  vacios=385   vel=0.43 ids/s ETA=464 min
+2026-09-14 22:50:43 [INFO] [  5175 ids] escritos=4903  vacios=388   vel=0.42 ids/s ETA=465 min
+2026-09-14 22:52:10 [INFO] [  5200 ids] escritos=4927  vacios=389   vel=0.42 ids/s ETA=465 min
+2026-09-14 22:53:25 [INFO] [  5225 ids] escritos=4949  vacios=392   vel=0.42 ids/s ETA=465 min
+2026-09-14 22:54:51 [INFO] [  5250 ids] escritos=4972  vacios=394   vel=0.42 ids/s ETA=465 min
+2026-09-14 22:56:30 [INFO] [  5275 ids] escritos=4996  vacios=395   vel=0.42 ids/s ETA=465 min
+2026-09-14 22:58:36 [INFO] [  5300 ids] escritos=5015  vacios=401   vel=0.42 ids/s ETA=467 min
+2026-09-14 22:59:51 [INFO] [  5325 ids] escritos=5038  vacios=403   vel=0.42 ids/s ETA=466 min
+2026-09-14 23:01:42 [INFO] [  5350 ids] escritos=5062  vacios=404   vel=0.42 ids/s ETA=467 min
+2026-09-14 23:03:09 [INFO] [  5375 ids] escritos=5085  vacios=406   vel=0.41 ids/s ETA=467 min
+2026-09-14 23:04:56 [INFO] [  5400 ids] escritos=5110  vacios=406   vel=0.41 ids/s ETA=468 min
+2026-09-14 23:06:34 [INFO] [  5425 ids] escritos=5134  vacios=407   vel=0.41 ids/s ETA=468 min
+2026-09-14 23:07:59 [INFO] [  5450 ids] escritos=5154  vacios=412   vel=0.41 ids/s ETA=468 min
+2026-09-14 23:09:12 [INFO] [  5475 ids] escritos=5179  vacios=412   vel=0.41 ids/s ETA=467 min
+2026-09-14 23:10:38 [INFO] [  5500 ids] escritos=5202  vacios=414   vel=0.41 ids/s ETA=467 min
+2026-09-14 23:12:24 [INFO] [  5525 ids] escritos=5226  vacios=415   vel=0.41 ids/s ETA=468 min
+2026-09-14 23:13:59 [INFO] [  5550 ids] escritos=5248  vacios=418   vel=0.41 ids/s ETA=468 min
+2026-09-14 23:15:46 [INFO] [  5575 ids] escritos=5270  vacios=421   vel=0.41 ids/s ETA=468 min
+2026-09-14 23:17:30 [INFO] [  5600 ids] escritos=5294  vacios=422   vel=0.41 ids/s ETA=469 min
+2026-09-14 23:19:04 [INFO] [  5625 ids] escritos=5318  vacios=423   vel=0.40 ids/s ETA=469 min
+2026-09-14 23:21:07 [INFO] [  5650 ids] escritos=5342  vacios=424   vel=0.40 ids/s ETA=470 min
+2026-09-14 23:22:41 [INFO] [  5675 ids] escritos=5367  vacios=424   vel=0.40 ids/s ETA=470 min
+2026-09-14 23:24:08 [INFO] [  5700 ids] escritos=5391  vacios=425   vel=0.40 ids/s ETA=470 min
+2026-09-14 23:25:36 [INFO] [  5725 ids] escritos=5413  vacios=428   vel=0.40 ids/s ETA=469 min
+2026-09-14 23:26:58 [INFO] [  5750 ids] escritos=5436  vacios=430   vel=0.40 ids/s ETA=469 min
+2026-09-14 23:28:21 [INFO] [  5775 ids] escritos=5461  vacios=430   vel=0.40 ids/s ETA=469 min
+2026-09-14 23:29:49 [INFO] [  5800 ids] escritos=5484  vacios=432   vel=0.40 ids/s ETA=468 min
+2026-09-14 23:31:11 [INFO] [  5825 ids] escritos=5509  vacios=432   vel=0.40 ids/s ETA=468 min
+2026-09-14 23:32:53 [INFO] [  5850 ids] escritos=5533  vacios=433   vel=0.40 ids/s ETA=468 min
+2026-09-14 23:34:16 [INFO] [  5875 ids] escritos=5557  vacios=434   vel=0.40 ids/s ETA=468 min
+2026-09-14 23:35:35 [INFO] [  5900 ids] escritos=5582  vacios=434   vel=0.40 ids/s ETA=467 min
+2026-09-14 23:36:53 [INFO] [  5925 ids] escritos=5605  vacios=436   vel=0.40 ids/s ETA=467 min
+2026-09-14 23:38:09 [INFO] [  5950 ids] escritos=5630  vacios=436   vel=0.40 ids/s ETA=466 min
+2026-09-14 23:39:31 [INFO] [  5975 ids] escritos=5653  vacios=438   vel=0.39 ids/s ETA=465 min
+2026-09-14 23:40:48 [INFO] [  6000 ids] escritos=5676  vacios=440   vel=0.39 ids/s ETA=465 min
+2026-09-14 23:42:17 [INFO] [  6025 ids] escritos=5701  vacios=440   vel=0.39 ids/s ETA=465 min
+2026-09-14 23:43:51 [INFO] [  6050 ids] escritos=5726  vacios=440   vel=0.39 ids/s ETA=464 min
+2026-09-14 23:45:13 [INFO] [  6075 ids] escritos=5749  vacios=442   vel=0.39 ids/s ETA=464 min
+2026-09-14 23:46:21 [INFO] [  6100 ids] escritos=5771  vacios=445   vel=0.39 ids/s ETA=463 min
+2026-09-14 23:47:40 [INFO] [  6125 ids] escritos=5795  vacios=446   vel=0.39 ids/s ETA=462 min
+2026-09-14 23:48:56 [INFO] [  6150 ids] escritos=5820  vacios=446   vel=0.39 ids/s ETA=462 min
+2026-09-14 23:50:09 [INFO] [  6175 ids] escritos=5844  vacios=447   vel=0.39 ids/s ETA=461 min
+2026-09-14 23:51:24 [INFO] [  6200 ids] escritos=5869  vacios=447   vel=0.39 ids/s ETA=460 min
+2026-09-14 23:52:29 [INFO] [  6225 ids] escritos=5893  vacios=448   vel=0.39 ids/s ETA=459 min
+2026-09-14 23:53:51 [INFO] [  6250 ids] escritos=5916  vacios=450   vel=0.39 ids/s ETA=459 min
+2026-09-14 23:55:02 [INFO] [  6275 ids] escritos=5939  vacios=452   vel=0.39 ids/s ETA=458 min
+2026-09-14 23:56:14 [INFO] [  6300 ids] escritos=5963  vacios=453   vel=0.39 ids/s ETA=457 min
+2026-09-14 23:57:41 [INFO] [  6325 ids] escritos=5988  vacios=453   vel=0.39 ids/s ETA=456 min
+2026-09-14 23:58:46 [INFO] [  6350 ids] escritos=6010  vacios=456   vel=0.39 ids/s ETA=455 min
+2026-09-14 23:59:50 [INFO] [  6375 ids] escritos=6032  vacios=459   vel=0.39 ids/s ETA=454 min
+2026-09-15 00:00:58 [INFO] [  6400 ids] escritos=6057  vacios=459   vel=0.39 ids/s ETA=453 min
+2026-09-15 00:02:03 [INFO] [  6425 ids] escritos=6081  vacios=460   vel=0.39 ids/s ETA=452 min
+2026-09-15 00:03:08 [INFO] [  6450 ids] escritos=6105  vacios=461   vel=0.39 ids/s ETA=451 min
+2026-09-15 00:04:14 [INFO] [  6475 ids] escritos=6128  vacios=463   vel=0.39 ids/s ETA=450 min
+2026-09-15 00:05:19 [INFO] [  6500 ids] escritos=6152  vacios=464   vel=0.39 ids/s ETA=449 min
+2026-09-15 00:06:36 [INFO] [  6525 ids] escritos=6175  vacios=466   vel=0.39 ids/s ETA=448 min
+2026-09-15 07:07:03 [INFO] [  6550 ids] escritos=6189  vacios=477   vel=0.16 ids/s ETA=1116 min
+2026-09-15 07:07:16 [INFO] [  6575 ids] escritos=6189  vacios=502   vel=0.16 ids/s ETA=1110 min
+2026-09-15 07:07:28 [INFO] [  6600 ids] escritos=6189  vacios=527   vel=0.16 ids/s ETA=1103 min
+2026-09-15 07:07:46 [INFO] [  6625 ids] escritos=6193  vacios=548   vel=0.16 ids/s ETA=1097 min
+2026-09-15 07:08:35 [INFO] [  6650 ids] escritos=6218  vacios=548   vel=0.16 ids/s ETA=1092 min
+2026-09-15 07:08:53 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-15 07:08:56 [INFO] 
+2026-09-15 07:08:56 [INFO] ============================================================
+2026-09-15 07:08:56 [INFO]   RESUMEN
+2026-09-15 07:08:56 [INFO] ============================================================
+2026-09-15 07:08:56 [INFO]   Mensajes escritos:    6227
+2026-09-15 07:08:56 [INFO]   Mensajes totales:     8219
+2026-09-15 07:08:56 [INFO]   IDs vacíos:           549
+2026-09-15 07:08:56 [INFO]   Errores:              0
+2026-09-15 07:08:56 [INFO]   Duración:             701.7 min
+2026-09-15 07:08:56 [INFO]   Último guardado:      72500
+2026-09-15 07:08:56 [INFO]   Próximo reanudar en:  72499
+2026-09-15 07:08:56 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-15 07:08:56 [INFO] ============================================================
+2026-09-15 07:08:56 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-15 07:21:19 [INFO] 📌 Reanudando desde checkpoint: ID 72499
+2026-09-15 07:21:19 [INFO]    Nuevo hasta: 55499 (recalculado)
+2026-09-15 07:21:19 [INFO] ============================================================
+2026-09-15 07:21:19 [INFO]   SCRAPE → JSONL
+2026-09-15 07:21:19 [INFO] ============================================================
+2026-09-15 07:21:19 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-15 07:21:19 [INFO]   Desde:            72499 (exclusivo)
+2026-09-15 07:21:19 [INFO]   Hasta:            55499 (inclusivo)
+2026-09-15 07:21:19 [INFO]   IDs a recorrer:   17000
+2026-09-15 07:21:19 [INFO]   Pausa:            0.5s
+2026-09-15 07:21:19 [INFO]   Output:           scrap_historico.jsonl
+2026-09-15 07:21:19 [INFO] ============================================================
+2026-09-15 07:22:32 [INFO] [    25 ids] escritos=24    vacios=550   vel=0.35 ids/s ETA=816 min
+2026-09-15 07:23:31 [INFO] [    50 ids] escritos=45    vacios=554   vel=0.38 ids/s ETA=742 min
+2026-09-15 07:24:36 [INFO] [    75 ids] escritos=67    vacios=557   vel=0.38 ids/s ETA=739 min
+2026-09-15 07:24:39 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-15 07:24:42 [INFO] 
+2026-09-15 07:24:42 [INFO] ============================================================
+2026-09-15 07:24:42 [INFO]   RESUMEN
+2026-09-15 07:24:42 [INFO] ============================================================
+2026-09-15 07:24:42 [INFO]   Mensajes escritos:    69
+2026-09-15 07:24:42 [INFO]   Mensajes totales:     8288
+2026-09-15 07:24:42 [INFO]   IDs vacíos:           557
+2026-09-15 07:24:42 [INFO]   Errores:              0
+2026-09-15 07:24:42 [INFO]   Duración:             3.4 min
+2026-09-15 07:24:42 [INFO]   Último guardado:      72422
+2026-09-15 07:24:42 [INFO]   Próximo reanudar en:  72421
+2026-09-15 07:24:42 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-15 07:24:42 [INFO] ============================================================
+2026-09-15 07:24:42 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-15 07:25:09 [INFO] 📌 Reanudando desde checkpoint: ID 72421
+2026-09-15 07:25:09 [INFO]    Nuevo hasta: 69421 (recalculado)
+2026-09-15 07:25:09 [INFO] ============================================================
+2026-09-15 07:25:09 [INFO]   SCRAPE → JSONL
+2026-09-15 07:25:09 [INFO] ============================================================
+2026-09-15 07:25:09 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-15 07:25:09 [INFO]   Desde:            72421 (exclusivo)
+2026-09-15 07:25:09 [INFO]   Hasta:            69421 (inclusivo)
+2026-09-15 07:25:09 [INFO]   IDs a recorrer:   3000
+2026-09-15 07:25:09 [INFO]   Pausa:            0.5s
+2026-09-15 07:25:09 [INFO]   Output:           scrap_historico.jsonl
+2026-09-15 07:25:09 [INFO] ============================================================
+2026-09-15 07:26:08 [INFO] [    25 ids] escritos=24    vacios=558   vel=0.42 ids/s ETA=117 min
+2026-09-15 07:27:13 [INFO] [    50 ids] escritos=48    vacios=559   vel=0.40 ids/s ETA=122 min
+2026-09-15 07:28:15 [INFO] [    75 ids] escritos=73    vacios=559   vel=0.40 ids/s ETA=121 min
+2026-09-15 07:29:47 [INFO] [   100 ids] escritos=97    vacios=560   vel=0.36 ids/s ETA=134 min
+2026-09-15 07:31:13 [INFO] [   125 ids] escritos=119   vacios=563   vel=0.34 ids/s ETA=139 min
+2026-09-15 07:32:12 [INFO] [   150 ids] escritos=143   vacios=564   vel=0.35 ids/s ETA=134 min
+2026-09-15 07:33:19 [INFO] [   175 ids] escritos=165   vacios=567   vel=0.36 ids/s ETA=132 min
+2026-09-15 07:34:34 [INFO] [   200 ids] escritos=188   vacios=569   vel=0.35 ids/s ETA=132 min
+2026-09-15 07:35:39 [INFO] [   225 ids] escritos=208   vacios=574   vel=0.36 ids/s ETA=129 min
+2026-09-15 07:36:41 [INFO] [   250 ids] escritos=230   vacios=577   vel=0.36 ids/s ETA=127 min
+2026-09-15 07:37:55 [INFO] [   275 ids] escritos=253   vacios=579   vel=0.36 ids/s ETA=126 min
+2026-09-15 07:39:36 [INFO] [   300 ids] escritos=275   vacios=582   vel=0.35 ids/s ETA=130 min
+2026-09-15 07:40:53 [INFO] [   325 ids] escritos=297   vacios=585   vel=0.34 ids/s ETA=129 min
+2026-09-15 07:42:01 [INFO] [   350 ids] escritos=321   vacios=586   vel=0.35 ids/s ETA=128 min
+2026-09-15 07:43:13 [INFO] [   375 ids] escritos=345   vacios=587   vel=0.35 ids/s ETA=126 min
+2026-09-15 07:45:15 [INFO] [   400 ids] escritos=369   vacios=588   vel=0.33 ids/s ETA=131 min
+2026-09-15 07:46:32 [INFO] [   425 ids] escritos=393   vacios=589   vel=0.33 ids/s ETA=130 min
+2026-09-15 07:48:36 [INFO] [   450 ids] escritos=416   vacios=591   vel=0.32 ids/s ETA=133 min
+2026-09-15 07:50:23 [INFO] [   475 ids] escritos=437   vacios=595   vel=0.31 ids/s ETA=134 min
+2026-09-15 07:51:58 [INFO] [   500 ids] escritos=456   vacios=601   vel=0.31 ids/s ETA=134 min
+2026-09-15 07:53:12 [INFO] [   525 ids] escritos=480   vacios=602   vel=0.31 ids/s ETA=132 min
+2026-09-15 07:55:10 [INFO] [   550 ids] escritos=503   vacios=604   vel=0.31 ids/s ETA=134 min
+2026-09-15 07:56:20 [INFO] [   575 ids] escritos=527   vacios=605   vel=0.31 ids/s ETA=132 min
+2026-09-15 07:57:15 [INFO] [   600 ids] escritos=549   vacios=608   vel=0.31 ids/s ETA=128 min
+2026-09-15 07:58:14 [INFO] [   625 ids] escritos=572   vacios=610   vel=0.31 ids/s ETA=126 min
+2026-09-15 07:59:17 [INFO] [   650 ids] escritos=596   vacios=611   vel=0.32 ids/s ETA=123 min
+2026-09-15 08:00:17 [INFO] [   675 ids] escritos=621   vacios=611   vel=0.32 ids/s ETA=121 min
+2026-09-15 08:01:28 [INFO] [   700 ids] escritos=644   vacios=613   vel=0.32 ids/s ETA=119 min
+2026-09-15 08:02:32 [INFO] [   725 ids] escritos=668   vacios=614   vel=0.32 ids/s ETA=117 min
+2026-09-15 08:03:39 [INFO] [   750 ids] escritos=692   vacios=615   vel=0.32 ids/s ETA=116 min
+2026-09-15 08:04:39 [INFO] [   775 ids] escritos=717   vacios=615   vel=0.33 ids/s ETA=113 min
+2026-09-15 08:05:38 [INFO] [   800 ids] escritos=741   vacios=616   vel=0.33 ids/s ETA=111 min
+2026-09-15 08:06:38 [INFO] [   825 ids] escritos=765   vacios=617   vel=0.33 ids/s ETA=109 min
+2026-09-15 08:07:50 [INFO] [   850 ids] escritos=790   vacios=617   vel=0.33 ids/s ETA=108 min
+2026-09-15 08:08:52 [INFO] [   875 ids] escritos=813   vacios=619   vel=0.33 ids/s ETA=106 min
+2026-09-15 08:09:08 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-15 08:09:08 [INFO] 
+2026-09-15 08:09:08 [INFO] ============================================================
+2026-09-15 08:09:08 [INFO]   RESUMEN
+2026-09-15 08:09:08 [INFO] ============================================================
+2026-09-15 08:09:08 [INFO]   Mensajes escritos:    820
+2026-09-15 08:09:08 [INFO]   Mensajes totales:     9108
+2026-09-15 08:09:08 [INFO]   IDs vacíos:           619
+2026-09-15 08:09:08 [INFO]   Errores:              0
+2026-09-15 08:09:08 [INFO]   Duración:             44.0 min
+2026-09-15 08:09:08 [INFO]   Último guardado:      71539
+2026-09-15 08:09:08 [INFO]   Próximo reanudar en:  71538
+2026-09-15 08:09:08 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-15 08:09:08 [INFO] ============================================================
+2026-09-15 08:09:08 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-15 17:55:31 [INFO] 📌 Reanudando desde checkpoint: ID 71538
+2026-09-15 17:55:31 [INFO]    Nuevo hasta: 68538 (recalculado)
+2026-09-15 17:55:31 [INFO] ============================================================
+2026-09-15 17:55:31 [INFO]   SCRAPE → JSONL
+2026-09-15 17:55:31 [INFO] ============================================================
+2026-09-15 17:55:31 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-15 17:55:31 [INFO]   Desde:            71538 (exclusivo)
+2026-09-15 17:55:31 [INFO]   Hasta:            68538 (inclusivo)
+2026-09-15 17:55:31 [INFO]   IDs a recorrer:   3000
+2026-09-15 17:55:31 [INFO]   Pausa:            0.5s
+2026-09-15 17:55:31 [INFO]   Output:           scrap_historico.jsonl
+2026-09-15 17:55:31 [INFO] ============================================================
+2026-09-15 17:56:52 [INFO] [    25 ids] escritos=23    vacios=621   vel=0.31 ids/s ETA=161 min
+2026-09-15 17:58:09 [INFO] [    50 ids] escritos=46    vacios=623   vel=0.32 ids/s ETA=155 min
+2026-09-15 17:59:14 [INFO] [    75 ids] escritos=70    vacios=624   vel=0.34 ids/s ETA=145 min
+2026-09-15 18:00:41 [INFO] [   100 ids] escritos=94    vacios=625   vel=0.32 ids/s ETA=150 min
+2026-09-15 18:02:05 [INFO] [   125 ids] escritos=119   vacios=625   vel=0.32 ids/s ETA=151 min
+2026-09-15 18:03:55 [INFO] [   150 ids] escritos=143   vacios=626   vel=0.30 ids/s ETA=159 min
+2026-09-15 18:05:03 [INFO] [   175 ids] escritos=164   vacios=630   vel=0.31 ids/s ETA=154 min
+2026-09-15 18:06:08 [INFO] [   200 ids] escritos=189   vacios=630   vel=0.31 ids/s ETA=149 min
+2026-09-15 18:07:10 [INFO] [   225 ids] escritos=213   vacios=631   vel=0.32 ids/s ETA=144 min
+2026-09-15 18:08:17 [INFO] [   250 ids] escritos=237   vacios=632   vel=0.33 ids/s ETA=140 min
+2026-09-15 18:09:10 [INFO] [   275 ids] escritos=260   vacios=634   vel=0.34 ids/s ETA=135 min
+2026-09-15 18:10:15 [INFO] [   300 ids] escritos=284   vacios=635   vel=0.34 ids/s ETA=133 min
+2026-09-15 18:11:03 [INFO] [   325 ids] escritos=307   vacios=637   vel=0.35 ids/s ETA=128 min
+2026-09-15 18:11:50 [INFO] [   350 ids] escritos=332   vacios=637   vel=0.36 ids/s ETA=124 min
+2026-09-15 18:12:36 [INFO] [   375 ids] escritos=356   vacios=638   vel=0.37 ids/s ETA=119 min
+2026-09-15 18:13:23 [INFO] [   400 ids] escritos=381   vacios=638   vel=0.37 ids/s ETA=116 min
+2026-09-15 18:14:07 [INFO] [   425 ids] escritos=406   vacios=638   vel=0.38 ids/s ETA=113 min
+2026-09-15 18:14:56 [INFO] [   450 ids] escritos=430   vacios=639   vel=0.39 ids/s ETA=110 min
+2026-09-15 18:15:47 [INFO] [   475 ids] escritos=454   vacios=640   vel=0.39 ids/s ETA=108 min
+2026-09-15 18:16:34 [INFO] [   500 ids] escritos=479   vacios=640   vel=0.40 ids/s ETA=105 min
+2026-09-15 18:17:20 [INFO] [   525 ids] escritos=503   vacios=641   vel=0.40 ids/s ETA=103 min
+2026-09-15 18:18:09 [INFO] [   550 ids] escritos=527   vacios=642   vel=0.41 ids/s ETA=101 min
+2026-09-15 18:18:58 [INFO] [   575 ids] escritos=552   vacios=642   vel=0.41 ids/s ETA=99 min
+2026-09-15 18:19:51 [INFO] [   600 ids] escritos=577   vacios=642   vel=0.41 ids/s ETA=97 min
+2026-09-15 18:20:40 [INFO] [   625 ids] escritos=596   vacios=648   vel=0.41 ids/s ETA=96 min
+2026-09-15 18:21:36 [INFO] [   650 ids] escritos=619   vacios=650   vel=0.42 ids/s ETA=94 min
+2026-09-15 18:22:36 [INFO] [   675 ids] escritos=643   vacios=651   vel=0.42 ids/s ETA=93 min
+2026-09-15 18:23:42 [INFO] [   700 ids] escritos=668   vacios=651   vel=0.41 ids/s ETA=93 min
+2026-09-15 18:26:16 [INFO] [   725 ids] escritos=692   vacios=652   vel=0.39 ids/s ETA=97 min
+2026-09-15 18:28:21 [INFO] [   750 ids] escritos=717   vacios=652   vel=0.38 ids/s ETA=98 min
+2026-09-15 18:29:57 [INFO] [   775 ids] escritos=741   vacios=653   vel=0.38 ids/s ETA=99 min
+2026-09-15 18:31:30 [INFO] [   800 ids] escritos=765   vacios=654   vel=0.37 ids/s ETA=99 min
+2026-09-15 18:32:55 [INFO] [   825 ids] escritos=789   vacios=655   vel=0.37 ids/s ETA=99 min
+2026-09-15 18:34:56 [INFO] [   850 ids] escritos=813   vacios=656   vel=0.36 ids/s ETA=100 min
+2026-09-15 18:36:19 [INFO] [   875 ids] escritos=836   vacios=658   vel=0.36 ids/s ETA=99 min
+2026-09-15 18:37:35 [INFO] [   900 ids] escritos=861   vacios=658   vel=0.36 ids/s ETA=98 min
+2026-09-15 18:38:20 [INFO] [   925 ids] escritos=885   vacios=659   vel=0.36 ids/s ETA=96 min
+2026-09-15 18:39:04 [INFO] [   950 ids] escritos=909   vacios=660   vel=0.36 ids/s ETA=94 min
+2026-09-15 18:39:49 [INFO] [   975 ids] escritos=934   vacios=660   vel=0.37 ids/s ETA=92 min
+2026-09-15 18:40:36 [INFO] [  1000 ids] escritos=958   vacios=661   vel=0.37 ids/s ETA=90 min
+2026-09-15 18:41:21 [INFO] [  1025 ids] escritos=982   vacios=662   vel=0.37 ids/s ETA=88 min
+2026-09-15 18:42:06 [INFO] [  1050 ids] escritos=1006  vacios=663   vel=0.38 ids/s ETA=86 min
+2026-09-15 18:43:00 [INFO] [  1075 ids] escritos=1026  vacios=668   vel=0.38 ids/s ETA=85 min
+2026-09-15 18:43:49 [INFO] [  1100 ids] escritos=1051  vacios=668   vel=0.38 ids/s ETA=83 min
+2026-09-15 18:44:39 [INFO] [  1125 ids] escritos=1075  vacios=669   vel=0.38 ids/s ETA=82 min
+2026-09-15 18:45:51 [INFO] [  1150 ids] escritos=1100  vacios=669   vel=0.38 ids/s ETA=81 min
+2026-09-15 18:46:43 [INFO] [  1175 ids] escritos=1125  vacios=669   vel=0.38 ids/s ETA=80 min
+2026-09-15 18:49:47 [INFO] [  1200 ids] escritos=1137  vacios=682   vel=0.37 ids/s ETA=81 min
+2026-09-15 18:54:45 [INFO] [  1225 ids] escritos=1148  vacios=696   vel=0.34 ids/s ETA=86 min
+2026-09-15 18:58:32 [INFO] [  1250 ids] escritos=1165  vacios=704   vel=0.33 ids/s ETA=88 min
+2026-09-15 19:02:09 [INFO] [  1275 ids] escritos=1166  vacios=728   vel=0.32 ids/s ETA=90 min
+2026-09-15 19:05:24 [INFO] [  1300 ids] escritos=1178  vacios=741   vel=0.31 ids/s ETA=91 min
+2026-09-15 19:08:16 [INFO] [  1325 ids] escritos=1198  vacios=746   vel=0.30 ids/s ETA=92 min
+2026-09-15 19:13:25 [INFO] [  1350 ids] escritos=1213  vacios=756   vel=0.29 ids/s ETA=95 min
+2026-09-15 19:14:12 [INFO] [  1375 ids] escritos=1232  vacios=762   vel=0.29 ids/s ETA=93 min
+2026-09-15 19:16:53 [INFO] [  1400 ids] escritos=1252  vacios=767   vel=0.29 ids/s ETA=93 min
+2026-09-15 19:17:54 [INFO] [  1425 ids] escritos=1275  vacios=769   vel=0.29 ids/s ETA=91 min
+2026-09-15 19:21:06 [INFO] [  1450 ids] escritos=1296  vacios=773   vel=0.28 ids/s ETA=91 min
+2026-09-15 19:23:19 [INFO] [  1475 ids] escritos=1317  vacios=777   vel=0.28 ids/s ETA=91 min
+2026-09-15 19:26:09 [INFO] [  1500 ids] escritos=1327  vacios=792   vel=0.28 ids/s ETA=91 min
+2026-09-15 19:26:36 [INFO] [  1525 ids] escritos=1327  vacios=817   vel=0.28 ids/s ETA=88 min
+2026-09-15 19:26:49 [INFO] [  1550 ids] escritos=1327  vacios=842   vel=0.28 ids/s ETA=85 min
+2026-09-15 19:27:02 [INFO] [  1575 ids] escritos=1327  vacios=867   vel=0.29 ids/s ETA=83 min
+2026-09-15 19:27:14 [INFO] [  1600 ids] escritos=1327  vacios=892   vel=0.29 ids/s ETA=80 min
+2026-09-15 19:27:27 [INFO] [  1625 ids] escritos=1327  vacios=917   vel=0.29 ids/s ETA=78 min
+2026-09-15 19:28:12 [INFO] [  1650 ids] escritos=1327  vacios=942   vel=0.30 ids/s ETA=76 min
+2026-09-15 19:28:56 [INFO] [  1675 ids] escritos=1327  vacios=967   vel=0.30 ids/s ETA=74 min
+2026-09-15 19:29:31 [INFO] [  1700 ids] escritos=1327  vacios=992   vel=0.30 ids/s ETA=72 min
+2026-09-15 19:29:44 [INFO] [  1725 ids] escritos=1327  vacios=1017  vel=0.31 ids/s ETA=70 min
+2026-09-15 19:29:56 [INFO] [  1750 ids] escritos=1327  vacios=1042  vel=0.31 ids/s ETA=67 min
+2026-09-15 19:30:09 [INFO] [  1775 ids] escritos=1327  vacios=1067  vel=0.31 ids/s ETA=65 min
+2026-09-15 19:30:46 [INFO] [  1800 ids] escritos=1327  vacios=1092  vel=0.31 ids/s ETA=63 min
+2026-09-15 19:30:58 [INFO] [  1825 ids] escritos=1327  vacios=1117  vel=0.32 ids/s ETA=61 min
+2026-09-15 19:31:30 [INFO] [  1850 ids] escritos=1327  vacios=1142  vel=0.32 ids/s ETA=60 min
+2026-09-15 19:32:05 [INFO] [  1875 ids] escritos=1327  vacios=1167  vel=0.32 ids/s ETA=58 min
+2026-09-15 19:32:33 [INFO] [  1900 ids] escritos=1327  vacios=1192  vel=0.33 ids/s ETA=56 min
+2026-09-15 19:35:45 [INFO] [  1925 ids] escritos=1334  vacios=1210  vel=0.32 ids/s ETA=56 min
+2026-09-15 19:42:35 [INFO] [  1950 ids] escritos=1336  vacios=1233  vel=0.30 ids/s ETA=58 min
+2026-09-15 19:45:22 [INFO] [  1975 ids] escritos=1352  vacios=1242  vel=0.30 ids/s ETA=57 min
+2026-09-15 19:52:32 [INFO] [  2000 ids] escritos=1357  vacios=1262  vel=0.28 ids/s ETA=59 min
+2026-09-15 19:53:42 [INFO] [  2025 ids] escritos=1380  vacios=1264  vel=0.29 ids/s ETA=57 min
+2026-09-15 19:55:16 [INFO] [  2050 ids] escritos=1401  vacios=1268  vel=0.29 ids/s ETA=55 min
+2026-09-15 19:57:14 [INFO] [  2075 ids] escritos=1413  vacios=1281  vel=0.28 ids/s ETA=54 min
+2026-09-15 20:03:12 [INFO] [  2100 ids] escritos=1415  vacios=1304  vel=0.27 ids/s ETA=55 min
+2026-09-15 20:08:07 [INFO] [  2125 ids] escritos=1429  vacios=1315  vel=0.27 ids/s ETA=55 min
+2026-09-15 20:09:16 [INFO] [  2150 ids] escritos=1453  vacios=1316  vel=0.27 ids/s ETA=53 min
+2026-09-15 20:14:29 [INFO] [  2175 ids] escritos=1468  vacios=1326  vel=0.26 ids/s ETA=53 min
+2026-09-15 20:15:26 [INFO] [  2200 ids] escritos=1492  vacios=1327  vel=0.26 ids/s ETA=51 min
+2026-09-15 20:16:26 [INFO] [  2225 ids] escritos=1517  vacios=1327  vel=0.26 ids/s ETA=49 min
+2026-09-15 20:18:17 [WARN] 
+⛔ Ctrl+C detectado, cerrando ordenadamente...
+2026-09-15 20:18:17 [INFO] 
+2026-09-15 20:18:17 [INFO] ============================================================
+2026-09-15 20:18:17 [INFO]   RESUMEN
+2026-09-15 20:18:17 [INFO] ============================================================
+2026-09-15 20:18:17 [INFO]   Mensajes escritos:    1521
+2026-09-15 20:18:17 [INFO]   Mensajes totales:     10629
+2026-09-15 20:18:17 [INFO]   IDs vacíos:           1331
+2026-09-15 20:18:17 [INFO]   Errores:              0
+2026-09-15 20:18:17 [INFO]   Duración:             142.8 min
+2026-09-15 20:18:17 [INFO]   Último guardado:      69308
+2026-09-15 20:18:17 [INFO]   Próximo reanudar en:  69304
+2026-09-15 20:18:17 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-15 20:18:17 [INFO] ============================================================
+2026-09-15 20:18:17 [INFO] Para reanudar, ejecuta el mismo comando.
+2026-09-15 20:40:26 [INFO] 📌 Reanudando desde checkpoint: ID 69304
+2026-09-15 20:40:26 [INFO]    Nuevo hasta: 68604 (recalculado)
+2026-09-15 20:40:26 [INFO] ============================================================
+2026-09-15 20:40:26 [INFO]   SCRAPE → JSONL
+2026-09-15 20:40:26 [INFO] ============================================================
+2026-09-15 20:40:26 [INFO]   Canal:            @EmpresaElectricaDeLaHabana
+2026-09-15 20:40:26 [INFO]   Desde:            69304 (exclusivo)
+2026-09-15 20:40:26 [INFO]   Hasta:            68604 (inclusivo)
+2026-09-15 20:40:26 [INFO]   IDs a recorrer:   700
+2026-09-15 20:40:26 [INFO]   Pausa:            0.5s
+2026-09-15 20:40:26 [INFO]   Output:           scrap_historico.jsonl
+2026-09-15 20:40:26 [INFO] ============================================================
+2026-09-15 20:46:43 [INFO] [    25 ids] escritos=3     vacios=1353  vel=0.07 ids/s ETA=170 min
+2026-09-15 20:47:10 [INFO] [    50 ids] escritos=3     vacios=1378  vel=0.12 ids/s ETA=88 min
+2026-09-15 20:47:58 [INFO] [    75 ids] escritos=3     vacios=1403  vel=0.17 ids/s ETA=63 min
+2026-09-15 20:48:24 [INFO] [   100 ids] escritos=3     vacios=1428  vel=0.21 ids/s ETA=48 min
+2026-09-15 20:48:50 [INFO] [   125 ids] escritos=3     vacios=1453  vel=0.25 ids/s ETA=39 min
+2026-09-15 20:49:11 [INFO] [   150 ids] escritos=3     vacios=1478  vel=0.29 ids/s ETA=32 min
+2026-09-15 20:49:43 [INFO] [   175 ids] escritos=3     vacios=1503  vel=0.31 ids/s ETA=28 min
+2026-09-15 20:50:09 [INFO] [   200 ids] escritos=3     vacios=1528  vel=0.34 ids/s ETA=24 min
+2026-09-15 20:50:23 [INFO] [   225 ids] escritos=3     vacios=1553  vel=0.38 ids/s ETA=21 min
+2026-09-15 20:51:06 [INFO] [   250 ids] escritos=23    vacios=1558  vel=0.39 ids/s ETA=19 min
+2026-09-15 20:51:50 [INFO] [   275 ids] escritos=48    vacios=1558  vel=0.40 ids/s ETA=18 min
+2026-09-15 20:52:34 [INFO] [   300 ids] escritos=71    vacios=1560  vel=0.41 ids/s ETA=16 min
+2026-09-15 20:53:16 [INFO] [   325 ids] escritos=94    vacios=1562  vel=0.42 ids/s ETA=15 min
+2026-09-15 20:53:59 [INFO] [   350 ids] escritos=114   vacios=1567  vel=0.43 ids/s ETA=14 min
+2026-09-15 20:54:40 [INFO] [   375 ids] escritos=133   vacios=1573  vel=0.44 ids/s ETA=12 min
+2026-09-15 20:55:22 [INFO] [   400 ids] escritos=152   vacios=1579  vel=0.45 ids/s ETA=11 min
+2026-09-15 20:56:14 [INFO] [   425 ids] escritos=177   vacios=1579  vel=0.45 ids/s ETA=10 min
+2026-09-15 20:56:54 [INFO] [   450 ids] escritos=202   vacios=1579  vel=0.46 ids/s ETA=9 min
+2026-09-15 20:57:35 [INFO] [   475 ids] escritos=223   vacios=1583  vel=0.46 ids/s ETA=8 min
+2026-09-15 20:58:16 [INFO] [   500 ids] escritos=247   vacios=1584  vel=0.47 ids/s ETA=7 min
+2026-09-15 20:58:56 [INFO] [   525 ids] escritos=271   vacios=1585  vel=0.47 ids/s ETA=6 min
+2026-09-15 20:59:41 [INFO] [   550 ids] escritos=293   vacios=1588  vel=0.48 ids/s ETA=5 min
+2026-09-15 21:00:26 [INFO] [   575 ids] escritos=315   vacios=1591  vel=0.48 ids/s ETA=4 min
+2026-09-15 21:01:11 [INFO] [   600 ids] escritos=339   vacios=1592  vel=0.48 ids/s ETA=3 min
+2026-09-15 21:01:56 [INFO] [   625 ids] escritos=362   vacios=1594  vel=0.48 ids/s ETA=3 min
+2026-09-15 21:02:40 [INFO] [   650 ids] escritos=386   vacios=1595  vel=0.49 ids/s ETA=2 min
+2026-09-15 21:03:24 [INFO] [   675 ids] escritos=408   vacios=1598  vel=0.49 ids/s ETA=1 min
+2026-09-15 21:04:07 [INFO] [   700 ids] escritos=430   vacios=1601  vel=0.49 ids/s ETA=0 min
+2026-09-15 21:04:08 [INFO] 
+2026-09-15 21:04:08 [INFO] ============================================================
+2026-09-15 21:04:08 [INFO]   RESUMEN
+2026-09-15 21:04:08 [INFO] ============================================================
+2026-09-15 21:04:08 [INFO]   Mensajes escritos:    430
+2026-09-15 21:04:08 [INFO]   Mensajes totales:     11059
+2026-09-15 21:04:08 [INFO]   IDs vacíos:           1601
+2026-09-15 21:04:08 [INFO]   Errores:              0
+2026-09-15 21:04:08 [INFO]   Duración:             23.7 min
+2026-09-15 21:04:08 [INFO]   Último guardado:      68604
+2026-09-15 21:04:08 [INFO]   Próximo reanudar en:  68604
+2026-09-15 21:04:08 [INFO]   Archivo:              C:\Users\admin\Documents\Programacion\Telegram Scrap\scrap_historico.jsonl
+2026-09-15 21:04:08 [INFO] ============================================================

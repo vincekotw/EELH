@@ -1,0 +1,176 @@
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 1: KPIs principales
+     ═══════════════════════════════════════════════════════════ -->
+<section class="kpis">
+    <div class="kpi kpi-rojo">
+        <div class="kpi-valor">{{ afectados }}</div>
+        <div class="kpi-label">Afectados ahora</div>
+        <div class="kpi-extra">{{ porcentaje_afectados }}% del total</div>
+    </div>
+    <div class="kpi kpi-verde">
+        <div class="kpi-valor">{{ en_servicio }}</div>
+        <div class="kpi-label">En servicio</div>
+        <div class="kpi-extra">de {{ total }} circuitos</div>
+    </div>
+    <div class="kpi kpi-azul">
+        <div class="kpi-valor">{{ eventos_7d }}</div>
+        <div class="kpi-label">Afectaciones (7 días)</div>
+        <div class="kpi-extra">eventos registrados</div>
+    </div>
+    <div class="kpi kpi-naranja">
+        <div class="kpi-valor">{{ total_horas }}h</div>
+        <div class="kpi-label">Horas acumuladas</div>
+        <div class="kpi-extra">{{ total_afectaciones }} ciclos totales</div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 2: Accesos rápidos
+     ═══════════════════════════════════════════════════════════ -->
+<section class="accesos">
+    <a href="{% url 'circuitos:mapa' %}" class="acceso">
+        <div class="acceso-icono">🗺️</div>
+        <div class="acceso-texto">
+            <strong>Mapa interactivo</strong>
+            <span>Visualiza los circuitos sobre La Habana</span>
+        </div>
+    </a>
+    <a href="{% url 'circuitos:lista' %}" class="acceso">
+        <div class="acceso-icono">📋</div>
+        <div class="acceso-texto">
+            <strong>Lista detallada</strong>
+            <span>Filtra por estado, municipio y más</span>
+        </div>
+    </a>
+    {% if user.is_staff %}
+    <a href="/admin/circuitos/circuito/" class="acceso">
+        <div class="acceso-icono">⚙️</div>
+        <div class="acceso-texto">
+            <strong>Administración</strong>
+            <span>Edita coordenadas y metadatos</span>
+        </div>
+    </a>
+    {% endif %}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 3: Afectados actualmente
+     ═══════════════════════════════════════════════════════════ -->
+<section class="panel">
+    <header class="panel-header">
+        <h2>🔴 Afectados con más tiempo sin servicio</h2>
+        <a href="{% url 'circuitos:lista' %}?ciclo=afectacion" class="ver-mas">Ver todos →</a>
+    </header>
+
+    {% if afectados_actuales %}
+        <ul class="lista-simple">
+            {% for c in afectados_actuales %}
+                <li>
+                    <a href="{% url 'circuitos:detalle' c.codigo %}" class="codigo-inline">{{ c.codigo }}</a>
+                    <span class="text-muted">{{ c.direccion|truncatechars:70 }}</span>
+                    <span class="desde">
+                        desde {{ c.afectacion_inicio_msg|date:"d M H:i" }}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="vacio">✅ No hay circuitos afectados actualmente.</p>
+    {% endif %}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 4: Grid con dos paneles
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-dos">
+
+    <!-- Panel izquierdo: Top más castigados -->
+    <section class="panel">
+        <header class="panel-header">
+            <h2>🏆 Top 10 más castigados</h2>
+            <span class="text-muted">por horas acumuladas</span>
+        </header>
+
+        <table class="tabla-mini">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th>Municipio</th>
+                    <th class="num">Ciclos</th>
+                    <th class="num">Horas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in top_circuitos %}
+                    <tr>
+                        <td><a href="{% url 'circuitos:detalle' c.codigo %}" class="codigo-inline">{{ c.codigo }}</a></td>
+                        <td class="text-muted">{{ c.municipio|default:"—"|truncatechars:20 }}</td>
+                        <td class="num">{{ c.total_afectaciones }}</td>
+                        <td class="num"><strong>{{ c.total_minutos_afectado|floatformat:0 }}h</strong></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Panel derecho: Por municipio -->
+    <section class="panel">
+        <header class="panel-header">
+            <h2>📍 Top municipios</h2>
+            <span class="text-muted">por circuitos afectados</span>
+        </header>
+
+        <ul class="lista-municipios">
+            {% for m in por_municipio %}
+                <li>
+                    <div class="mun-nombre">{{ m.municipio }}</div>
+                    <div class="mun-barra">
+                        {% widthratio m.afectados total 100 as pct %}
+                        <div class="mun-barra-fill"
+                             style="width: {% widthratio m.afectados total 100 %}%"></div>
+                    </div>
+                    <div class="mun-stats">
+                        <span class="text-rojo">{{ m.afectados }}</span>
+                        /
+                        <span class="text-muted">{{ m.total }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 5: Últimos eventos
+     ═══════════════════════════════════════════════════════════ -->
+<section class="panel">
+    <header class="panel-header">
+        <h2>🕐 Últimos eventos</h2>
+        <span class="text-muted">los 15 más recientes</span>
+    </header>
+
+    <ul class="timeline">
+        {% for e in ultimos_eventos %}
+            <li class="timeline-item timeline-{{ e.tipo }}">
+                <div class="timeline-hora">
+                    {{ e.fecha_mensaje|date:"d M" }}<br>
+                    <strong>{{ e.fecha_mensaje|date:"H:i" }}</strong>
+                </div>
+                <div class="timeline-contenido">
+                    <div class="timeline-header">
+                        <a href="{% url 'circuitos:detalle' e.circuito.codigo %}" class="codigo-inline">{{ e.circuito.codigo }}</a>
+                        <span class="badge {{ e.tipo }}">
+                            {% if e.tipo == 'afectacion' %}⚡ Afectación{% else %}✅ Restablecimiento{% endif %}
+                        </span>
+                    </div>
+                    <div class="timeline-texto">
+                        {{ e.mensaje.texto|truncatechars:180 }}
+                    </div>
+                </div>
+            </li>
+        {% empty %}
+            <li class="vacio">No hay eventos registrados.</li>
+        {% endfor %}
+    </ul>
+</section>

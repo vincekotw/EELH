@@ -1,0 +1,261 @@
+/* ══════════════════════════════════════════════════════════
+   MODO APAGÓN
+   ══════════════════════════════════════════════════════════ */
+.apagon-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+    background: linear-gradient(135deg, #b71c1c, #d32f2f);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.apagon-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 26px;
+}
+.apagon-meta {
+    margin: 0 0 8px 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+.apagon-meta .sep { margin: 0 6px; }
+.apagon-descripcion {
+    margin: 8px 0 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.95;
+}
+.pulso-vivo {
+    color: #4caf50;
+    animation: pulse 1.5s infinite;
+    margin-right: 4px;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.apagon-stats {
+    display: flex;
+    gap: 24px;
+}
+.apagon-stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+.apagon-stats .stat-valor {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+}
+.apagon-stats .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+/* Grid principal */
+.apagon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+@media (max-width: 1000px) {
+    .apagon-grid { grid-template-columns: 1fr; }
+}
+
+.panel-updates, .panel-reportes, .panel-circ-reportados {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    padding: 20px;
+}
+.panel-updates h2, .panel-reportes h2, .panel-circ-reportados h2 {
+    margin: 0 0 14px 0;
+    font-size: 15px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e6ea;
+}
+
+/* Timeline SEN */
+.timeline-sen {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 600px;
+    overflow-y: auto;
+}
+.timeline-sen li {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.timeline-sen li:last-child { border-bottom: none; }
+.timeline-sen time {
+    font-weight: 700;
+    color: #1976d2;
+    font-variant-numeric: tabular-nums;
+}
+.timeline-sen .texto { color: #333; }
+.timeline-sen .evt-afect time { color: #d32f2f; }
+.timeline-sen .evt-restab time { color: #2e7d32; }
+
+/* Formulario reporte */
+#form-reporte {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e6ea;
+}
+#form-reporte label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: -6px;
+}
+#form-reporte input[type="text"],
+#form-reporte textarea {
+    padding: 10px 12px;
+    border: 1px solid #e2e6ea;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+}
+#form-reporte input[type="text"]:focus,
+#form-reporte textarea:focus {
+    outline: none;
+    border-color: #1976d2;
+}
+.radio-estados {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.radio-estados label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #e2e6ea;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+    color: #333;
+    transition: background 0.15s;
+}
+.radio-estados label:hover { background: #f5f5f5; }
+.radio-estados input:checked + * { font-weight: 700; }
+
+#btn-reportar {
+    padding: 12px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+#btn-reportar:hover { background: #1565c0; }
+#btn-reportar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.form-msg {
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+.form-msg.ok { background: #e8f5e9; color: #2e7d32; }
+.form-msg.error { background: #ffebee; color: #c62828; }
+
+/* Lista de reportes */
+.reportes-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.reportes-lista .reporte {
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border-left: 3px solid #999;
+    background: #fafbfc;
+}
+.reporte-afectado { border-left-color: #d32f2f; background: #ffebee; }
+.reporte-en_servicio { border-left-color: #2e7d32; background: #e8f5e9; }
+.reporte-intermitente { border-left-color: #ef6c00; background: #fff3e0; }
+
+.reporte-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+.reporte-circuito {
+    font-family: 'SF Mono', Monaco, monospace;
+    font-weight: 700;
+    font-size: 13px;
+}
+.reporte-hora {
+    font-size: 11px;
+    color: #666;
+}
+.reporte-estado {
+    font-size: 12px;
+    font-weight: 600;
+}
+.reporte-comentario {
+    margin: 6px 0 0 0;
+    font-size: 12px;
+    color: #555;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Grid circuitos reportados */
+.grid-reportados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+}
+.circ-reportado {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    border-left: 3px solid #999;
+}
+.circ-afectado { background: #ffebee; border-left-color: #d32f2f; }
+.circ-en_servicio { background: #e8f5e9; border-left-color: #2e7d32; }
+.circ-intermitente { background: #fff3e0; border-left-color: #ef6c00; }
+
+.cr-codigo {
+    font-family: 'SF Mono', Monaco, monospace;
+    font-weight: 700;
+}
+.cr-estado { font-size: 12px; }
+.cr-hora { font-size: 11px; color: #666; }

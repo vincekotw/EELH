@@ -1,190 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Inicio — Circuitos EELH{% endblock %}
+{% block title %}
+{% if modo == 'apagon' %}🚨 Apagón activo{% else %}Inicio — Circuitos{% endif %}
+{% endblock %}
 
 {% block nav_home %}active{% endblock %}
 
 {% block content %}
 
-<!-- ═══════════════════════════════════════════════════════════
-     SECCIÓN 1: KPIs principales
-     ═══════════════════════════════════════════════════════════ -->
-<section class="kpis">
-    <div class="kpi kpi-rojo">
-        <div class="kpi-valor">{{ afectados }}</div>
-        <div class="kpi-label">Afectados ahora</div>
-        <div class="kpi-extra">{{ porcentaje_afectados }}% del total</div>
-    </div>
-    <div class="kpi kpi-verde">
-        <div class="kpi-valor">{{ en_servicio }}</div>
-        <div class="kpi-label">En servicio</div>
-        <div class="kpi-extra">de {{ total }} circuitos</div>
-    </div>
-    <div class="kpi kpi-azul">
-        <div class="kpi-valor">{{ eventos_7d }}</div>
-        <div class="kpi-label">Afectaciones (7 días)</div>
-        <div class="kpi-extra">eventos registrados</div>
-    </div>
-    <div class="kpi kpi-naranja">
-        <div class="kpi-valor">{{ total_horas }}h</div>
-        <div class="kpi-label">Horas acumuladas</div>
-        <div class="kpi-extra">{{ total_afectaciones }} ciclos totales</div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SECCIÓN 2: Accesos rápidos
-     ═══════════════════════════════════════════════════════════ -->
-<section class="accesos">
-    <a href="{% url 'circuitos:mapa' %}" class="acceso">
-        <div class="acceso-icono">🗺️</div>
-        <div class="acceso-texto">
-            <strong>Mapa interactivo</strong>
-            <span>Visualiza los circuitos sobre La Habana</span>
-        </div>
-    </a>
-    <a href="{% url 'circuitos:lista' %}" class="acceso">
-        <div class="acceso-icono">📋</div>
-        <div class="acceso-texto">
-            <strong>Lista detallada</strong>
-            <span>Filtra por estado, municipio y más</span>
-        </div>
-    </a>
-     {% if user.is_staff %}
-    <a href="/admin/circuitos/circuito/" class="acceso">
-        <div class="acceso-icono">⚙️</div>
-        <div class="acceso-texto">
-            <strong>Administración</strong>
-            <span>Edita coordenadas y metadatos</span>
-        </div>
-    </a>
-    {% endif %}
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SECCIÓN 3: Afectados actualmente
-     ═══════════════════════════════════════════════════════════ -->
-<section class="panel">
-    <header class="panel-header">
-        <h2>🔴 Afectados con más tiempo sin servicio</h2>
-        <a href="{% url 'circuitos:lista' %}?ciclo=afectacion" class="ver-mas">Ver todos →</a>
-    </header>
-
-    {% if afectados_actuales %}
-        <ul class="lista-simple">
-            {% for c in afectados_actuales %}
-                <li>
-                    <span class="codigo-inline">{{ c.codigo }}</span>
-                    <span class="text-muted">{{ c.direccion|truncatechars:70 }}</span>
-                    <span class="desde">
-                        desde {{ c.afectacion_inicio_msg|date:"d M H:i" }}
-                    </span>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p class="vacio">✅ No hay circuitos afectados actualmente.</p>
-    {% endif %}
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SECCIÓN 4: Grid con dos paneles
-     ═══════════════════════════════════════════════════════════ -->
-<div class="grid-dos">
-
-    <!-- Panel izquierdo: Top más castigados -->
-    <section class="panel">
-        <header class="panel-header">
-            <h2>🏆 Top 10 más castigados</h2>
-            <span class="text-muted">por horas acumuladas</span>
-        </header>
-
-        <table class="tabla-mini">
-            <thead>
-                <tr>
-                    <th>Circuito</th>
-                    <th>Municipio</th>
-                    <th class="num">Ciclos</th>
-                    <th class="num">Horas</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in top_circuitos %}
-                    <tr>
-                        <td><span class="codigo-inline">{{ c.codigo }}</span></td>
-                        <td class="text-muted">{{ c.municipio|default:"—"|truncatechars:20 }}</td>
-                        <td class="num">{{ c.total_afectaciones }}</td>
-                        <td class="num"><strong>{{ c.total_minutos_afectado|floatformat:0 }}h</strong></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
-
-    <!-- Panel derecho: Por municipio -->
-    <section class="panel">
-        <header class="panel-header">
-            <h2>📍 Top municipios</h2>
-            <span class="text-muted">por circuitos afectados</span>
-        </header>
-
-        <ul class="lista-municipios">
-            {% for m in por_municipio %}
-                <li>
-                    <div class="mun-nombre">{{ m.municipio }}</div>
-                    <div class="mun-barra">
-                        {% widthratio m.afectados total 100 as pct %}
-                        <div class="mun-barra-fill"
-                             style="width: {% widthratio m.afectados total 100 %}%"></div>
-                    </div>
-                    <div class="mun-stats">
-                        <span class="text-rojo">{{ m.afectados }}</span>
-                        /
-                        <span class="text-muted">{{ m.total }}</span>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
-
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════
-     SECCIÓN 5: Últimos eventos
-     ═══════════════════════════════════════════════════════════ -->
-<section class="panel">
-    <header class="panel-header">
-        <h2>🕐 Últimos eventos</h2>
-        <span class="text-muted">los 15 más recientes</span>
-    </header>
-
-    <ul class="timeline">
-        {% for e in ultimos_eventos %}
-            <li class="timeline-item timeline-{{ e.tipo }}">
-                <div class="timeline-hora">
-                    {{ e.fecha_mensaje|date:"d M" }}<br>
-                    <strong>{{ e.fecha_mensaje|date:"H:i" }}</strong>
-                </div>
-                <div class="timeline-contenido">
-                    <div class="timeline-header">
-                        <span class="codigo-inline">{{ e.circuito.codigo }}</span>
-                        <span class="badge {{ e.tipo }}">
-                            {% if e.tipo == 'afectacion' %}⚡ Afectación{% else %}✅ Restablecimiento{% endif %}
-                        </span>
-                    </div>
-                    <div class="timeline-texto">
-                        {{ e.mensaje.texto|truncatechars:180 }}
-                    </div>
-                </div>
-            </li>
-        {% empty %}
-            <li class="vacio">No hay eventos registrados.</li>
-        {% endfor %}
-    </ul>
-</section>
+{% if modo == 'apagon' %}
+    {% include "desconexion/_home_apagon.html" %}
+{% else %}
+    {% include "desconexion/_home_normal.html" %}
+{% endif %}
 
 {% endblock %}
+
 
 {% block extra_css %}
 <style>
@@ -474,6 +306,278 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
+   MODO APAGÓN
+   ═══════════════════════════════════════════════════════════ */
+.apagon-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+    background: linear-gradient(135deg, #b71c1c, #d32f2f);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.apagon-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 26px;
+}
+.apagon-meta {
+    margin: 0 0 8px 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+.apagon-meta .sep { margin: 0 6px; }
+.apagon-descripcion {
+    margin: 8px 0 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.95;
+}
+.pulso-vivo {
+    color: #4caf50;
+    animation: pulse 1.5s infinite;
+    margin-right: 4px;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.apagon-stats {
+    display: flex;
+    gap: 24px;
+}
+.apagon-stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+.apagon-stats .stat-valor {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+.apagon-stats .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* Grid principal */
+.apagon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+@media (max-width: 1000px) {
+    .apagon-grid { grid-template-columns: 1fr; }
+}
+
+.panel-updates, .panel-reportes, .panel-circ-reportados {
+    background: var(--surface);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+}
+.panel-updates h2, .panel-reportes h2, .panel-circ-reportados h2 {
+    margin: 0 0 14px 0;
+    font-size: 15px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Timeline SEN */
+.timeline-sen {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 600px;
+    overflow-y: auto;
+}
+.timeline-sen li {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.timeline-sen li:last-child { border-bottom: none; }
+.timeline-sen time {
+    font-weight: 700;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+}
+.timeline-sen .texto {
+    color: var(--text);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.timeline-sen .evt-afect time { color: var(--rojo); }
+.timeline-sen .evt-restab time { color: var(--verde); }
+
+/* Formulario reporte */
+#form-reporte {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+#form-reporte label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: -6px;
+}
+#form-reporte input[type="text"],
+#form-reporte textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+}
+#form-reporte input[type="text"]:focus,
+#form-reporte textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.radio-estados {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.radio-estados label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
+    color: var(--text);
+    transition: background 0.15s;
+}
+.radio-estados label:hover { background: var(--gris-claro); }
+.radio-estados label:has(input:checked) {
+    border-color: var(--primary);
+    background: #e3f2fd;
+}
+
+#btn-reportar {
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+#btn-reportar:hover { background: #1565c0; }
+#btn-reportar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.form-msg {
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+.form-msg.ok { background: var(--verde-claro); color: var(--verde); }
+.form-msg.error { background: var(--rojo-claro); color: var(--rojo); }
+
+/* Lista de reportes */
+.reportes-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.reportes-lista .reporte {
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--gris);
+    background: #fafbfc;
+}
+.reporte-afectado { border-left-color: var(--rojo); background: var(--rojo-claro); }
+.reporte-en_servicio { border-left-color: var(--verde); background: var(--verde-claro); }
+.reporte-intermitente { border-left-color: var(--naranja); background: #fff3e0; }
+
+.reporte-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+.reporte-circuito {
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-weight: 700;
+    font-size: 13px;
+}
+.reporte-hora {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.reporte-estado {
+    font-size: 12px;
+    font-weight: 600;
+}
+.reporte-comentario {
+    margin: 6px 0 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* Grid circuitos reportados */
+.grid-reportados {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+}
+.circ-reportado {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    border-left: 3px solid var(--gris);
+}
+.circ-afectado { background: var(--rojo-claro); border-left-color: var(--rojo); }
+.circ-en_servicio { background: var(--verde-claro); border-left-color: var(--verde); }
+.circ-intermitente { background: #fff3e0; border-left-color: var(--naranja); }
+
+.cr-codigo {
+    font-family: 'SF Mono', Monaco, Consolas, monospace;
+    font-weight: 700;
+}
+.cr-estado { font-size: 12px; }
+.cr-hora { font-size: 11px; color: var(--text-muted); }
+
+/* ═══════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════ */
 @media (max-width: 700px) {
@@ -482,6 +586,8 @@
     .topbar { flex-direction: column; gap: 8px; align-items: flex-start; }
     .lista-simple li { grid-template-columns: 1fr; gap: 4px; }
     .lista-municipios li { grid-template-columns: 100px 1fr 50px; }
+    .apagon-header { flex-direction: column; }
+    .apagon-stats { width: 100%; justify-content: space-around; }
 }
 </style>
 {% endblock %}

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Circuitos Eléctricos{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'circuitos/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'circuitos/css/apagon.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -15,6 +16,7 @@
         <h1>⚡ Circuitos EELH</h1>
         {% block brand_stats %}{% endblock %}
     </div>
+    {% if not modo == 'apagon' %}
     <nav class="nav">
         <a href="{% url 'home' %}"
            class="btn-link {% block nav_home %}{% endblock %}">
@@ -34,6 +36,7 @@
         </a>
     {% endif %}
     </nav>
+    {% endif %}
 </header>
 
 <main class="container">

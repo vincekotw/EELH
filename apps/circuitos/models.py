@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 # ─────────────────────────────────────────────────────────────
@@ -70,6 +71,21 @@ class Circuito(models.Model):
     estado_origen = models.CharField(
         max_length=20, choices=ORIGEN_CHOICES, blank=True,
     )
+
+        # ── Estado comunitario (reportes anónimos) ────────────────
+    estado_comunitario = models.CharField(
+        max_length=20,
+        choices=[
+            ('afectado', 'Afectado (reportes)'),
+            ('en_servicio', 'En servicio (reportes)'),
+            ('intermitente', 'Intermitente (reportes)'),
+            ('sin_reportes', 'Sin reportes'),
+        ],
+        default='sin_reportes',
+        db_index=True,
+    )
+    estado_comunitario_actualizado_en = models.DateTimeField(null=True, blank=True)
+    reportes_usuarios_total = models.PositiveIntegerField(default=0)
 
     # ── Último ciclo de AFECTACIÓN ────────────────────────────
     afectacion_inicio_msg = models.DateTimeField(null=True, blank=True)
@@ -181,3 +197,98 @@ class EventoCircuito(models.Model):
 
     def __str__(self):
         return f'{self.circuito.codigo} · {self.tipo} · {self.fecha_mensaje:%Y-%m-%d %H:%M}'
+
+
+# ═══════════════════════════════════════════════════════════════
+# ALERTA MASIVA (apagón de SEN)
+# ═══════════════════════════════════════════════════════════════
+class AlertaMasiva(models.Model):
+    """Representa un evento de apagón masivo del SEN."""
+
+    TIPO_CHOICES = [
+        ('occidente', 'Apagón en occidente'),
+        ('oriente', 'Apagón en oriente'),
+        ('habana', 'Apagón en La Habana'),
+        ('total', 'Apagón total (toda la isla)'),
+        ('parcial', 'Apagón parcial'),
+    ]
+
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    titulo = models.CharField(max_length=255)
+    descripcion = models.TextField(blank=True)
+
+    iniciado_en = models.DateTimeField(db_index=True)
+    finalizado_en = models.DateTimeField(null=True, blank=True)
+    activo = models.BooleanField(
+        default=True, db_index=True,
+        help_text="True mientras la home muestre el modo apagón.",
+    )
+
+    mensaje_deteccion = models.ForeignKey(
+        'telegram_base.Mensaje',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='alertas_masivas',
+    )
+    mensaje_fin_oficial = models.ForeignKey(
+        'telegram_base.Mensaje',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='alertas_cerradas',
+    )
+
+    reportes_usuarios = models.PositiveIntegerField(default=0)
+
+    creado_en = models.DateTimeField(auto_now_add=True)
+    actualizado_en = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-iniciado_en']
+        verbose_name = 'Alerta masiva'
+        verbose_name_plural = 'Alertas masivas'
+
+    def __str__(self):
+        return f'{self.get_tipo_display()} · {self.iniciado_en:%Y-%m-%d %H:%M}'
+
+    @property
+    def duracion_min(self):
+        fin = self.finalizado_en or timezone.now()
+        return int((fin - self.iniciado_en).total_seconds() / 60)
+
+
+class ReporteUsuario(models.Model):
+    """Reporte anónimo de un usuario sobre el estado de un circuito."""
+
+    ESTADO_CHOICES = [
+        ('afectado', 'Sin servicio'),
+        ('en_servicio', 'Con servicio'),
+        ('intermitente', 'Intermitente'),
+    ]
+
+    circuito = models.ForeignKey(
+        Circuito, on_delete=models.CASCADE, related_name='reportes_usuarios',
+    )
+    alerta = models.ForeignKey(
+        AlertaMasiva, on_delete=models.CASCADE, related_name='reportes',
+        null=True, blank=True,
+    )
+
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES)
+    comentario = models.TextField(blank=True, max_length=300)
+
+    ip_hash = models.CharField(max_length=64, db_index=True)
+    user_agent = models.CharField(max_length=255, blank=True)
+
+    creado_en = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ['-creado_en']
+        indexes = [
+            models.Index(fields=['circuito', '-creado_en']),
+            models.Index(fields=['ip_hash', '-creado_en']),
+        ]
+        verbose_name = 'Reporte de usuario'
+        verbose_name_plural = 'Reportes de usuarios'
+
+    def __str__(self):
+        return f'{self.circuito.codigo} → {self.estado}'

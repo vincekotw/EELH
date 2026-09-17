@@ -2,12 +2,13 @@ from django.shortcuts import render, get_object_or_404
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Prefetch
 
+from django.utils import timezone
 import folium
 import json
 
 from folium.features import DivIcon
 
-from .models import Circuito, EventoCircuito
+from .models import Circuito, EventoCircuito, AlertaMasiva, ReporteUsuario
 from .services.cuadriculas import obtener_poligono, geojson_a_leaflet
 
 
@@ -84,7 +85,8 @@ def mapa_circuitos(request):
             f'<b>Afectaciones:</b> {c.total_afectaciones}<br>'
             f'<b>Min acumulados:</b> {c.total_minutos_afectado}<br><br>'
             f'<a href="/circuitos/c/{c.codigo}/" '
-            f'style="color:#1976d2;font-weight:600;text-decoration:none;">'
+            f'style="color:#1976d2;font-weight:600;text-decoration:none;"'
+            f'target=blank>'
             f'Ver detalle completo →</a>'
             f'</div>'
         )
@@ -319,3 +321,92 @@ def detalle_circuito(request, codigo):
         'tiene_geojson': circuito.geometria_geojson is not None,
     }
     return render(request, 'circuitos/detalle.html', context)
+
+
+import hashlib
+from datetime import timedelta
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
+
+
+def _hash_ip(request) -> str:
+    ip = (
+        request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip()
+        or request.META.get('REMOTE_ADDR', '')
+    )
+    return hashlib.sha256(f'{ip}:eelh_salt_v1'.encode()).hexdigest()[:32]
+
+
+@require_POST
+@csrf_protect
+def reportar_estado(request):
+    """Recibe un reporte anónimo del estado de un circuito."""
+    codigo = (request.POST.get('circuito') or '').strip().upper()
+    estado = (request.POST.get('estado') or '').strip()
+    comentario = (request.POST.get('comentario') or '').strip()[:300]
+
+    if estado not in ('afectado', 'en_servicio', 'intermitente'):
+        return JsonResponse({'error': 'Estado inválido'}, status=400)
+
+    try:
+        circuito = Circuito.objects.get(codigo__iexact=codigo)
+    except Circuito.DoesNotExist:
+        return JsonResponse(
+            {'error': f'Circuito "{codigo}" no encontrado'}, status=404,
+        )
+
+    ip_hash = _hash_ip(request)
+
+    # ── Rate limiting: 1 reporte por circuito cada 10 min por IP ──
+    hace_10min = timezone.now() - timedelta(minutes=10)
+    if ReporteUsuario.objects.filter(
+        ip_hash=ip_hash, circuito=circuito, creado_en__gte=hace_10min,
+    ).exists():
+        return JsonResponse(
+            {'error': 'Ya reportaste este circuito hace menos de 10 min'},
+            status=429,
+        )
+
+    # ── Rate limiting global: 1 reporte por IP cada 30 segundos ───
+    hace_30s = timezone.now() - timedelta(seconds=30)
+    if ReporteUsuario.objects.filter(
+        ip_hash=ip_hash, creado_en__gte=hace_30s,
+    ).exists():
+        return JsonResponse(
+            {'error': 'Espera 30 segundos entre reportes'}, status=429,
+        )
+
+    alerta = AlertaMasiva.objects.filter(activo=True).first()
+
+    reporte = ReporteUsuario.objects.create(
+        circuito=circuito,
+        alerta=alerta,
+        estado=estado,
+        comentario=comentario,
+        ip_hash=ip_hash,
+        user_agent=request.META.get('HTTP_USER_AGENT', '')[:255],
+    )
+
+    # Actualizar estado comunitario del circuito
+    circuito.estado_comunitario = estado
+    circuito.estado_comunitario_actualizado_en = timezone.now()
+    circuito.reportes_usuarios_total += 1
+    circuito.save(update_fields=[
+        'estado_comunitario',
+        'estado_comunitario_actualizado_en',
+        'reportes_usuarios_total',
+    ])
+
+    if alerta:
+        AlertaMasiva.objects.filter(pk=alerta.pk).update(
+            reportes_usuarios=alerta.reportes_usuarios + 1,
+        )
+
+    return JsonResponse({
+        'ok': True,
+        'reporte_id': reporte.id,
+        'circuito': circuito.codigo,
+        'estado': estado,
+        'timestamp': timezone.now().isoformat(),
+    })
