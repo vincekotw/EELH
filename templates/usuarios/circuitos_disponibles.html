@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Vincular circuitos{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Vincular circuitos</h1>
+        <p class="sub">
+            Marca los circuitos que quieres seguir.
+            Recibirás notificaciones cuando cambien de estado.
+        </p>
+    </div>
+    <a href="{% url 'usuarios:perfil' %}" class="btn-secundario">← Volver al perfil</a>
+</div>
+
+<!-- ─── Buscador ───────────────────────────────────────────── -->
+<form method="get" class="buscador">
+    <input type="text"
+           name="q"
+           value="{{ q }}"
+           placeholder="Buscar por código, municipio o dirección..."
+           autofocus>
+    <button type="submit" class="btn-primary">Buscar</button>
+    {% if q %}
+        <a href="{% url 'usuarios:circuitos_disponibles' %}" class="btn-secundario">Limpiar</a>
+    {% endif %}
+</form>
+
+<p class="stats-line">
+    <strong id="total-vinculados">{{ total_vinculados }}</strong>
+    circuito{{ total_vinculados|pluralize }} vinculado{{ total_vinculados|pluralize }}
+    · {{ circuitos|length }} resultado{{ circuitos|length|pluralize }} en la lista
+</p>
+
+<!-- ─── Lista ──────────────────────────────────────────────── -->
+<div class="circuitos-grid" id="circuitos-grid">
+    {% for c in circuitos %}
+        <div class="circuito-card {% if c.esta_vinculado %}vinculado{% endif %}"
+             data-codigo="{{ c.codigo }}">
+
+            <div class="circuito-info">
+                <span class="codigo-inline">{{ c.codigo }}</span>
+                {% if c.municipio %}
+                    <span class="municipio">{{ c.municipio }}</span>
+                {% endif %}
+                {% if c.direccion %}
+                    <p class="direccion">{{ c.direccion|truncatechars:80 }}</p>
+                {% endif %}
+            </div>
+
+            <button type="button"
+                    class="btn-vincular"
+                    data-codigo="{{ c.codigo }}"
+                    data-vinculado="{% if c.esta_vinculado %}1{% else %}0{% endif %}">
+                {% if c.esta_vinculado %}
+                    ✓ Vinculado
+                {% else %}
+                    + Vincular
+                {% endif %}
+            </button>
+        </div>
+    {% empty %}
+        <p class="vacio">
+            {% if q %}
+                No hay circuitos que coincidan con "{{ q }}".
+            {% else %}
+                No hay circuitos registrados.
+            {% endif %}
+        </p>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.page-header h1 { margin: 0 0 4px 0; font-size: 22px; }
+.page-header .sub { margin: 0; color: var(--text-muted); font-size: 13px; }
+
+.buscador {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.buscador input[type="text"] {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+}
+.buscador input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.btn-primary {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-primary:hover { background: #1565c0; }
+.btn-secundario {
+    padding: 10px 16px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.btn-secundario:hover { background: var(--gris-claro); }
+
+.stats-line {
+    margin: 0 0 16px 0;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+.stats-line strong { color: var(--primary); }
+
+.circuitos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+}
+
+.circuito-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: all 0.15s;
+}
+.circuito-card:hover {
+    box-shadow: var(--shadow);
+}
+.circuito-card.vinculado {
+    background: #e8f5e9;
+    border-color: var(--verde);
+}
+
+.circuito-info {
+    flex: 1;
+    min-width: 0;
+}
+.circuito-info .codigo-inline {
+    font-size: 14px;
+}
+.circuito-info .municipio {
+    margin-left: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: capitalize;
+}
+.circuito-info .direccion {
+    margin: 6px 0 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.btn-vincular {
+    padding: 8px 14px;
+    background: white;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+}
+.btn-vincular:hover {
+    background: var(--primary);
+    color: white;
+}
+.circuito-card.vinculado .btn-vincular {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: white;
+}
+.circuito-card.vinculado .btn-vincular:hover {
+    background: #b71c1c;
+    border-color: #b71c1c;
+}
+
+.vacio {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px;
+    font-size: 14px;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value
+        || document.cookie.match(/csrftoken=([^;]+)/)?.[1];
+
+    document.querySelectorAll('.btn-vincular').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const codigo = btn.dataset.codigo;
+            const vinculado = btn.dataset.vinculado === '1';
+            const url = vinculado
+                ? "{% url 'usuarios:desvincular_circuito' %}"
+                : "{% url 'usuarios:vincular_circuito' %}";
+
+            btn.disabled = true;
+            const txtOriginal = btn.textContent;
+            btn.textContent = '...';
+
+            const fd = new FormData();
+            fd.append('codigo', codigo);
+
+            try {
+                const resp = await fetch(url, {
+                    method: 'POST',
+                    body: fd,
+                    headers: { 'X-CSRFToken': csrfToken },
+                });
+                const data = await resp.json();
+
+                if (!resp.ok) {
+                    alert(data.error || 'Error');
+                    btn.textContent = txtOriginal;
+                    return;
+                }
+
+                // Actualizar UI
+                const card = btn.closest('.circuito-card');
+                const nuevoVinculado = !vinculado;
+
+                btn.dataset.vinculado = nuevoVinculado ? '1' : '0';
+                btn.textContent = nuevoVinculado ? '✓ Vinculado' : '+ Vincular';
+                card.classList.toggle('vinculado', nuevoVinculado);
+
+                // Actualizar contador
+                document.getElementById('total-vinculados').textContent = data.total_vinculados;
+            } catch (err) {
+                alert('Error de red');
+                btn.textContent = txtOriginal;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    });
+})();
+</script>
+{% endblock %}

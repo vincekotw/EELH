@@ -1,0 +1,490 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard de métricas{% endblock %}
+
+{% block brand_stats %}
+<span class="stats">Dashboard · {{ kpis.total_circuitos }} circuitos</span>
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     CABECERA
+     ═══════════════════════════════════════════════════════════ -->
+<div class="dash-header">
+    <div>
+        <h1>📊 Dashboard de métricas</h1>
+        <p class="sub">
+            Análisis del comportamiento del sistema eléctrico capitalino.
+            Datos actualizados hasta <span id="ultima-actualizacion">—</span>.
+        </p>
+    </div>
+    <button id="btn-refresh" class="btn-secundario">🔄 Actualizar</button>
+</div>
+
+{% if kpis.alerta_activa %}
+<div class="alerta-banner">
+    🚨 Hay un apagón masivo activo. <a href="/circuitos/">Ver en la home</a>
+</div>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     KPIs
+     ═══════════════════════════════════════════════════════════ -->
+<section class="kpis-row">
+    <div class="kpi-mini kpi-rojo">
+        <span class="kpi-mini-valor">{{ kpis.afectados_ahora }}</span>
+        <span class="kpi-mini-label">Afectados ahora</span>
+    </div>
+    <div class="kpi-mini kpi-verde">
+        <span class="kpi-mini-valor">{{ kpis.en_servicio }}</span>
+        <span class="kpi-mini-label">En servicio</span>
+    </div>
+    <div class="kpi-mini kpi-azul">
+        <span class="kpi-mini-valor">{{ kpis.porcentaje_afectados }}%</span>
+        <span class="kpi-mini-label">% afectado</span>
+    </div>
+    <div class="kpi-mini kpi-naranja" id="kpi-tendencia">
+        <span class="kpi-mini-valor">—</span>
+        <span class="kpi-mini-label">Cambio semanal</span>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 1: Gráficos de series temporales
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>📈 Circuitos afectados por hora</h2>
+            <span class="subt">últimas 24h</span>
+        </header>
+        <p class="nota-pie">
+            Cada punto muestra cuántos circuitos estaban sin servicio
+            en ese momento del día.
+        </p>
+        <div class="chart-wrapper">
+            <canvas id="chart-activos-hora"></canvas>
+        </div>
+        <div class="loading" data-for="chart-activos-hora">Cargando…</div>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>📊 Media de afectados por día</h2>
+            <span class="subt">últimos 10 días</span>
+        </header>
+        <p class="nota-pie">
+            Promedio de circuitos sin servicio durante cada día
+            (medido a las 12:00 del mediodía).
+        </p>
+        <div class="chart-wrapper">
+            <canvas id="chart-media-diaria"></canvas>
+        </div>
+        <div class="loading" data-for="chart-media-diaria">Cargando…</div>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 2: Rotación + Heatmap
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>⏱️ Duración de afectaciones</h2>
+            <span class="subt">ciclos cerrados · últimos 10 días</span>
+        </header>
+        <p class="nota-pie">
+            Cuánto duran las afectaciones cuando se cierran
+            (llega el mensaje de restablecimiento).
+        </p>
+        <div class="stats-pair" id="rotacion-media">
+            <div class="stat-pair-item">
+                <span class="stat-pair-valor" data-key="mediana_afectacion_min">—</span>
+                <span class="stat-pair-label">Mediana</span>
+            </div>
+            <div class="stat-pair-item">
+                <span class="stat-pair-valor" data-key="media_afectacion_min">—</span>
+                <span class="stat-pair-label">Media</span>
+            </div>
+        </div>
+        <p class="nota-pie" id="rotacion-muestras" style="margin-top:12px;"></p>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>🕐 Afectaciones por hora del día</h2>
+            <span class="subt">últimos 10 días · hora Cuba</span>
+        </header>
+        <p class="nota-pie">
+            Cada celda es una hora del día. El color indica cuántas
+            afectaciones <strong>comenzaron</strong> en esa hora.
+            Cuanto más rojo, más afectaciones.
+        </p>
+        <div class="heatmap-wrapper">
+            <div class="heatmap" id="heatmap-hora"></div>
+            <div class="heatmap-legend">
+                <span class="hm-label">Menos</span>
+                <div class="hm-scale">
+                    <span style="background:rgba(211,47,47,0.15)"></span>
+                    <span style="background:rgba(211,47,47,0.40)"></span>
+                    <span style="background:rgba(211,47,47,0.65)"></span>
+                    <span style="background:rgba(211,47,47,0.90)"></span>
+                </div>
+                <span class="hm-label">Más</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 3: Predicción + Tendencia
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica destacada">
+        <header>
+            <h2>🔮 Predicción próximas 6h</h2>
+            <span class="subt">probabilidad histórica por hora</span>
+        </header>
+        <p class="nota-pie">
+            Basado en los últimos 30 días: circuitos que, estando
+            en servicio, se han afectado más frecuentemente en la
+            franja horaria que viene.
+        </p>
+        <ul class="lista-mini" id="prediccion"></ul>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>📉 Tendencia semanal</h2>
+            <span class="subt">afectaciones registradas</span>
+        </header>
+        <p class="nota-pie">
+            Comparación del total de afectaciones en los últimos
+            7 días vs los 7 anteriores.
+        </p>
+        <div class="tendencia" id="tendencia">
+            <div class="tendencia-bloque">
+                <span class="tendencia-num" data-key="esta_semana">—</span>
+                <span class="tendencia-label">Esta semana</span>
+            </div>
+            <div class="tendencia-arrow" id="tendencia-arrow">—</div>
+            <div class="tendencia-bloque">
+                <span class="tendencia-num" data-key="semana_anterior">—</span>
+                <span class="tendencia-label">Semana anterior</span>
+            </div>
+        </div>
+        <p class="tendencia-texto" id="tendencia-texto"></p>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 4: Top municipios + Estabilidad
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>📍 Top municipios más castigados</h2>
+            <span class="subt">por horas totales</span>
+        </header>
+        <table class="tabla-mini" id="tabla-municipios">
+            <thead>
+                <tr>
+                    <th>Municipio</th>
+                    <th class="num">Circuitos</th>
+                    <th class="num">Afectados</th>
+                    <th class="num">Horas</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>⚖️ Índice de estabilidad</h2>
+            <span class="subt">score 0-100</span>
+        </header>
+        <p class="nota-pie">
+            Combina disponibilidad (50%), rotación (30%) y MTTR (20%).
+            Score alto = circuito más estable.
+        </p>
+        <table class="tabla-mini" id="tabla-estabilidad">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th class="num">Disp.</th>
+                    <th class="num">Ciclos</th>
+                    <th class="num">Score</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 5: Rankings de circuitos
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-3">
+    <section class="card-metrica">
+        <header><h2>🔴 Más horas sin servicio</h2></header>
+        <table class="tabla-mini" id="tabla-mas-sin">
+            <thead><tr><th>Circuito</th><th class="num">Horas</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section class="card-metrica">
+        <header><h2>🟢 Más horas de servicio</h2></header>
+        <table class="tabla-mini" id="tabla-mas-serv">
+            <thead><tr><th>Circuito</th><th class="num">Horas</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section class="card-metrica">
+        <header><h2>🔁 Mayor rotación</h2><span class="subt">10 días</span></header>
+        <table class="tabla-mini" id="tabla-rotacion">
+            <thead><tr><th>Circuito</th><th class="num">Veces</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 6: MTTR + Tiempo entre afectaciones
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>⏱️ MTTR — tiempo medio de restauración</h2>
+            <span class="subt">ciclos cerrados · 30 días</span>
+        </header>
+        <p class="nota-pie">
+            Promedio del tiempo que un circuito permanece afectado
+            hasta que se restablece. Solo cuenta circuitos con al
+            menos 2 ciclos cerrados.
+        </p>
+        <table class="tabla-mini" id="tabla-mttr">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th>Municipio</th>
+                    <th class="num">Horas</th>
+                    <th class="num">Ciclos</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>⏳ Tiempo entre afectaciones</h2>
+            <span class="subt">más inestables primero</span>
+        </header>
+        <p class="nota-pie">
+            Media del tiempo entre el restablecimiento y la siguiente
+            afectación. Valores bajos = el circuito casi no tiene
+            respiro.
+        </p>
+        <table class="tabla-mini" id="tabla-tiempo-entre">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th class="num">Min</th>
+                    <th class="num">Muestras</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 7: Disponibilidad + Crónicos
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>📉 Disponibilidad por circuito</h2>
+            <span class="subt">los 20 peores</span>
+        </header>
+        <p class="nota-pie">
+            Porcentaje del tiempo que el circuito estuvo con
+            servicio. Menos del 60% = zona crítica.
+        </p>
+        <table class="tabla-mini" id="tabla-disponibilidad">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th>Municipio</th>
+                    <th class="num">%</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>🩺 Circuitos crónicos</h2>
+            <span class="subt">disp &lt; 60% y 3+ ciclos</span>
+        </header>
+        <p class="nota-pie">
+            Circuitos con disponibilidad baja Y múltiples
+            afectaciones. Los más problemáticos del sistema.
+        </p>
+        <table class="tabla-mini" id="tabla-cronicos">
+            <thead>
+                <tr>
+                    <th>Circuito</th>
+                    <th class="num">Disp.</th>
+                    <th class="num">Ciclos</th>
+                    <th class="num">Horas</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 8: DAF + Sin rotación
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>⚡ Circuitos DAF de la semana</h2>
+            <span class="subt">rotación de protecciones</span>
+        </header>
+        <p class="nota-pie">
+            Circuitos protegidos por Disparo Automático por
+            Frecuencia durante el período vigente.
+        </p>
+        <ul class="lista-mini lista-daf" id="lista-daf"></ul>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>💤 Circuitos sin rotación</h2>
+            <span class="subt">10 días sin eventos</span>
+        </header>
+        <p class="nota-pie">
+            Circuitos que no han tenido ninguna afectación
+            registrada en los últimos 10 días.
+        </p>
+        <ul class="lista-mini lista-sin-rot" id="lista-sin-rotacion"></ul>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 9: Usuarios
+     ═══════════════════════════════════════════════════════════ -->
+<div class="grid-2">
+    <section class="card-metrica">
+        <header>
+            <h2>🏆 Ranking de usuarios</h2>
+            <span class="subt">por contribución · 30 días</span>
+        </header>
+        <p class="nota-pie">
+            Puntos = circuitos vinculados + (reportes × 2) +
+            navegaciones cada 50 (cap a 10).
+        </p>
+        <table class="tabla-mini" id="tabla-ranking">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th class="num">Vinculados</th>
+                    <th class="num">Reportes</th>
+                    <th class="num">Puntos</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section class="card-metrica">
+        <header>
+            <h2>⏰ Duración acumulada por usuario</h2>
+            <span class="subt">últimos 7 días</span>
+        </header>
+        <p class="nota-pie">
+            Cuántas horas han estado afectados los circuitos que
+            cada usuario tiene vinculados.
+        </p>
+        <table class="tabla-mini" id="tabla-duracion-usuarios">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th class="num">Circuitos</th>
+                    <th class="num">Horas</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN 10: Alertas históricas
+     ═══════════════════════════════════════════════════════════ -->
+<section class="card-metrica">
+    <header>
+        <h2>🚨 Historial de alertas masivas</h2>
+        <span class="subt">últimas 20</span>
+    </header>
+    <p class="nota-pie">
+        Apagones masivos detectados automáticamente: totales,
+        en occidente, oriente o La Habana.
+    </p>
+    <table class="tabla-mini" id="tabla-alertas">
+        <thead>
+            <tr>
+                <th>Alerta</th>
+                <th>Tipo</th>
+                <th>Inicio</th>
+                <th class="num">Duración</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/metricas/dashboard.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+window.METRICAS_URLS = {
+    tendencia: "{% url 'metricas:api_tendencia' %}",
+    activos_hora: "{% url 'metricas:api_activos_hora' %}",
+    media_diaria: "{% url 'metricas:api_media_diaria' %}",
+    rotacion: "{% url 'metricas:api_rotacion' %}",
+    mayor_rotacion: "{% url 'metricas:api_mayor_rotacion' %}",
+    sin_rotacion: "{% url 'metricas:api_sin_rotacion' %}",
+    daf: "{% url 'metricas:api_daf' %}",
+    mas_horas_sin: "{% url 'metricas:api_mas_horas_sin_servicio' %}",
+    mas_horas_serv: "{% url 'metricas:api_mas_horas_servicio' %}",
+    mttr: "{% url 'metricas:api_mttr' %}",
+    disponibilidad: "{% url 'metricas:api_disponibilidad' %}",
+    heatmap: "{% url 'metricas:api_heatmap' %}",
+    municipios: "{% url 'metricas:api_municipios' %}",
+    estabilidad: "{% url 'metricas:api_estabilidad' %}",
+    tiempo_entre: "{% url 'metricas:api_tiempo_entre' %}",
+    prediccion: "{% url 'metricas:api_prediccion' %}",
+    ranking: "{% url 'metricas:api_ranking' %}",
+    alertas: "{% url 'metricas:api_alertas' %}",
+    cronicos: "{% url 'metricas:api_cronicos' %}",
+    duracion_usuarios: "{% url 'metricas:api_duracion_usuarios' %}",
+};
+</script>
+<script src="{% static 'js/metricas/dashboard.js' %}"></script>
+{% endblock %}

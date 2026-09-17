@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Circuito, EventoCircuito
+from .models import Circuito, EventoCircuito, ReporteDiscrepancia
 
 
 @admin.register(Circuito)
@@ -84,3 +84,15 @@ class ReporteUsuarioAdmin(admin.ModelAdmin):
     def ip_hash_short(self, obj):
         return obj.ip_hash[:8]
     ip_hash_short.short_description = 'IP'
+
+@admin.register(ReporteDiscrepancia)
+class ReporteDiscrepanciaAdmin(admin.ModelAdmin):
+    list_display = ('circuito', 'estado_reportado', 'creado_en', 'cambio_estado', 'ip_short')
+    list_filter = ('estado_reportado', 'cambio_estado', 'creado_en')
+    search_fields = ('circuito__codigo', 'comentario')
+    date_hierarchy = 'creado_en'
+    readonly_fields = ('creado_en', 'ip_hash', 'user_agent')
+
+    def ip_short(self, obj):
+        return obj.ip_hash[:8]
+    ip_short.short_description = 'IP'

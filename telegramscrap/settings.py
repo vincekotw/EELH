@@ -42,6 +42,8 @@ DJANGO_APPS = [
 APPS = [
     'apps.telegram_base',
     'apps.circuitos',
+    'apps.metricas',
+    'apps.usuarios',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + APPS
@@ -176,3 +178,8 @@ LOGGING = {
         },
     },
 }
+
+# ── Autenticación ────────────────────────────────────────────
+LOGIN_URL = 'usuarios:login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

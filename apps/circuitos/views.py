@@ -1,20 +1,28 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 
 from django.utils import timezone
 import folium
 import json
 
+import hashlib
+from datetime import timedelta
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+
 from folium.features import DivIcon
 
-from .models import Circuito, EventoCircuito, AlertaMasiva, ReporteUsuario
+from .models import Circuito, EventoCircuito, AlertaMasiva, ReporteUsuario, ReporteDiscrepancia
 from .services.cuadriculas import obtener_poligono, geojson_a_leaflet
 
 
 # ═══════════════════════════════════════════════════════════════
 # MAPA
 # ═══════════════════════════════════════════════════════════════
+@login_required
 def mapa_circuitos(request):
     circuitos = Circuito.objects.exclude(
         latitud__isnull=True
@@ -311,6 +319,14 @@ def detalle_circuito(request, codigo):
     # ── Estadísticas agregadas de eventos ─────────────────────
     total_afectaciones_eventos = circuito.eventos.filter(tipo='afectacion').count()
     total_restablecimientos = circuito.eventos.filter(tipo='restablecimiento').count()
+    hace_12h = timezone.now() - timedelta(hours=12)
+    reportes_discrepancia_ips = (
+        ReporteDiscrepancia.objects
+        .filter(circuito=circuito, creado_en__gte=hace_12h)
+        .values('ip_hash')
+        .distinct()
+        .count()
+    )
 
     context = {
         'circuito': circuito,
@@ -319,6 +335,7 @@ def detalle_circuito(request, codigo):
         'total_afectaciones_eventos': total_afectaciones_eventos,
         'total_restablecimientos': total_restablecimientos,
         'tiene_geojson': circuito.geometria_geojson is not None,
+        'reportes_discrepancia_ips': reportes_discrepancia_ips,
     }
     return render(request, 'circuitos/detalle.html', context)
 
@@ -409,4 +426,119 @@ def reportar_estado(request):
         'circuito': circuito.codigo,
         'estado': estado,
         'timestamp': timezone.now().isoformat(),
+    })
+
+
+# ── Configuración ────────────────────────────────────────────
+UMBRAL_REPORTES_DISCREPANCIA = 5     # IPs únicas necesarias
+VENTANA_REPORTES_HORAS = 12          # ventana de conteo
+RATE_LIMIT_IP_HORAS = 12             # 1 reporte por IP por circuito cada N h
+
+
+def _hash_ip_discrepancia(request) -> str:
+    ip = (
+        request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0].strip()
+        or request.META.get('REMOTE_ADDR', '')
+    )
+    return hashlib.sha256(f'{ip}:discrepancia_v1'.encode()).hexdigest()[:32]
+
+
+@require_POST
+def reportar_discrepancia(request, codigo):
+    """Recibe un reporte de discrepancia para un circuito específico."""
+    from .models import Circuito, ReporteDiscrepancia
+
+    circuito = get_object_or_404(Circuito, codigo__iexact=codigo)
+
+    # ── Verificar estado actual ─────────────────────────────
+    if circuito.estado != 'en_servicio':
+        return JsonResponse(
+            {'error': 'Este circuito ya figura como afectado.'},
+            status=400,
+        )
+
+    estado_reportado = (request.POST.get('estado') or 'sin_luz').strip()
+    if estado_reportado not in ('sin_luz', 'intermitente'):
+        estado_reportado = 'sin_luz'
+
+    comentario = (request.POST.get('comentario') or '').strip()[:300]
+
+    ip_hash = _hash_ip_discrepancia(request)
+
+    # ── Rate limiting por IP ────────────────────────────────
+    hace_12h = timezone.now() - timedelta(hours=RATE_LIMIT_IP_HORAS)
+    if ReporteDiscrepancia.objects.filter(
+        circuito=circuito,
+        ip_hash=ip_hash,
+        creado_en__gte=hace_12h,
+    ).exists():
+        return JsonResponse(
+            {'error': f'Ya reportaste este circuito en las últimas {RATE_LIMIT_IP_HORAS}h'},
+            status=429,
+        )
+
+    # ── Crear reporte ───────────────────────────────────────
+    reporte = ReporteDiscrepancia.objects.create(
+        circuito=circuito,
+        estado_reportado=estado_reportado,
+        comentario=comentario,
+        ip_hash=ip_hash,
+        user_agent=request.META.get('HTTP_USER_AGENT', '')[:255],
+    )
+
+    # ── Contar IPs únicas en la ventana ─────────────────────
+    hace_ventana = timezone.now() - timedelta(hours=VENTANA_REPORTES_HORAS)
+    ips_unicas = (
+        ReporteDiscrepancia.objects
+        .filter(circuito=circuito, creado_en__gte=hace_ventana)
+        .values('ip_hash')
+        .distinct()
+        .count()
+    )
+
+    cambio = False
+
+    # ── Cambiar estado si se alcanza el umbral ──────────────
+    if ips_unicas >= UMBRAL_REPORTES_DISCREPANCIA:
+        # Marcar estos reportes como causantes del cambio
+        ReporteDiscrepancia.objects.filter(
+            circuito=circuito,
+            creado_en__gte=hace_ventana,
+        ).update(cambio_estado=True)
+
+        # Cerrar ciclo de servicio si estaba abierto
+        if circuito.servicio_activo and circuito.servicio_inicio_msg:
+            circuito.servicio_fin_msg = timezone.now()
+            circuito.servicio_duracion_msg_min = int(
+                (timezone.now() - circuito.servicio_inicio_msg).total_seconds() / 60
+            )
+            circuito.servicio_activo = False
+
+        # Abrir ciclo de afectación SIN mensaje oficial
+        if not circuito.afectacion_activa:
+            circuito.afectacion_inicio_msg = timezone.now()
+            circuito.afectacion_activa = True
+            circuito.total_afectaciones += 1
+
+        # Cambiar estado
+        circuito.estado = 'afectado'
+        circuito.estado_origen = 'reportes_usuarios'
+        circuito.estado_actualizado_en = timezone.now()
+
+        circuito.save(update_fields=[
+            'estado', 'estado_origen', 'estado_actualizado_en',
+            'afectacion_activa', 'afectacion_inicio_msg',
+            'servicio_activo', 'servicio_fin_msg', 'servicio_duracion_msg_min',
+            'total_afectaciones',
+        ])
+        cambio = True
+
+    return JsonResponse({
+        'ok': True,
+        'reporte_id': reporte.id,
+        'circuito': circuito.codigo,
+        'ips_unicas': ips_unicas,
+        'umbral': UMBRAL_REPORTES_DISCREPANCIA,
+        'cambio_estado': cambio,
+        'estado_actual': circuito.estado,
     })

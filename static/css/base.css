@@ -111,3 +111,43 @@ html, body {
 .text-muted { color: var(--text-muted); }
 .text-rojo { color: var(--rojo); }
 .text-verde { color: var(--verde); }
+
+.btn-link-primary {
+    background: var(--primary);
+    color: white !important;
+}
+.btn-link-primary:hover {
+    background: #1565c0;
+}
+
+.btn-link-primary {
+    background: var(--primary);
+    color: white !important;
+}
+.btn-link-primary:hover {
+    background: #1565c0;
+}
+
+/* ── Form de logout inline ──────────────────────────────── */
+.logout-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.btn-link-logout {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    /* Reusar estilos de .btn-link */
+    padding: 6px 14px;
+    color: var(--text);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.15s;
+    line-height: normal;
+}
+.btn-link-logout:hover {
+    background: var(--gris-claro);
+}

@@ -18,6 +18,7 @@ class Circuito(models.Model):
         ('afectacion', 'Mensaje de afectación'),
         ('restablecimiento', 'Mensaje de restablecimiento'),
         ('inferido', 'Inferido / histórico'),
+         ('reportes_usuarios', 'Consenso de reportes'),
     ]
 
     # ── Identificación ────────────────────────────────────────
@@ -292,3 +293,105 @@ class ReporteUsuario(models.Model):
 
     def __str__(self):
         return f'{self.circuito.codigo} → {self.estado}'
+
+
+class SnapshotAverias(models.Model):
+    """Registra los circuitos afectados según un mensaje de 'Averías existentes'."""
+    mensaje = models.OneToOneField(
+        'telegram_base.Mensaje',
+        on_delete=models.CASCADE,
+        related_name='snapshot_averias'
+    )
+    fecha = models.DateTimeField()
+    circuitos_afectados = models.JSONField(
+        default=list,
+        help_text="Lista de códigos de circuito reportados como afectados."
+    )
+    creado_en = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-fecha']
+        verbose_name = 'Snapshot de averías'
+        verbose_name_plural = 'Snapshots de averías'
+
+    def __str__(self):
+        return f'Snapshot {self.fecha:%Y-%m-%d %H:%M} - {len(self.circuitos_afectados)} circuitos'
+
+
+class ReporteDiscrepancia(models.Model):
+    """
+    Un usuario reporta que un circuito oficialmente 'en servicio'
+    no tiene luz realmente. Al llegar a un umbral de IPs únicas,
+    se cambia el estado del circuito.
+    """
+
+    ESTADO_REPORTADO_CHOICES = [
+        ('sin_luz', 'Sin luz'),
+        ('intermitente', 'Intermitente'),
+    ]
+
+    circuito = models.ForeignKey(
+        Circuito,
+        on_delete=models.CASCADE,
+        related_name='reportes_discrepancia',
+    )
+    estado_reportado = models.CharField(
+        max_length=20,
+        choices=ESTADO_REPORTADO_CHOICES,
+        default='sin_luz',
+    )
+    comentario = models.TextField(blank=True, max_length=300)
+
+    ip_hash = models.CharField(max_length=64, db_index=True)
+    user_agent = models.CharField(max_length=255, blank=True)
+
+    # Marcado a True si este reporte contribuyó al cambio de estado
+    cambio_estado = models.BooleanField(default=False)
+
+    creado_en = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ['-creado_en']
+        indexes = [
+            models.Index(fields=['circuito', '-creado_en']),
+            models.Index(fields=['ip_hash', 'circuito', '-creado_en']),
+        ]
+        verbose_name = 'Reporte de discrepancia'
+        verbose_name_plural = 'Reportes de discrepancia'
+
+    def __str__(self):
+        return f'{self.circuito.codigo} → {self.estado_reportado}'
+
+
+class CircuitoDAF(models.Model):
+    """
+    Registro de un circuito protegido por Disparo Automático por
+    Frecuencia (DAF) durante un período específico.
+    Se rellena al procesar mensajes tipo "rotación DAF semanal".
+    """
+    circuito = models.ForeignKey(
+        Circuito,
+        on_delete=models.CASCADE,
+        related_name='periodos_daf',
+    )
+    desde = models.DateField(db_index=True)
+    hasta = models.DateField(db_index=True)
+    mensaje_origen = models.ForeignKey(
+        'telegram_base.Mensaje',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='periodos_daf',
+    )
+    activo = models.BooleanField(default=True, db_index=True)
+    creado_en = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Circuito DAF'
+        verbose_name_plural = 'Circuitos DAF'
+        ordering = ['-desde', 'circuito__codigo']
+        indexes = [
+            models.Index(fields=['activo', '-desde']),
+        ]
+
+    def __str__(self):
+        return f'{self.circuito.codigo} DAF {self.desde} → {self.hasta}'

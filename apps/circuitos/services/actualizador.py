@@ -16,6 +16,7 @@ from django.db import models, transaction
 
 from apps.circuitos.models import Circuito, EventoCircuito
 from apps.circuitos.services.parser_horas import parsear_hora_contenido
+from apps.circuitos.services.detector_averia import procesar_snapshot_averias
 from apps.telegram_base.models import Mensaje
 
 
@@ -289,11 +290,20 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
                 codigo, 'restablecimiento', fecha_msg, hora_contenido, mensaje,
             )
         return
+    
 
     # ── 4. Caso normal: aplicar el mismo tipo a todos ────────
     for codigo in circuitos:
         _procesar_circuito(
             codigo, mensaje.tipo_evento, fecha_msg, hora_contenido, mensaje,
+        )
+
+    try:
+        procesar_snapshot_averias(mensaje)
+    except Exception:
+        import logging
+        logging.getLogger(__name__).exception(
+            'Error en detector_averias (msg=%s)', mensaje.telegram_id,
         )
 
 

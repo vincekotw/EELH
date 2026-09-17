@@ -210,6 +210,115 @@
     </section>
 </div>
 
+
+<!-- ═══════════════════════════════════════════════════════════
+     Reporte de discrepancia (solo si está en servicio)
+     ═══════════════════════════════════════════════════════════ -->
+{% if circuito.estado == 'en_servicio' %}
+<section class="card-discrepancia" id="seccion-discrepancia">
+    <h2>📢 ¿No tienes luz aunque el sistema dice que sí?</h2>
+
+    <p class="discrepancia-intro">
+        Si estás en este circuito y no tienes servicio, ayúdanos a reflejarlo.
+        Cuando <strong>{{ UMBRAL_REPORTES_DISCREPANCIA|default:5 }} usuarios distintos</strong>
+        reporten la misma situación, el circuito se marcará como afectado automáticamente.
+    </p>
+
+    <div class="discrepancia-contador" id="discrepancia-contador">
+        <span class="disc-contador-valor" id="disc-ips">{{ reportes_discrepancia_ips|default:0 }}</span>
+        <span class="disc-contador-sep">/</span>
+        <span class="disc-contador-umbral">5</span>
+        <span class="disc-contador-label">reportes únicos en las últimas 12h</span>
+    </div>
+
+    <form id="form-discrepancia" autocomplete="off">
+        {% csrf_token %}
+        <input type="hidden" name="circuito" value="{{ circuito.codigo }}">
+
+        <label>Estado observado *</label>
+        <div class="radio-estados">
+            <label><input type="radio" name="estado" value="sin_luz" required> ❌ Sin luz</label>
+            <label><input type="radio" name="estado" value="intermitente"> ⚡ Intermitente</label>
+        </div>
+
+        <label for="disc-comentario">Comentario (opcional)</label>
+        <textarea id="disc-comentario" name="comentario" maxlength="300" rows="2"
+                  placeholder="Ej: Sin luz desde las 3pm en calle 23"></textarea>
+
+        <div id="disc-msg" class="form-msg" hidden></div>
+
+        <button type="submit" id="btn-discrepancia">Reportar</button>
+    </form>
+</section>
+
+<script>
+(function () {
+    const form = document.getElementById('form-discrepancia');
+    if (!form) return;
+
+    const msg = document.getElementById('disc-msg');
+    const btn = document.getElementById('btn-discrepancia');
+    const contador = document.getElementById('disc-ips');
+    const section = document.getElementById('seccion-discrepancia');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+        msg.hidden = true;
+
+        const fd = new FormData(form);
+        const url = "{% url 'circuitos:reportar_discrepancia' circuito.codigo %}";
+
+        try {
+            const resp = await fetch(url, {
+                method: 'POST',
+                body: fd,
+                headers: { 'X-CSRFToken': fd.get('csrfmiddlewaretoken') },
+            });
+            const data = await resp.json();
+
+            if (!resp.ok) {
+                mostrar('❌ ' + (data.error || 'Error al enviar'), 'error');
+                return;
+            }
+
+            // Actualizar contador
+            contador.textContent = data.ips_unicas;
+
+            if (data.cambio_estado) {
+                mostrar(
+                    `✅ ¡Se alcanzaron los 5 reportes! El circuito ahora figura como afectado.`,
+                    'ok'
+                );
+                // Recargar en 3 segundos para reflejar el cambio
+                setTimeout(() => location.reload(), 3000);
+            } else {
+                const faltan = data.umbral - data.ips_unicas;
+                mostrar(
+                    `✅ Reporte registrado. Faltan ${faltan} reporte${faltan !== 1 ? 's' : ''} únicos para cambiar el estado.`,
+                    'ok'
+                );
+            }
+
+            form.reset();
+        } catch (err) {
+            mostrar('❌ Error de red, intenta de nuevo', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Reportar';
+        }
+    });
+
+    function mostrar(texto, tipo) {
+        msg.textContent = texto;
+        msg.className = 'form-msg ' + tipo;
+        msg.hidden = false;
+    }
+})();
+</script>
+{% endif %}
+
 <!-- ═══════════════════════════════════════════════════════════
      Timeline de eventos
      ═══════════════════════════════════════════════════════════ -->
@@ -484,5 +593,99 @@
     padding: 20px;
     font-size: 13px;
 }
+
+/* ══════════════════════════════════════════════════════════
+   Sección de discrepancia
+   ══════════════════════════════════════════════════════════ */
+.card-discrepancia {
+    background: #fff8e1;
+    border-left: 4px solid var(--naranja);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+.card-discrepancia h2 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #e65100;
+}
+.discrepancia-intro {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+}
+
+.discrepancia-contador {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 12px 16px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-variant-numeric: tabular-nums;
+}
+.disc-contador-valor {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--naranja);
+    line-height: 1;
+}
+.disc-contador-sep {
+    font-size: 24px;
+    color: var(--text-muted);
+}
+.disc-contador-umbral {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+.disc-contador-label {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+#form-discrepancia {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+#form-discrepancia label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: -6px;
+}
+#form-discrepancia textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 60px;
+}
+#form-discrepancia textarea:focus {
+    outline: none;
+    border-color: var(--naranja);
+}
+#btn-discrepancia {
+    padding: 12px;
+    background: var(--naranja);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+#btn-discrepancia:hover { background: #e65100; }
+#btn-discrepancia:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>
 {% endblock %}
