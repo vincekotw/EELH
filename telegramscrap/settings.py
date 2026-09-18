@@ -139,7 +139,7 @@ if DATABASE_URL:
             ssl_require=True,
         ),
     }
-    print('[DB] → PostgreSQL (Neon)')
+    print('[DB] PostgreSQL (Neon)')
 else:
     DATABASES = {
         'default': {
@@ -147,7 +147,7 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         },
     }
-    print('[DB] → SQLite (local)')
+    print('[DB] SQLite (local)')
 
 
 # ═══════════════════════════════════════════════════════════════

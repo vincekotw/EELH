@@ -1,3 +1,77 @@
-venv
-main.py
-mensajes.json
+# ── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ── Entornos virtuales ──────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ── Django ──────────────────────────────────────────────
+*.log
+db.sqlite3
+db.sqlite3-journal
+db.sqlite3.backup*
+/media/
+/staticfiles/
+
+# ── Variables de entorno ────────────────────────────────
+.env
+.env.local
+.env.production
+
+# ── Backups y datos temporales ──────────────────────────
+backup.json
+reset_sequences.sql
+scrap_historico.jsonl
+scrap_historico.log
+scrap_historico_state.json
+_backup_geojson.json
+*.backup
+
+# ── Logs ────────────────────────────────────────────────
+logs/
+*.log
+
+# ── IDE ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ── Sistema operativo ───────────────────────────────────
+Thumbs.db
+desktop.ini
+
+# ── Archivos temporales ─────────────────────────────────
+_chunk_*.json
+tmp/
+temp/
+
+# ── pytest / coverage ───────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/

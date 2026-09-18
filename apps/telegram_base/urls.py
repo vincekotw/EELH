@@ -1,3 +1,4 @@
+from django.urls import path
 from apps.telegram_base import views as telegram_views
 
 urlpatterns = [

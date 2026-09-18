@@ -1,0 +1,59 @@
+# ═══════════════════════════════════════════════════════════════
+#  Render Blueprint — EELH
+# ═══════════════════════════════════════════════════════════════
+#  Documentación: https://render.com/docs/blueprint-spec
+#
+#  Este archivo permite desplegar en un clic desde el dashboard
+#  de Render. Si no lo usas, puedes crear el Web Service
+#  manualmente con los mismos valores.
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  - type: web
+    name: eelh
+    runtime: python
+    plan: free
+    region: ohio
+    branch: main
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn telegramscrap.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120"
+    healthCheckPath: /circuitos/
+    autoDeploy: true
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.12
+
+      - key: DEBUG
+        value: "False"
+
+      - key: SECRET_KEY
+        generateValue: true   # Render genera uno automáticamente
+
+      - key: ALLOWED_HOSTS
+        value: "eelh.onrender.com"
+
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://eelh.onrender.com"
+
+      - key: ENABLE_SCHEDULER
+        value: "False"
+
+      - key: SCHEDULER_INTERVALO_MINUTOS
+        value: "5"
+
+      # ── Valores que debes pegar manualmente en el dashboard ──
+      - key: DATABASE_URL
+        sync: false   # Se rellena en el dashboard, no en el repo
+
+      - key: CRON_TOKEN
+        sync: false
+
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+
+      - key: VAPID_ADMIN_EMAIL
+        sync: false

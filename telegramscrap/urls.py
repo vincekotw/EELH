@@ -9,4 +9,5 @@ urlpatterns = [
     path('circuitos/', include('apps.circuitos.urls', namespace='circuitos')),
     path('usuarios/', include('apps.usuarios.urls')),
     path('metricas/', include('apps.metricas.urls')),
+    path('telegram/', include('apps.telegram_base.urls')),
 ]
