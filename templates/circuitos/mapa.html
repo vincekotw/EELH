@@ -17,21 +17,39 @@
 
 {% block extra_css %}
 <style>
-    /* Anular el padding del container solo en esta vista */
+    /* Anular cualquier padding del container padre */
     main.container {
-        padding: 0;
-        max-width: none;
+        padding: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
     }
+
+    /* El contenedor del mapa ocupa TODO el alto disponible */
     #map-container {
         width: 100%;
-        height: calc(100vh - 65px);
+        height: calc(100vh - 60px);
+        height: calc(100dvh - 60px);   /* usa dvh cuando esté soportado */
         padding: 0;
         margin: 0;
+        position: relative;
+        background: #ddd;
     }
+
+    /* Forzar que el iframe interno de Folium se estire */
     #map-container > div,
     #map-container iframe {
-        height: 100% !important;
+        position: absolute !important;
+        inset: 0 !important;
         width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Ajustes específicos para móvil */
+    @media (max-width: 900px) {
+        #map-container {
+            height: calc(100vh - 56px);
+            height: calc(100dvh - 56px);
+        }
     }
 </style>
 {% endblock %}
