@@ -9,13 +9,31 @@
 {% endblock %}
 
 {% block content %}
-<div id="map-container" style="height: calc(100vh - 65px); margin: -20px -24px;">
+{% block content %}
+<div id="map-container">
     {{ map_html|safe }}
 </div>
+{% endblock %}
 {% endblock %}
 
 {% block extra_css %}
 <style>
-    #map-container > div { height: 100% !important; }
+    html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+#map-container {
+    width: 100%;
+    height: calc(100vh - 60px);
+    padding: 0;
+    margin: 0;
+}
+#map-container > div,
+#map-container iframe {
+    height: 100% !important;
+    width: 100% !important;
+}
 </style>
+
 {% endblock %}
