@@ -31,7 +31,7 @@ def mapa_circuitos(request):
     # ── Mapa base ─────────────────────────────────────────────
     mapa = folium.Map(
         location=[23.1136, -82.3666],
-        zoom_start=12,
+        zoom_start=10,
         tiles=None,
     )
 

@@ -161,8 +161,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = 'usuarios:login'
-LOGIN_REDIRECT_URL = 'circuitos:home'
-LOGOUT_REDIRECT_URL = 'circuitos:home'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
 
 
 # ═══════════════════════════════════════════════════════════════
