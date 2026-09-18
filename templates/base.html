@@ -211,6 +211,10 @@
         {% if user.is_staff %}
             <a href="/admin/" class="btn-link">⚙️ Admin</a>
         {% endif %}
+        <a class="nav-link {% block nav_acerca %}{% endblock %}"
+   href="{% url 'circuitos:acerca_de' %}">
+    Acerca de
+</a>
     </nav>
 </header>
 

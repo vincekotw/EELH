@@ -131,3 +131,7 @@ def _home_modo_apagon(request, alerta):
         'todos_circuitos': todos_circuitos,
         'total_reportes': alerta.reportes_usuarios,
     })
+
+def acerca_de(request):
+    """Página informativa del proyecto: uso, público objetivo, notas."""
+    return render(request, "acerca_de.html")
