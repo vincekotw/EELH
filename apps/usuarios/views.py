@@ -7,6 +7,27 @@ from django.contrib.auth.views import (
 from django.shortcuts import redirect, render
 from .models import Profile
 from .forms import RegistroForm, CustomAuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
+from .models import Notificacion
+
+
+@login_required
+def notificaciones(request):
+    """Lista de notificaciones del usuario."""
+    qs = request.user.notificaciones.select_related('circuito').order_by('-creado_en')
+    return render(request, 'usuarios/notificaciones.html', {
+        'notificaciones': qs,
+        'no_leidas': qs.filter(leida=False).count(),
+    })
+
+
+@login_required
+def marcar_leidas(request):
+    """Marca todas las notificaciones como leídas."""
+    request.user.notificaciones.filter(leida=False).update(leida=True)
+    return redirect('usuarios:notificaciones')
 
 
 # ═══════════════════════════════════════════════════════════════

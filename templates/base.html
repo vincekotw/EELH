@@ -36,6 +36,12 @@
            class="btn-link {% block nav_metricas %}{% endblock %}">
             📊 Métricas
         </a>
+        <a href="{% url 'usuarios:notificaciones' %}" class="btn-link notif-link" title="Notificaciones">
+        🔔
+        {% if notif_no_leidas %}
+            <span class="notif-badge">{{ notif_no_leidas }}</span>
+        {% endif %}
+    </a>
     {% endif %}
 
     {% if user.is_authenticated %}

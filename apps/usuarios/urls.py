@@ -12,4 +12,6 @@ urlpatterns = [
     path('circuitos/', views.circuitos_disponibles, name='circuitos_disponibles'),
     path('circuitos/vincular/', views.vincular_circuito, name='vincular_circuito'),
     path('circuitos/desvincular/', views.desvincular_circuito, name='desvincular_circuito'),
+    path('notificaciones/', views.notificaciones, name='notificaciones'),
+    path('notificaciones/marcar-leidas/', views.marcar_leidas, name='marcar_leidas'),
 ]

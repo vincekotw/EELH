@@ -16,7 +16,9 @@ from django.db import models, transaction
 
 from apps.circuitos.models import Circuito, EventoCircuito
 from apps.circuitos.services.parser_horas import parsear_hora_contenido
+from apps.circuitos.services.parser_daf import procesar_mensaje_daf
 from apps.circuitos.services.detector_averia import procesar_snapshot_averias
+from apps.usuarios.services.notificaciones import notificar_cambio_circuito
 from apps.telegram_base.models import Mensaje
 
 
@@ -290,6 +292,24 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
                 codigo, 'restablecimiento', fecha_msg, hora_contenido, mensaje,
             )
         return
+
+        # ── Notificaciones a usuarios vinculados ──────────────────
+    try:
+        
+        for codigo in circuitos:
+            circuito_obj = Circuito.objects.filter(codigo=codigo).first()
+            if not circuito_obj:
+                continue
+            # Determinar si cambió de estado a afectado o en servicio
+            if circuito_obj.estado == 'afectado' and circuito_obj.afectacion_activa:
+                notificar_cambio_circuito(circuito_obj, 'afectacion', mensaje)
+            elif circuito_obj.estado == 'en_servicio' and circuito_obj.servicio_activo:
+                notificar_cambio_circuito(circuito_obj, 'restablecimiento', mensaje)
+    except Exception:
+        import logging
+        logging.getLogger(__name__).exception(
+            'Error generando notificaciones (msg=%s)', mensaje.telegram_id,
+        )
     
 
     # ── 4. Caso normal: aplicar el mismo tipo a todos ────────
@@ -304,6 +324,15 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
         import logging
         logging.getLogger(__name__).exception(
             'Error en detector_averias (msg=%s)', mensaje.telegram_id,
+        )
+        # ── Detección de mensajes DAF ─────────────────────────────
+    try:
+        
+        procesar_mensaje_daf(mensaje)
+    except Exception:
+        import logging
+        logging.getLogger(__name__).exception(
+            'Error en parser_daf (msg=%s)', mensaje.telegram_id,
         )
 
 

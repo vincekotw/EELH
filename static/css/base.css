@@ -151,3 +151,24 @@ html, body {
 .btn-link-logout:hover {
     background: var(--gris-claro);
 }
+
+/* ── Icono de notificaciones con badge ─────────────────── */
+.notif-link {
+    position: relative;
+    padding: 6px 12px;
+}
+.notif-badge {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    background: var(--rojo);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 10px;
+    min-width: 16px;
+    text-align: center;
+    line-height: 1.4;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}

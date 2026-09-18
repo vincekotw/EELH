@@ -62,6 +62,7 @@ def start(run_now: bool = False) -> BackgroundScheduler | None:
         return _scheduler
 
     tz = getattr(settings, 'TIME_ZONE', 'UTC') or 'UTC'
+    intervalo_min = getattr(settings, 'SCHEDULER_INTERVALO_MINUTOS', 5)
 
     scheduler = BackgroundScheduler(
         timezone=tz,
@@ -72,13 +73,15 @@ def start(run_now: bool = False) -> BackgroundScheduler | None:
         },
     )
 
+    # ── Trigger: cada N minutos ──────────────────────────────
     scheduler.add_job(
         job_scrape_telegram,
-        trigger=CronTrigger(minute=0, timezone=tz),
-        id='scrape_telegram_hourly',
-        name='Scrape Telegram cada hora',
+        trigger=CronTrigger(minute=f'*/{intervalo_min}', timezone=tz),
+        id='scrape_telegram_5min',
+        name=f'Scrape Telegram cada {intervalo_min} min',
         replace_existing=True,
     )
+
 
     # Arrancar primero...
     scheduler.start()
