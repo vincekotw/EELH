@@ -1,8 +1,7 @@
-{% extends "base.html" %}
+{% extends "../base.html" %}
 {% load static %}
 
 {% block title %}Mapa de Circuitos{% endblock %}
-
 {% block nav_mapa %}active{% endblock %}
 
 {% block brand_stats %}
@@ -10,28 +9,13 @@
 {% endblock %}
 
 {% block content %}
-<div id="map-container">
+<div id="map-container" style="height: calc(100vh - 65px); margin: -20px -24px;">
     {{ map_html|safe }}
 </div>
 {% endblock %}
 
 {% block extra_css %}
 <style>
-    /* El container padre no debe tener padding en esta vista */
-    main.container {
-        padding: 0;
-        max-width: none;
-    }
-    #map-container {
-        width: 100%;
-        height: calc(100vh - 60px);
-        padding: 0;
-        margin: 0;
-    }
-    #map-container > div,
-    #map-container iframe {
-        height: 100% !important;
-        width: 100% !important;
-    }
+    #map-container > div { height: 100% !important; }
 </style>
 {% endblock %}
