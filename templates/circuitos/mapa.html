@@ -2,54 +2,64 @@
 {% load static %}
 
 {% block title %}Mapa de Circuitos{% endblock %}
-
 {% block nav_mapa %}active{% endblock %}
 
 {% block brand_stats %}
 <span class="stats">{{ total }} circuitos en el mapa</span>
 {% endblock %}
 
-{% block content %}
-<div id="map-container">
-    {{ map_html|safe }}
-</div>
-{% endblock %}
-
 {% block extra_css %}
 <style>
-    /* Anular cualquier padding del container padre */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    /* El header de base.html debe ser flex-shrink:0.
+       Si no lo es, esta regla lo fuerza. */
+    body > header,
+    body > nav,
+    body > .navbar {
+        flex-shrink: 0;
+    }
+
     main.container {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;          /* imprescindible en flex + overflow */
         padding: 0 !important;
         max-width: none !important;
         margin: 0 !important;
     }
 
-    /* El contenedor del mapa ocupa TODO el alto disponible */
     #map-container {
-        width: 100%;
-        height: calc(100vh - 60px);
-        height: calc(100dvh - 60px);   /* usa dvh cuando esté soportado */
-        padding: 0;
-        margin: 0;
+        flex: 1 1 auto;
         position: relative;
+        min-height: 0;
         background: #ddd;
     }
 
-    /* Forzar que el iframe interno de Folium se estire */
+    /* El wrapper que inyecta Folium y su iframe */
     #map-container > div,
     #map-container iframe {
         position: absolute !important;
         inset: 0 !important;
         width: 100% !important;
         height: 100% !important;
-    }
-
-    /* Ajustes específicos para móvil */
-    @media (max-width: 900px) {
-        #map-container {
-            height: calc(100vh - 56px);
-            height: calc(100dvh - 56px);
-        }
+        border: 0 !important;
+        display: block !important;
     }
 </style>
+{% endblock %}
+
+{% block content %}
+<div id="map-container">
+    {{ map_html|safe }}
+</div>
 {% endblock %}

@@ -19,9 +19,55 @@ from .models import Circuito, EventoCircuito, AlertaMasiva, ReporteUsuario, Repo
 from .services.cuadriculas import obtener_poligono, geojson_a_leaflet
 
 
+
+
+
+
 # ═══════════════════════════════════════════════════════════════
 # MAPA
 # ═══════════════════════════════════════════════════════════════
+import branca.element
+from branca.element import Figure, MacroElement
+from jinja2 import Template as JinjaTemplate
+import folium
+from folium.features import DivIcon
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+
+# ── Script que se inyecta dentro del HTML de Folium ────────────
+# Detecta cambios de tamaño del div del mapa (rotación, barra de
+# direcciones, teclado virtual, etc.) y avisa a Leaflet.
+JS_INVALIDATE = """
+<script>
+(function () {
+    function attach() {
+        var mapEl = document.querySelector('.folium-map');
+        if (!mapEl) { setTimeout(attach, 100); return; }
+
+        // Folium registra el objeto Leaflet en window[mapEl.id]
+        var mapObj = window[mapEl.id];
+        if (!mapObj) { setTimeout(attach, 100); return; }
+
+        function revalidate() {
+            setTimeout(function () { mapObj.invalidateSize(); }, 150);
+        }
+
+        window.addEventListener('resize', revalidate);
+        window.addEventListener('orientationchange', revalidate);
+        document.addEventListener('visibilitychange', revalidate);
+        window.addEventListener('load', revalidate);
+
+        if (window.ResizeObserver) {
+            new ResizeObserver(revalidate).observe(mapEl);
+        }
+    }
+    attach();
+})();
+</script>
+"""
+
+
 @login_required
 def mapa_circuitos(request):
     circuitos = Circuito.objects.exclude(
@@ -33,13 +79,11 @@ def mapa_circuitos(request):
         location=[23.1136, -82.3666],
         zoom_start=12,
         tiles=None,
+        width="100%",
+        height="100%",
     )
 
-    # ══════════════════════════════════════════════════════════
-    # Capas de tiles — solo proveedores accesibles desde Cuba
-    # ══════════════════════════════════════════════════════════
-
-    # ── Capa 1: OSM Alemania (por defecto) ────────────────────
+    # ── Capas de tiles ────────────────────────────────────────
     folium.TileLayer(
         tiles='https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png',
         attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -48,7 +92,6 @@ def mapa_circuitos(request):
         max_zoom=19,
     ).add_to(mapa)
 
-    # ── Capa 2: OpenTopoMap (relieve) ─────────────────────────
     folium.TileLayer(
         tiles='https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
         attr='Map data: &copy; OSM contributors, SRTM | Style: &copy; OpenTopoMap (CC-BY-SA)',
@@ -57,9 +100,9 @@ def mapa_circuitos(request):
         max_zoom=17,
     ).add_to(mapa)
 
-    # ── Grupos de capas por estado ────────────────────────────
+    # ── Grupos ────────────────────────────────────────────────
     grupo_afectados = folium.FeatureGroup(name='🔴 Afectados', show=True)
-    grupo_servicio = folium.FeatureGroup(name='🟢 En servicio', show=True)
+    grupo_servicio  = folium.FeatureGroup(name='🟢 En servicio', show=True)
     grupo_etiquetas = folium.FeatureGroup(name='🏷️ Etiquetas', show=True)
 
     for c in circuitos:
@@ -71,19 +114,13 @@ def mapa_circuitos(request):
         if not puntos:
             continue
 
-        # ── Colores según estado ─────────────────────────────
         if c.estado == 'afectado':
-            color_borde = '#c62828'
-            color_relleno = '#ef5350'
-            opacidad = 0.30
+            color_borde, color_relleno, opacidad = '#c62828', '#ef5350', 0.30
             grupo = grupo_afectados
         else:
-            color_borde = '#2e7d32'
-            color_relleno = '#66bb6a'
-            opacidad = 0.20
+            color_borde, color_relleno, opacidad = '#2e7d32', '#66bb6a', 0.20
             grupo = grupo_servicio
 
-        # ── Popup con detalles ───────────────────────────────
         direccion_corta = (c.direccion[:100] + '…') if len(c.direccion) > 100 else c.direccion
         popup_html = (
             f'<div style="font-family: sans-serif; font-size: 13px; min-width: 260px;">'
@@ -93,13 +130,11 @@ def mapa_circuitos(request):
             f'<b>Afectaciones:</b> {c.total_afectaciones}<br>'
             f'<b>Min acumulados:</b> {c.total_minutos_afectado}<br><br>'
             f'<a href="/circuitos/c/{c.codigo}/" '
-            f'style="color:#1976d2;font-weight:600;text-decoration:none;"'
-            f'target=blank>'
-            f'Ver detalle completo →</a>'
+            f'style="color:#1976d2;font-weight:600;text-decoration:none;" '
+            f'target="_blank">Ver detalle completo →</a>'
             f'</div>'
         )
 
-        # ── Polígono (cuadrícula) ────────────────────────────
         folium.Polygon(
             locations=puntos,
             color=color_borde,
@@ -111,34 +146,26 @@ def mapa_circuitos(request):
             tooltip=c.codigo,
         ).add_to(grupo)
 
-        # ── Etiqueta con el código en el centro ──────────────
         folium.Marker(
             location=[float(c.latitud), float(c.longitud)],
             icon=DivIcon(
                 html=(
-                    f'<div style="'
-                    f'font-family: sans-serif; '
-                    f'font-size: 10px; '
-                    f'font-weight: 700; '
-                    f'color: #212121; '
+                    f'<div style="font-family: sans-serif; font-size: 10px; '
+                    f'font-weight: 700; color: #212121; '
                     f'text-shadow: 1px 1px 0 white, -1px -1px 0 white, '
                     f'1px -1px 0 white, -1px 1px 0 white; '
-                    f'text-align: center; '
-                    f'white-space: nowrap; '
-                    f'pointer-events: none;'
-                    f'">{c.codigo}</div>'
+                    f'text-align: center; white-space: nowrap; '
+                    f'pointer-events: none;">{c.codigo}</div>'
                 ),
                 icon_size=(60, 14),
                 icon_anchor=(30, 7),
             ),
         ).add_to(grupo_etiquetas)
 
-    # ── Añadir grupos al mapa ─────────────────────────────────
     grupo_afectados.add_to(mapa)
     grupo_servicio.add_to(mapa)
     grupo_etiquetas.add_to(mapa)
 
-    # ── Control de capas ──────────────────────────────────────
     folium.LayerControl(collapsed=False).add_to(mapa)
 
     # ── Leyenda flotante ──────────────────────────────────────
@@ -160,11 +187,22 @@ def mapa_circuitos(request):
     '''
     mapa.get_root().html.add_child(folium.Element(leyenda_html))
 
+    # ══════════════════════════════════════════════════════════
+    # CLAVE: envolver el mapa en un Figure con altura 100%
+    # y añadir el script de invalidateSize al HTML final.
+    # ══════════════════════════════════════════════════════════
+    fig = Figure(width="100%", height="100%")
+    fig.add_child(mapa)
+
+    # Añadimos el JS justo antes de </body> del HTML generado
+    html = fig.render()
+    html = html.replace("</body>", JS_INVALIDATE + "</body>")
+
     context = {
-        'map_html': mapa._repr_html_(),
-        'total': circuitos.count(),
+        "map_html": html,
+        "total": circuitos.count(),
     }
-    return render(request, 'circuitos/mapa.html', context)
+    return render(request, "circuitos/mapa.html", context)
 
 
 # ═══════════════════════════════════════════════════════════════
