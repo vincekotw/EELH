@@ -187,10 +187,7 @@ html, body {
 }
 
 /* Aislamiento para que el contenido NUNCA compita con el topbar */
-main.container {
-    isolation: isolate;
-    z-index: 1;
-}
+
 
 /* ══════════════════════════════════════════════════════════
    UTILIDADES

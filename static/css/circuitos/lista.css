@@ -33,24 +33,12 @@ html, body {
 /* ══════════════════════════════════════════════════════════
    Barra superior
    ══════════════════════════════════════════════════════════ */
-.topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 24px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
+
 
 .brand { display: flex; align-items: baseline; gap: 16px; }
 .brand h1 { font-size: 20px; margin: 0; font-weight: 700; }
 .stats { color: var(--text-muted); font-size: 13px; }
 
-.nav { display: flex; gap: 8px; }
 
 .btn-link {
     padding: 6px 14px;
@@ -416,7 +404,6 @@ html, body {
 @media (max-width: 700px) {
     .filtros { grid-template-columns: 1fr; }
     .container { padding: 12px; }
-    .topbar { flex-direction: column; gap: 8px; align-items: flex-start; }
 }
 
 /* ══════════════════════════════════════════════════════════
