@@ -291,12 +291,15 @@ def detalle_circuito(request, codigo):
     circuito = get_object_or_404(Circuito, codigo__iexact=codigo)
 
     # ── Mini-mapa con la geometría del circuito ──────────────
+    mini_mapa_html = None
     mini_mapa = None
     if circuito.latitud and circuito.longitud:
         mini_mapa = folium.Map(
             location=[float(circuito.latitud), float(circuito.longitud)],
             zoom_start=15,
             tiles=None,
+            width="100%",
+            height="100%",
         )
 
         # ── Capa 1: OSM Alemania (por defecto) ────────────────
@@ -347,6 +350,11 @@ def detalle_circuito(request, codigo):
         # ── Control de capas (colapsado para no ocupar espacio) ─
         folium.LayerControl(collapsed=True).add_to(mini_mapa)
 
+    fig = Figure(width="100%", height="100%")
+    fig.add_child(mini_mapa)
+    mini_mapa_html = fig.render()
+    mini_mapa_html = mini_mapa_html.replace("</body>", JS_INVALIDATE + "</body>")
+
     # ── Eventos ordenados cronológicamente descendente ────────
     eventos = (
         circuito.eventos
@@ -368,7 +376,7 @@ def detalle_circuito(request, codigo):
 
     context = {
         'circuito': circuito,
-        'mini_mapa_html': mini_mapa._repr_html_() if mini_mapa else None,
+        'mini_mapa_html': mini_mapa_html,
         'eventos': eventos,
         'total_afectaciones_eventos': total_afectaciones_eventos,
         'total_restablecimientos': total_restablecimientos,

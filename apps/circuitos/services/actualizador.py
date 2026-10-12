@@ -249,8 +249,14 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
     """
 
     # ── 0. Idempotencia ──────────────────────────────────────
+    try:
+        from apps.circuitos.services.detectar_apagon import procesar_alerta_masiva
+        procesar_alerta_masiva(mensaje)
+    except Exception:
+        logging.getLogger(__name__).exception('Error en detector_apagon')
+
     if EventoCircuito.objects.filter(mensaje=mensaje).exists():
-        return  # ya procesado
+        return
 
     # ── 1. Validar tipo ──────────────────────────────────────
     if mensaje.tipo_evento not in ('afectacion', 'restablecimiento', 'otro'):
@@ -261,14 +267,6 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
     if not fecha_msg:
         return
 
-        # ── Detección de alertas masivas ─────────────────────────
-    try:
-        from apps.circuitos.services.detectar_apagon import procesar_alerta_masiva
-        procesar_alerta_masiva(mensaje)
-    except Exception:
-        # No bloquear el procesamiento normal por una alerta
-        import logging
-        logging.getLogger(__name__).exception('Error en detector_apagon')
 
     hora_contenido = parsear_hora_contenido(mensaje.texto, fecha_msg)
     circuitos = mensaje.circuitos_mencionados or []
@@ -291,27 +289,8 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
             _procesar_circuito(
                 codigo, 'restablecimiento', fecha_msg, hora_contenido, mensaje,
             )
-        return
-
-        # ── Notificaciones a usuarios vinculados ──────────────────
-    try:
-        
-        for codigo in circuitos:
-            circuito_obj = Circuito.objects.filter(codigo=codigo).first()
-            if not circuito_obj:
-                continue
-            # Determinar si cambió de estado a afectado o en servicio
-            if circuito_obj.estado == 'afectado' and circuito_obj.afectacion_activa:
-                notificar_cambio_circuito(circuito_obj, 'afectacion', mensaje)
-            elif circuito_obj.estado == 'en_servicio' and circuito_obj.servicio_activo:
-                notificar_cambio_circuito(circuito_obj, 'restablecimiento', mensaje)
-    except Exception:
-        import logging
-        logging.getLogger(__name__).exception(
-            'Error generando notificaciones (msg=%s)', mensaje.telegram_id,
-        )
+        return  
     
-
     # ── 4. Caso normal: aplicar el mismo tipo a todos ────────
     for codigo in circuitos:
         _procesar_circuito(
@@ -334,6 +313,22 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
         logging.getLogger(__name__).exception(
             'Error en parser_daf (msg=%s)', mensaje.telegram_id,
         )
+
+    try:  
+        for codigo in circuitos:
+            circuito_obj = Circuito.objects.filter(codigo=codigo).first()
+            if not circuito_obj:
+                continue
+            # Determinar si cambió de estado a afectado o en servicio
+            if circuito_obj.estado == 'afectado' and circuito_obj.afectacion_activa:
+                notificar_cambio_circuito(circuito_obj, 'afectacion', mensaje)
+            elif circuito_obj.estado == 'en_servicio' and circuito_obj.servicio_activo:
+                notificar_cambio_circuito(circuito_obj, 'restablecimiento', mensaje)
+    except Exception:
+        import logging
+        logging.getLogger(__name__).exception(
+                'Error generando notificaciones (msg=%s)', mensaje.telegram_id,
+            )
 
 
 # ── Recalcular ciclos abiertos ────────────────────────────────

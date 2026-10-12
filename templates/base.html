@@ -130,9 +130,11 @@
             .topbar { padding: 10px 14px; }
             .topbar-brand h1 { font-size: 16px; }
             .topbar-brand .stats { display: none; }
+            .topbar { z-index: 3000; }
+            .nav.open { z-index: 2999; }
 
             /* Mostrar el botón hamburguesa */
-            .nav-toggle { display: flex; }
+            .nav-toggle { display: flex; }  
 
             /* Menú oculto por defecto, dropdown cuando tiene .open */
             .nav {
@@ -167,6 +169,11 @@
                 font-size: 15px;
                 border-radius: 8px;
             }
+        }
+        /* El contenedor del mapa nunca debe competir con el topbar */
+        #map-container,
+        #map-container iframe {
+            z-index: 0;
         }
     </style>
 
@@ -211,10 +218,10 @@
         {% if user.is_staff %}
             <a href="/admin/" class="btn-link">⚙️ Admin</a>
         {% endif %}
-        <a class="nav-link {% block nav_acerca %}{% endblock %}"
-   href="{% url 'acerca_de' %}">
-    Acerca de
-</a>
+        <a class="nav-link class="btn-link"
+        href="{% url 'acerca_de' %}">
+            Acerca de
+        </a>
     </nav>
 </header>
 
@@ -228,6 +235,11 @@
     var menu = document.getElementById('nav-menu');
     if (!toggle || !menu) return;
 
+    function cerrarMenu() {
+        toggle.classList.remove('active');
+        menu.classList.remove('open');
+    }
+
     toggle.addEventListener('click', function (e) {
         e.stopPropagation();
         toggle.classList.toggle('active');
@@ -235,17 +247,32 @@
     });
 
     menu.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function () {
-            toggle.classList.remove('active');
-            menu.classList.remove('open');
-        });
+        link.addEventListener('click', cerrarMenu);
     });
 
     document.addEventListener('click', function (e) {
         if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-            toggle.classList.remove('active');
-            menu.classList.remove('open');
+            cerrarMenu();
         }
+    });
+
+    // ── NUEVO ─────────────────────────────────────────────────
+    // 1) Al cargar la página, el menú siempre empieza cerrado
+    //    (por si el navegador restaura clases desde bfcache).
+    document.addEventListener('DOMContentLoaded', cerrarMenu);
+
+    // 2) Al volver con el botón atrás/adelante, algunos navegadores
+    //    móviles restauran la página con .open activo. Lo limpiamos.
+    window.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+            cerrarMenu();
+        }
+    });
+
+    // 3) Al cambiar de orientación, cerramos el menú para que no
+    //    quede a medio camino entre layout móvil y escritorio.
+    window.addEventListener('orientationchange', function () {
+        cerrarMenu();
     });
 })();
 </script>

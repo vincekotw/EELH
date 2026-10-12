@@ -5,15 +5,35 @@ del canal. Activa/cierra el modo "apagón" en la home.
 
 import re
 from django.utils import timezone
-
+import logging
 from apps.circuitos.models import AlertaMasiva
 
 
 # ── Patrones de INICIO ────────────────────────────────────────
 RE_INICIO = re.compile(
-    r'(desconexi[óo]n\s+del\s+sistema\s+el[ée]ctrico|'
-    r'ca[íi]da\s+(parcial|total)?\s*del\s+sen|'
-    r'ca[íi]da\s+del\s+sistema\s+el[ée]ctrico)',
+    r'(?:'
+    # "desconexión [total|parcial|general] del SEN / Sistema Eléctrico"
+    r'desconexi[óo]n\s+(?:total\s+|parcial\s+|general\s+)?'
+    r'(?:del\s+|de\s+)?'
+    r'(?:sen|sistema\s+el[ée]ctrico(?:\s+nacional)?)'
+    r'|'
+    # "se desconectó (el) SEN / Sistema Eléctrico"
+    r'se\s+desconect[óo]\s+(?:totalmente\s+)?'
+    r'(?:el\s+)?(?:sen|sistema\s+el[ée]ctrico)'
+    r'|'
+    # "caída [total|parcial] del SEN / Sistema Eléctrico"
+    r'ca[íi]da\s+(?:total\s+|parcial\s+)?'
+    r'(?:del\s+|de\s+)?'
+    r'(?:sen|sistema\s+el[ée]ctrico)'
+    r'|'
+    # "salida (total) del SEN / Sistema Eléctrico"
+    r'salida\s+(?:total\s+)?'
+    r'(?:del\s+|de\s+)?'
+    r'(?:sen|sistema\s+el[ée]ctrico)'
+    r'|'
+    # "apagón total / general / nacional"
+    r'apag[óo]n\s+(?:total|general|nacional)'
+    r')',
     re.IGNORECASE,
 )
 
@@ -77,8 +97,16 @@ def procesar_alerta_masiva(mensaje) -> None:
     Analiza el mensaje y decide si activa, mantiene o cierra la
     alerta masiva. Se llama desde `procesar_mensaje`.
     """
+    logger = logging.getLogger(__name__)
     if not mensaje or not mensaje.texto:
         return
+
+    if 'sen' in texto_lower or 'sistema el' in texto_lower:
+        if not RE_INICIO.search(texto_lower) and not RE_FIN.search(texto_lower):
+            logger.info(
+                'Posible alerta NO detectada (msg=%s): %s',
+                mensaje.telegram_id, mensaje.texto[:200],
+            )
 
     # ── 1. Ignorar mensajes históricos ───────────────────────
     if mensaje.fecha:
