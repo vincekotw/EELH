@@ -9,6 +9,7 @@ NOTA: los regex usan \\w en lugar de vocales acentuadas literales
 para evitar problemas de encoding.
 """
 
+import logging
 import re
 from datetime import datetime, timezone
 
@@ -22,22 +23,20 @@ from apps.usuarios.services.notificaciones import notificar_cambio_circuito
 from apps.telegram_base.models import Mensaje
 
 
+logger = logging.getLogger(__name__)
+
+
 # ── Detección de rotación APOLO ───────────────────────────────
-# "rotación" / "rotacion" y "subestación apolo" / "subestacion apolo"
 RE_MARCA_ROTACION = re.compile(
     r'rotaci\w+n|subestaci\w+n\s+apolo',
     re.IGNORECASE,
 )
 
-# Marcadores que abren un bloque de "en servicio".
-# Acepta: 🟢, ✅, "Con servicio", "Circuitos restablecidos", "Restablecidos"
 RE_INICIO_SERVICIO = re.compile(
     r'(?:🟢|✅|Con servicio:?|Circuitos restablecidos?:?|Restablecidos?:?)',
     re.IGNORECASE,
 )
 
-# Marcadores que abren un bloque de "afectados".
-# Acepta: 🛑, 🔴, "Afectados", "Circuitos afectados", "Sin servicio"
 RE_INICIO_AFECTADOS = re.compile(
     r'(?:🛑|🔴|Afectados:?|Circuitos afectados?:?|Sin servicio:?)',
     re.IGNORECASE,
@@ -50,7 +49,6 @@ def _normalizar_codigo(codigo: str) -> str:
 
 
 def _minutos(a: datetime | None, b: datetime | None) -> int | None:
-    """Diferencia en minutos redondeada. None si falta alguno."""
     if a is None or b is None:
         return None
     delta = (b - a).total_seconds() / 60
@@ -58,10 +56,6 @@ def _minutos(a: datetime | None, b: datetime | None) -> int | None:
 
 
 def _es_mensaje_rotacion(texto: str) -> bool:
-    """
-    True si el mensaje menciona rotación APOLO con bloques de
-    circuitos afectados y con servicio mezclados.
-    """
     if not texto:
         return False
     if not RE_MARCA_ROTACION.search(texto):
@@ -71,21 +65,8 @@ def _es_mensaje_rotacion(texto: str) -> bool:
     return tiene_servicio and tiene_afectados
 
 
-def _separar_circuitos_rotacion(
-    texto: str,
-    todos: list[str],
-) -> tuple[list[str], list[str]]:
-    """
-    Divide los circuitos en (afectados, con_servicio) usando la
-    posición de los marcadores en el texto.
-
-    Robusto ante:
-      - Orden invertido de bloques (restablecidos primero o después).
-      - Distintos encabezados ("Con servicio", "Restablecidos", etc.).
-      - Múltiples marcadores repetidos (emoji + texto).
-    """
-    marcadores: list[tuple[int, str]] = []
-
+def _separar_circuitos_rotacion(texto, todos):
+    marcadores = []
     for m in RE_INICIO_SERVICIO.finditer(texto):
         marcadores.append((m.start(), 'servicio'))
     for m in RE_INICIO_AFECTADOS.finditer(texto):
@@ -95,23 +76,18 @@ def _separar_circuitos_rotacion(
         return [], []
 
     marcadores.sort(key=lambda x: x[0])
-
-    afectados: list[str] = []
-    con_servicio: list[str] = []
+    afectados, con_servicio = [], []
 
     for codigo in todos:
         pos = texto.find(codigo)
         if pos == -1:
             continue
-
-        # Encontrar el último marcador ANTES de la mención del circuito
         tipo_bloque = None
         for m_pos, m_tipo in marcadores:
             if m_pos < pos:
                 tipo_bloque = m_tipo
             else:
                 break
-
         if tipo_bloque == 'servicio':
             con_servicio.append(codigo)
         elif tipo_bloque == 'afectados':
@@ -121,18 +97,7 @@ def _separar_circuitos_rotacion(
 
 
 # ── Procesamiento de un circuito individual ───────────────────
-def _procesar_circuito(
-    codigo: str,
-    tipo_evento: str,
-    fecha_msg: datetime,
-    hora_contenido: datetime | None,
-    mensaje: Mensaje,
-) -> None:
-    """
-    Aplica un evento (afectación / restablecimiento / mención) a un
-    circuito. Crea el circuito si no existe, registra el evento y
-    actualiza los ciclos.
-    """
+def _procesar_circuito(codigo, tipo_evento, fecha_msg, hora_contenido, mensaje):
     tipo_evento_efectivo = 'mencion' if tipo_evento == 'otro' else tipo_evento
 
     circuito, _ = Circuito.objects.get_or_create(
@@ -143,7 +108,6 @@ def _procesar_circuito(
         },
     )
 
-    # Registrar evento atómico (idempotente)
     EventoCircuito.objects.get_or_create(
         circuito=circuito,
         mensaje=mensaje,
@@ -154,12 +118,10 @@ def _procesar_circuito(
         },
     )
 
-    # Actualizar marcas de mención
     circuito.ultima_mencion = fecha_msg
     if circuito.primera_mencion is None or fecha_msg < circuito.primera_mencion:
         circuito.primera_mencion = fecha_msg
 
-    # Aplicar lógica según tipo
     if tipo_evento_efectivo == 'afectacion':
         _aplicar_afectacion(circuito, fecha_msg, hora_contenido)
     elif tipo_evento_efectivo == 'restablecimiento':
@@ -168,15 +130,7 @@ def _procesar_circuito(
     circuito.save()
 
 
-# ── Transiciones de estado ────────────────────────────────────
-def _aplicar_afectacion(
-    c: Circuito,
-    fecha_msg: datetime,
-    hora_contenido: datetime | None,
-) -> None:
-    """Lógica cuando llega un mensaje de afectación."""
-
-    # Cerrar ciclo de servicio previo si lo había
+def _aplicar_afectacion(c, fecha_msg, hora_contenido):
     if c.servicio_activo and c.servicio_inicio_msg:
         c.servicio_fin_msg = fecha_msg
         c.servicio_fin_contenido = hora_contenido
@@ -186,12 +140,9 @@ def _aplicar_afectacion(
         )
         c.servicio_activo = False
 
-    # Si ya estaba afectado, no reiniciar el ciclo
-    # (es un mensaje adicional: actualización, aviso de mantenimiento, etc.)
     if c.afectacion_activa:
         return
 
-    # Nuevo ciclo de afectación
     c.afectacion_inicio_msg = fecha_msg
     c.afectacion_inicio_contenido = hora_contenido
     c.afectacion_fin_msg = None
@@ -206,14 +157,7 @@ def _aplicar_afectacion(
     c.total_afectaciones += 1
 
 
-def _aplicar_restablecimiento(
-    c: Circuito,
-    fecha_msg: datetime,
-    hora_contenido: datetime | None,
-) -> None:
-    """Lógica cuando llega un mensaje de restablecimiento."""
-
-    # Cerrar ciclo de afectación si estaba abierto
+def _aplicar_restablecimiento(c, fecha_msg, hora_contenido):
     if c.afectacion_activa and c.afectacion_inicio_msg:
         c.afectacion_fin_msg = fecha_msg
         c.afectacion_fin_contenido = hora_contenido
@@ -226,7 +170,6 @@ def _aplicar_restablecimiento(
         if c.afectacion_duracion_msg_min:
             c.total_minutos_afectado += c.afectacion_duracion_msg_min
 
-    # Abrir nuevo ciclo de servicio
     c.servicio_inicio_msg = fecha_msg
     c.servicio_inicio_contenido = hora_contenido
     c.servicio_fin_msg = None
@@ -240,42 +183,67 @@ def _aplicar_restablecimiento(
     c.estado_actualizado_en = fecha_msg
 
 
-# ── Punto de entrada ──────────────────────────────────────────
+# ── Notificaciones ────────────────────────────────────────────
+def _notificar_lote(codigos, tipo_notif, mensaje):
+    """
+    Notifica a los usuarios vinculados a cada circuito de `codigos`
+    que han cambiado al estado indicado por `tipo_notif`.
+    """
+    if tipo_notif not in ('afectacion', 'restablecimiento'):
+        return
+    for codigo in codigos:
+        circuito_obj = Circuito.objects.filter(codigo=codigo).first()
+        if circuito_obj:
+            notificar_cambio_circuito(circuito_obj, tipo_notif, mensaje)
+
+
+# ═══════════════════════════════════════════════════════════════
+# PUNTO DE ENTRADA
+# ═══════════════════════════════════════════════════════════════
 @transaction.atomic
 def procesar_mensaje(mensaje: Mensaje) -> None:
     """
-    Recibe un Mensaje recién guardado y actualiza todos los
-    circuitos mencionados. Idempotente.
+    Recibe un Mensaje recién guardado y actualiza los circuitos
+    mencionados. Idempotente para el resto del pipeline.
     """
 
-    # ── 0. Idempotencia ──────────────────────────────────────
+    # ── 0a. Validación por tabla top afectados ──────────────
+    # Corre SIEMPRE, incluso si el resto del mensaje ya fue procesado.
+    try:
+        from apps.metricas.services.prediccion_avanzada import (
+            validar_afectados_por_tabla,
+        )
+        validar_afectados_por_tabla(mensaje)
+    except Exception:
+        logger.exception(
+            'Error en validar_afectados_por_tabla (msg=%s)',
+            mensaje.telegram_id,
+        )
+
+    # ── 0b. Detección de alerta masiva ──────────────────────
     try:
         from apps.circuitos.services.detectar_apagon import procesar_alerta_masiva
         procesar_alerta_masiva(mensaje)
     except Exception:
-        logging.getLogger(__name__).exception('Error en detector_apagon')
+        logger.exception('Error en detector_apagon')
 
+    # ── 1. Idempotencia del resto ───────────────────────────
     if EventoCircuito.objects.filter(mensaje=mensaje).exists():
         return
 
-    # ── 1. Validar tipo ──────────────────────────────────────
     if mensaje.tipo_evento not in ('afectacion', 'restablecimiento', 'otro'):
         return
 
-    # ── 2. Fecha del mensaje ─────────────────────────────────
     fecha_msg = mensaje.fecha
     if not fecha_msg:
         return
-
 
     hora_contenido = parsear_hora_contenido(mensaje.texto, fecha_msg)
     circuitos = mensaje.circuitos_mencionados or []
     if not circuitos:
         return
 
-    # ── 3. Caso especial: mensaje de rotación APOLO ──────────
-    #    Independiente del tipo_evento asignado por el clasificador,
-    #    porque el mensaje mezcla afectación y restablecimiento.
+    # ── 2. Caso especial: mensaje de rotación APOLO ─────────
     if _es_mensaje_rotacion(mensaje.texto):
         afectados, con_servicio = _separar_circuitos_rotacion(
             mensaje.texto, circuitos,
@@ -289,55 +257,55 @@ def procesar_mensaje(mensaje: Mensaje) -> None:
             _procesar_circuito(
                 codigo, 'restablecimiento', fecha_msg, hora_contenido, mensaje,
             )
-        return  
-    
-    # ── 4. Caso normal: aplicar el mismo tipo a todos ────────
+
+        # Notificaciones DESPUÉS de aplicar los cambios
+        try:
+            _notificar_lote(afectados, 'afectacion', mensaje)
+            _notificar_lote(con_servicio, 'restablecimiento', mensaje)
+        except Exception:
+            logger.exception(
+                'Error notificando rotación (msg=%s)', mensaje.telegram_id,
+            )
+
+        return
+
+    # ── 3. Caso normal: aplicar el mismo tipo a todos ───────
+    tipo_notif = mensaje.tipo_evento  # 'afectacion' | 'restablecimiento' | 'otro'
+
     for codigo in circuitos:
         _procesar_circuito(
-            codigo, mensaje.tipo_evento, fecha_msg, hora_contenido, mensaje,
+            codigo, tipo_notif, fecha_msg, hora_contenido, mensaje,
         )
 
+    # ── 4. Snapshot de averías ──────────────────────────────
     try:
         procesar_snapshot_averias(mensaje)
     except Exception:
-        import logging
-        logging.getLogger(__name__).exception(
+        logger.exception(
             'Error en detector_averias (msg=%s)', mensaje.telegram_id,
         )
-        # ── Detección de mensajes DAF ─────────────────────────────
+
+    # ── 5. Mensajes DAF ────────────────────────────────────
     try:
-        
         procesar_mensaje_daf(mensaje)
     except Exception:
-        import logging
-        logging.getLogger(__name__).exception(
+        logger.exception(
             'Error en parser_daf (msg=%s)', mensaje.telegram_id,
         )
 
-    try:  
-        for codigo in circuitos:
-            circuito_obj = Circuito.objects.filter(codigo=codigo).first()
-            if not circuito_obj:
-                continue
-            # Determinar si cambió de estado a afectado o en servicio
-            if circuito_obj.estado == 'afectado' and circuito_obj.afectacion_activa:
-                notificar_cambio_circuito(circuito_obj, 'afectacion', mensaje)
-            elif circuito_obj.estado == 'en_servicio' and circuito_obj.servicio_activo:
-                notificar_cambio_circuito(circuito_obj, 'restablecimiento', mensaje)
+    # ── 6. Notificaciones (DESPUÉS de actualizar estados) ───
+    # Se usa `tipo_notif` del propio mensaje, no el estado previo
+    # del circuito. Así se evita la inversión de notificaciones.
+    try:
+        _notificar_lote(circuitos, tipo_notif, mensaje)
     except Exception:
-        import logging
-        logging.getLogger(__name__).exception(
-                'Error generando notificaciones (msg=%s)', mensaje.telegram_id,
-            )
+        logger.exception(
+            'Error generando notificaciones (msg=%s)', mensaje.telegram_id,
+        )
 
 
 # ── Recalcular ciclos abiertos ────────────────────────────────
 def recalcular_abiertos() -> None:
-    """
-    Para circuitos con ciclo abierto, actualiza la duración
-    hasta el momento actual. Se puede llamar desde un cron cada
-    hora o desde una vista.
-    """
     ahora = datetime.now(timezone.utc)
 
     qs = Circuito.objects.filter(

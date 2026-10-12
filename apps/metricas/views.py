@@ -130,6 +130,10 @@ def api_tiempo_entre(request):
 def api_prediccion(request):
     return calculador.prediccion_proximas_horas(limite=10)
 
+@_ajax
+def api_prediccion_bidireccional(request):
+    """Predicción de afectación y restablecimiento por separado."""
+    return calculador.prediccion_bidireccional(limite=15)
 
 @_ajax
 def api_ranking_usuarios(request):
@@ -171,6 +175,7 @@ def api_todo(request):
         'estabilidad': calculador.indice_estabilidad(20),
         'tiempo_entre': calculador.tiempo_entre_afectaciones(15),
         'prediccion': calculador.prediccion_proximas_horas(10),
+        'prediccion_bidireccional': calculador.prediccion_bidireccional(15),
         'ranking': calculador.ranking_usuarios(15),
         'alertas': calculador.alertas_historicas(20),
         'cronicos': calculador.circuitos_cronicos(15),

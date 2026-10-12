@@ -431,3 +431,154 @@
     .stats-pair { grid-template-columns: 1fr; }
     .tendencia { flex-direction: column; gap: 8px; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   BALANCE 4H
+   ═══════════════════════════════════════════════════════════ */
+.balance-card {
+    margin-bottom: 20px;
+}
+
+.balance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 16px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+@media (max-width: 800px) {
+    .balance-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .balance-diff {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+}
+
+.balance-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.balance-afect {
+    background: var(--rojo-claro);
+    border-left: 4px solid var(--rojo);
+}
+.balance-restab {
+    background: var(--verde-claro);
+    border-left: 4px solid var(--verde);
+}
+
+.balance-num {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+.balance-afect .balance-num { color: var(--rojo); }
+.balance-restab .balance-num { color: var(--verde); }
+
+.balance-lbl {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+}
+
+.balance-diff {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--gris-claro);
+    border-radius: 8px;
+}
+
+.balance-icono { font-size: 26px; }
+
+.balance-texto {
+    font-size: 13px;
+    line-height: 1.4;
+}
+.balance-texto.mejora { color: var(--verde); font-weight: 600; }
+.balance-texto.empeora { color: var(--rojo); font-weight: 600; }
+.balance-texto.neutro { color: var(--text-muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   LISTAS DE PREDICCIÓN
+   ═══════════════════════════════════════════════════════════ */
+.lista-prediccion {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.prediccion-item {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border-left: 3px solid var(--gris);
+    background: #fafbfc;
+    transition: background 0.15s;
+}
+.prediccion-item:hover { background: #f0f2f5; }
+
+.pred-afect {
+    background: var(--rojo-claro);
+    border-left-color: var(--rojo);
+}
+.pred-afect:hover { background: #ffcdd2; }
+
+.pred-restab {
+    background: var(--verde-claro);
+    border-left-color: var(--verde);
+}
+.pred-restab:hover { background: #c8e6c9; }
+
+.pred-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.pred-municipio {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.razones {
+    list-style: none;
+    margin: 6px 0 0 0;
+    padding: 0;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.45;
+}
+.razones li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 2px;
+}
+.razones li::before {
+    content: '•';
+    position: absolute;
+    left: 4px;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Ajuste para card verde */
+.card-metrica.verde header h2 { color: var(--verde); }
+.card-metrica.destacada header h2 { color: var(--primary); }

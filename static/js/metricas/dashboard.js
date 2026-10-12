@@ -244,34 +244,108 @@
         }
     }
 
+        // ═══════════════════════════════════════════════════════════
+    // 5. PREDICCIÓN BIDIRECCIONAL
     // ═══════════════════════════════════════════════════════════
-    // 5. PREDICCIÓN
-    // ═══════════════════════════════════════════════════════════
-    async function renderPrediccion() {
+    async function renderPrediccionBidireccional() {
         try {
-            const data = await fetchData('prediccion');
-            const cont = document.getElementById('prediccion');
-            if (!cont) return;
+            const data = await fetchData('prediccion_bidireccional');
 
-            if (!data.length) {
-                cont.innerHTML =
-                    '<li class="vacio">Sin patrones suficientes.</li>';
-                return;
+            renderListaPrediccion(
+                'prediccion-afectacion',
+                data.afectacion || [],
+                'afectacion',
+            );
+            renderListaPrediccion(
+                'prediccion-restablecimiento',
+                data.restablecimiento || [],
+                'restablecimiento',
+            );
+
+            // ── Balance 4h ─────────────────────────────────
+            const balance = data.balance_4h || {};
+            const elAfect = document.getElementById('balance-afect');
+            const elRestab = document.getElementById('balance-restab');
+            const elIcono = document.getElementById('balance-icono');
+            const elTexto = document.getElementById('balance-texto');
+
+            if (elAfect) elAfect.textContent = balance.afectaciones ?? 0;
+            if (elRestab) elRestab.textContent = balance.restablecimientos ?? 0;
+
+            const dif = (balance.afectaciones || 0) - (balance.restablecimientos || 0);
+
+            if (elIcono && elTexto) {
+                if (dif > 0) {
+                    elIcono.textContent = '⚠️';
+                    elTexto.textContent =
+                        `Se han afectado ${dif} circuitos más de los que se ` +
+                        `han restablecido en las últimas 4h. Situación empeorando.`;
+                    elTexto.className = 'balance-texto empeora';
+                } else if (dif < 0) {
+                    elIcono.textContent = '✅';
+                    elTexto.textContent =
+                        `Se han restablecido ${Math.abs(dif)} circuitos más de ` +
+                        `los que se han afectado en las últimas 4h. Situación mejorando.`;
+                    elTexto.className = 'balance-texto mejora';
+                } else {
+                    elIcono.textContent = '➖';
+                    elTexto.textContent =
+                        'Afectaciones y restablecimientos equilibrados en las últimas 4h.';
+                    elTexto.className = 'balance-texto neutro';
+                }
             }
-
-            cont.innerHTML = data.map((p) => `
-                <li title="${p.dias_coincidentes} de los últimos ${p.dias_analizados} días">
-                    <a href="/circuitos/c/${encodeURIComponent(p.codigo)}/"
-                       class="codigo-inline">
-                        ${escapeHTML(p.codigo)}
-                    </a>
-                    <span class="text-muted">${escapeHTML(p.municipio || '—')}</span>
-                    <span class="badge-score medio">${p.probabilidad}%</span>
-                </li>
-            `).join('');
         } catch (e) {
             console.error('Error predicción:', e);
+            marcarError('prediccion-afectacion', 'Error');
+            marcarError('prediccion-restablecimiento', 'Error');
         }
+    }
+
+    function renderListaPrediccion(id, items, direccion) {
+        const cont = document.getElementById(id);
+        if (!cont) return;
+
+        if (!items.length) {
+            cont.innerHTML = `
+                <li class="vacio">
+                    Sin candidatos con score suficiente (≥50).
+                </li>
+            `;
+            return;
+        }
+
+        const esAfect = direccion === 'afectacion';
+
+        cont.innerHTML = items.map((p) => {
+            const score = p.score || 0;
+            const cls = score >= 80 ? 'bajo'
+                : (score >= 60 ? 'medio' : 'alto');
+
+            const razonesHTML = (p.razones || []).length
+                ? `<ul class="razones">${
+                    p.razones.map((r) => `<li>${escapeHTML(r)}</li>`).join('')
+                }</ul>`
+                : '';
+
+            const tooltip = (p.razones || []).join(' · ') || '';
+
+            return `
+                <li class="prediccion-item ${esAfect ? 'pred-afect' : 'pred-restab'}"
+                    title="${escapeHTML(tooltip)}">
+                    <div class="pred-header">
+                        <a href="/circuitos/c/${encodeURIComponent(p.codigo)}/"
+                           class="codigo-inline">
+                            ${escapeHTML(p.codigo)}
+                        </a>
+                        <span class="badge-score ${cls}">${score}</span>
+                    </div>
+                    <span class="text-muted pred-municipio">
+                        ${escapeHTML(p.municipio || '—')}
+                    </span>
+                    ${razonesHTML}
+                </li>
+            `;
+        }).join('');
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -640,7 +714,7 @@
 
         // El resto en paralelo
         await Promise.allSettled([
-            renderPrediccion(),
+            renderPrediccionBidireccional(),
             renderMunicipios(),
             renderEstabilidad(),
             renderMasSinServicio(),

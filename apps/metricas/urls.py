@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/estabilidad/', views.api_estabilidad, name='api_estabilidad'),
     path('api/tiempo-entre/', views.api_tiempo_entre, name='api_tiempo_entre'),
     path('api/prediccion/', views.api_prediccion, name='api_prediccion'),
+    path('api/prediccion-bidireccional/', views.api_prediccion_bidireccional, name='api_prediccion_bidireccional'),
     path('api/ranking/', views.api_ranking_usuarios, name='api_ranking'),
     path('api/alertas/', views.api_alertas_historicas, name='api_alertas'),
     path('api/cronicos/', views.api_cronicos, name='api_cronicos'),

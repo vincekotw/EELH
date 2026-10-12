@@ -509,79 +509,29 @@ def tiempo_entre_afectaciones(limite=15):
 
 
 # ═══════════════════════════════════════════════════════════════
-# 15. PREDICCIÓN HEURÍSTICA (PRÓXIMAS 6H)
+# 15. PREDICCIÓN AVANZADA (PRÓXIMAS HORAS)
 # ═══════════════════════════════════════════════════════════════
 @memoize(ttl=TTL_CORTO)
-def prediccion_proximas_horas(limite=10, ventana_horas=6, dias_analisis=30):
+def prediccion_proximas_horas(limite=10):
     """
-    Estima la probabilidad de que un circuito EN SERVICIO se afecte
-    en las próximas `ventana_horas` horas.
-
-    Método:
-      1. Se toman las últimas `dias_analisis` jornadas.
-      2. Para cada circuito en servicio, se cuenta en cuántos días
-         tuvo al menos una afectación en la franja horaria objetivo.
-      3. Probabilidad = días_con_afectación / días_totales * 100.
-
-    Solo se listan circuitos con probabilidad >= 10% y al menos
-    2 días coincidentes.
+    Wrapper retrocompatible: mantiene la firma antigua pero ahora
+    delega en el motor avanzado. Devuelve solo la dirección
+    'afectacion' para no romper la plantilla existente.
     """
-    ahora = timezone.now()
-    hora_actual = (ahora.hour - 4) % 24  # hora Cuba
-    desde = ahora - timedelta(days=dias_analisis)
+    from .prediccion_avanzada import prediccion_cambios_proximos
+    return prediccion_cambios_proximos(limite=limite)['afectacion']
 
-    # Franja objetivo (próximas N horas, ajustadas a hora Cuba)
-    horas_objetivo = {
-        (hora_actual + i) % 24 for i in range(1, ventana_horas + 1)
-    }
 
-    # Circuitos actualmente en servicio
-    codigos_servicio = set(
-        Circuito.objects
-        .filter(estado='en_servicio')
-        .values_list('codigo', flat=True)
-    )
-
-    # Afectaciones en el período
-    eventos = (
-        EventoCircuito.objects
-        .filter(
-            tipo='afectacion',
-            fecha_mensaje__gte=desde,
-            circuito__codigo__in=codigos_servicio,
-        )
-        .values_list(
-            'circuito__codigo',
-            'circuito__municipio',
-            'fecha_mensaje',
-        )
-    )
-
-    # Agrupar por (circuito, día, hora)
-    dias_con_afectacion = defaultdict(set)  # (codigo, municipio) → set de fechas
-    for codigo, municipio, ts in eventos:
-        hora_evento = (ts.hour - 4) % 24
-        if hora_evento in horas_objetivo:
-            dias_con_afectacion[(codigo, municipio)].add(ts.date())
-
-    # Calcular probabilidad
-    resultados = []
-    for (codigo, municipio), dias in dias_con_afectacion.items():
-        if len(dias) < 2:  # mínimo 2 días con afectación en la franja
-            continue
-        prob = len(dias) * 100 / dias_analisis
-        if prob < 10:
-            continue
-        resultados.append({
-            'codigo': codigo,
-            'municipio': municipio,
-            'dias_coincidentes': len(dias),
-            'dias_analizados': dias_analisis,
-            'probabilidad': round(prob, 1),
-        })
-
-    resultados.sort(key=lambda x: -x['probabilidad'])
-    return resultados[:limite]
+# ═══════════════════════════════════════════════════════════════
+# 15.b PREDICCIÓN BIDIRECCIONAL (afectación + restablecimiento)
+# ═══════════════════════════════════════════════════════════════
+@memoize(ttl=TTL_CORTO)
+def prediccion_bidireccional(limite=15):
+    """
+    Devuelve ambas direcciones junto con el balance 4h.
+    """
+    from .prediccion_avanzada import prediccion_cambios_proximos
+    return prediccion_cambios_proximos(limite=limite)
 
 
 # ═══════════════════════════════════════════════════════════════

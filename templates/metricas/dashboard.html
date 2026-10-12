@@ -139,45 +139,86 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     SECCIÓN 3: Predicción + Tendencia
+     SECCIÓN 3: Predicción bidireccional + Tendencia
      ═══════════════════════════════════════════════════════════ -->
+
+<!-- Balance 4h (indicador global) -->
+<section class="card-metrica balance-card">
+    <header>
+        <h2>⚖️ Balance de las últimas 4h</h2>
+        <span class="subt">afectaciones vs restablecimientos</span>
+    </header>
+    <div class="balance-grid">
+        <div class="balance-item balance-afect">
+            <span class="balance-num" id="balance-afect">—</span>
+            <span class="balance-lbl">🔴 Afectaciones</span>
+        </div>
+        <div class="balance-item balance-restab">
+            <span class="balance-num" id="balance-restab">—</span>
+            <span class="balance-lbl">🟢 Restablecimientos</span>
+        </div>
+        <div class="balance-item balance-diff">
+            <span class="balance-icono" id="balance-icono">—</span>
+            <span class="balance-texto" id="balance-texto">—</span>
+        </div>
+    </div>
+</section>
+
 <div class="grid-2">
     <section class="card-metrica destacada">
         <header>
-            <h2>🔮 Predicción próximas 6h</h2>
-            <span class="subt">probabilidad histórica por hora</span>
+            <h2>🔮 Predicción: próximos en afectarse</h2>
+            <span class="subt">score ≥ 50</span>
         </header>
         <p class="nota-pie">
-            Basado en los últimos 30 días: circuitos que, estando
-            en servicio, se han afectado más frecuentemente en la
-            franja horaria que viene.
+            Circuitos <strong>en servicio</strong> con mayor probabilidad
+            de caer. Se combinan precursores (5 circuitos que suelen
+            afectarse antes), balance 4h y duración del ciclo actual.
         </p>
-        <ul class="lista-mini" id="prediccion"></ul>
+        <ul class="lista-mini lista-prediccion" id="prediccion-afectacion">
+            <li class="vacio">Cargando…</li>
+        </ul>
     </section>
 
-    <section class="card-metrica">
+    <section class="card-metrica destacada verde">
         <header>
-            <h2>📉 Tendencia semanal</h2>
-            <span class="subt">afectaciones registradas</span>
+            <h2>✅ Predicción: próximos en restablecerse</h2>
+            <span class="subt">score ≥ 50</span>
         </header>
         <p class="nota-pie">
-            Comparación del total de afectaciones en los últimos
-            7 días vs los 7 anteriores.
+            Circuitos <strong>afectados</strong> con mayor probabilidad
+            de recuperar el servicio. Se combinan precursores de
+            restablecimiento, balance 4h y duración de la afectación
+            actual vs su media histórica.
         </p>
-        <div class="tendencia" id="tendencia">
-            <div class="tendencia-bloque">
-                <span class="tendencia-num" data-key="esta_semana">—</span>
-                <span class="tendencia-label">Esta semana</span>
-            </div>
-            <div class="tendencia-arrow" id="tendencia-arrow">—</div>
-            <div class="tendencia-bloque">
-                <span class="tendencia-num" data-key="semana_anterior">—</span>
-                <span class="tendencia-label">Semana anterior</span>
-            </div>
-        </div>
-        <p class="tendencia-texto" id="tendencia-texto"></p>
+        <ul class="lista-mini lista-prediccion" id="prediccion-restablecimiento">
+            <li class="vacio">Cargando…</li>
+        </ul>
     </section>
 </div>
+
+<section class="card-metrica">
+    <header>
+        <h2>📉 Tendencia semanal</h2>
+        <span class="subt">afectaciones registradas</span>
+    </header>
+    <p class="nota-pie">
+        Comparación del total de afectaciones en los últimos
+        7 días vs los 7 anteriores.
+    </p>
+    <div class="tendencia" id="tendencia">
+        <div class="tendencia-bloque">
+            <span class="tendencia-num" data-key="esta_semana">—</span>
+            <span class="tendencia-label">Esta semana</span>
+        </div>
+        <div class="tendencia-arrow" id="tendencia-arrow">—</div>
+        <div class="tendencia-bloque">
+            <span class="tendencia-num" data-key="semana_anterior">—</span>
+            <span class="tendencia-label">Semana anterior</span>
+        </div>
+    </div>
+    <p class="tendencia-texto" id="tendencia-texto"></p>
+</section>
 
 <!-- ═══════════════════════════════════════════════════════════
      SECCIÓN 4: Top municipios + Estabilidad
@@ -480,6 +521,7 @@ window.METRICAS_URLS = {
     estabilidad: "{% url 'metricas:api_estabilidad' %}",
     tiempo_entre: "{% url 'metricas:api_tiempo_entre' %}",
     prediccion: "{% url 'metricas:api_prediccion' %}",
+    prediccion_bidireccional: "{% url 'metricas:api_prediccion_bidireccional' %}", 
     ranking: "{% url 'metricas:api_ranking' %}",
     alertas: "{% url 'metricas:api_alertas' %}",
     cronicos: "{% url 'metricas:api_cronicos' %}",
