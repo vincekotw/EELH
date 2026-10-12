@@ -12,4 +12,5 @@ urlpatterns = [
     path('metricas/', include('apps.metricas.urls')),
     path('telegram/', include('apps.telegram_base.urls')),
     path('api/cron/tick/', telegram_views.cron_tick, name='cron_tick'),
+    path('acerca_de/', views.acerca_de, name='acerca_de')
 ]
